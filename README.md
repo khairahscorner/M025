@@ -1,2 +1,6 @@
-# M025
-# M025
+## M025 Assignment
+
+### Tasks
+- Properties
+- Customers
+
