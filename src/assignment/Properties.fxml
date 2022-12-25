@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="scene1" prefHeight="650.0" prefWidth="878.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignment.PropertiesController">
+   <children>
+      <Pane fx:id="headingWrapper" layoutX="101.0" prefHeight="45.0" prefWidth="777.0">
+         <children>
+            <Label fx:id="headingLabel" layoutX="353.0" layoutY="14.0" text="All Properties" />
+         </children>
+      </Pane>
+      <Pane fx:id="menu" prefHeight="650.0" prefWidth="101.0">
+         <children>
+            <GridPane fx:id="dashboardItem" layoutY="37.0" prefHeight="275.0" prefWidth="101.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="dashboardBtn" mnemonicParsing="false" onAction="#goToDashboardListener" prefHeight="47.0" prefWidth="102.0" text="Dashboard" />
+                  <Button fx:id="pptyBtn" mnemonicParsing="false" onAction="#goToPropertiesListener" prefHeight="71.0" prefWidth="152.0" text="Properties" GridPane.rowIndex="1" />
+                  <Button fx:id="customerBtn" mnemonicParsing="false" onAction="#goToCustomersListener" prefHeight="71.0" prefWidth="152.0" text="Customers" GridPane.rowIndex="2" />
+                  <Button fx:id="rentalBtn" mnemonicParsing="false" onAction="#goToRentalsListener" prefHeight="71.0" prefWidth="152.0" text="Rentals" GridPane.rowIndex="3" />
+                  <Button fx:id="invoiceBtn" mnemonicParsing="false" onAction="#goToInvoicesListener" prefHeight="71.0" prefWidth="152.0" text="Invoices" GridPane.rowIndex="4" />
+                  <Button fx:id="logoutBtn" mnemonicParsing="false" onAction="#goToAppStartListener" prefHeight="71.0" prefWidth="152.0" text="Log Out" GridPane.rowIndex="5" />
+               </children>
+               <padding>
+                  <Insets right="2.0" />
+               </padding>
+            </GridPane>
+            <Label fx:id="logo" contentDisplay="CENTER" layoutX="-1.0" prefHeight="36.0" prefWidth="101.0" text="CSYM025" textAlignment="CENTER" textFill="#653737">
+               <padding>
+                  <Insets left="15.0" />
+               </padding>
+            </Label>
+         </children>
+      </Pane>
+      <SplitPane dividerPositions="0.6246556473829201" layoutX="119.0" layoutY="64.0" prefHeight="562.0" prefWidth="728.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="528.0" prefWidth="450.0">
+               <children>
+                  <Pane fx:id="emptyPptyList" prefHeight="564.0" prefWidth="452.0">
+                     <children>
+                        <Label fx:id="emptyListLabel" layoutX="149.0" layoutY="274.0" text="No Properties In The System" />
+                     </children>
+                  </Pane>
+                  <TilePane fx:id="pptiesWrapper" hgap="5.0" layoutX="-1.0" layoutY="-2.0" prefHeight="564.0" prefWidth="452.0" vgap="5.0">
+                     <children>
+                        <Pane fx:id="pptyCard" prefHeight="217.0" prefWidth="213.0">
+                           <children>
+                              <ImageView fx:id="pptyImg" fitHeight="98.0" fitWidth="207.0" layoutX="3.0" pickOnBounds="true">
+                                 <image>
+                                    <Image url="@../../../../Downloads/sunset-in-hong-kong-tolulope-khairahscorner-living-in-the-uk-series.jpg" />
+                                 </image></ImageView>
+                              <Text fx:id="pptyName" layoutX="4.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="192.57647705078125" />
+                              <Text fx:id="pptyRent" layoutX="5.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rent: " wrappingWidth="119.21630859375" />
+                              <Text fx:id="pptyDateListed" layoutX="5.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Listed: " wrappingWidth="151.44458770751953" />
+                              <Button fx:id="viewPptyDetails" layoutX="5.0" layoutY="183.0" mnemonicParsing="false" onAction="#ViewBtnListener" prefHeight="18.0" prefWidth="66.0" text="View" />
+                              <Pane fx:id="pptyStatus" layoutX="150.0" layoutY="3.0" prefHeight="26.0" prefWidth="59.0">
+                                 <children>
+                                    <Label fx:id="rentedStatus" alignment="CENTER" prefHeight="27.0" prefWidth="59.0" text="Rented" textAlignment="RIGHT" textFill="#653737" visible="false">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label fx:id="availableStatus" alignment="CENTER" layoutX="-5.0" layoutY="2.0" prefHeight="27.0" prefWidth="66.0" text="Available" textAlignment="RIGHT" textFill="#5da15e">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </Pane>
+                              <Text fx:id="pptyCode" layoutX="5.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Property Code:" wrappingWidth="119.21630859375" />
+                           </children>
+                        </Pane>
+                        <Pane fx:id="pptyCard1" prefHeight="203.0" prefWidth="213.0">
+                           <children>
+                              <ImageView fx:id="pptyImg1" fitHeight="98.0" fitWidth="207.0" layoutX="3.0" pickOnBounds="true">
+                                 <image>
+                                    <Image url="@../../../../Downloads/sunset-in-hong-kong-tolulope-khairahscorner-living-in-the-uk-series.jpg" />
+                                 </image>
+                              </ImageView>
+                              <Text fx:id="pptyName1" layoutX="4.0" layoutY="117.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="192.57647705078125" />
+                              <Text fx:id="pptyRent1" layoutX="5.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rent: " wrappingWidth="119.21630859375" />
+                              <Text fx:id="pptyDateListed1" layoutX="5.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date Listed: " wrappingWidth="151.44458770751953" />
+                              <Button fx:id="viewPptyDetails1" layoutX="5.0" layoutY="182.0" mnemonicParsing="false" onAction="#ViewBtn1Listener" prefHeight="18.0" prefWidth="66.0" text="View" />
+                              <Pane fx:id="pptyStatus1" layoutX="150.0" layoutY="3.0" prefHeight="26.0" prefWidth="59.0">
+                                 <children>
+                                    <Label fx:id="rentedStatus1" alignment="CENTER" prefHeight="27.0" prefWidth="59.0" text="Rented" textAlignment="RIGHT" textFill="#653737" visible="false">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label fx:id="availableStatus1" alignment="CENTER" layoutX="-5.0" layoutY="2.0" prefHeight="27.0" prefWidth="66.0" text="Available" textAlignment="RIGHT" textFill="#5da15e">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </Label>
+                                 </children>
+                              </Pane>
+                              <Text fx:id="pptyCode1" layoutX="5.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Property Code:" wrappingWidth="119.21630859375" />
+                           </children>
+                        </Pane>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                     </padding>
+                  </TilePane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <Pane fx:id="pptyDetailsPane" prefHeight="560.0" prefWidth="269.0">
+                     <children>
+                        <Label fx:id="pptyTitle" alignment="CENTER" layoutX="14.0" layoutY="26.0" prefHeight="61.0" prefWidth="241.0" text="Label" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <TextArea fx:id="pptyDetailsArea" layoutX="1.0" layoutY="96.0" prefHeight="393.0" prefWidth="266.0" style="-fx-font-weight: 600;" stylesheets="@styles.css" text="Details here" wrapText="true" />
+                        <Button fx:id="editBtn" layoutX="94.0" layoutY="506.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="81.0" text="Edit" textFill="#653737" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="emptyDetailsPane" prefHeight="560.0" prefWidth="272.0">
+                     <children>
+                        <Text fx:id="pptyViewPlaceholder" layoutX="52.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on a property  to view" textAlignment="CENTER" wrappingWidth="172.43050768556708">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </Pane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

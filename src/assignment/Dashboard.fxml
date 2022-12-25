@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.TilePane?>
+
+<AnchorPane prefHeight="340.0" prefWidth="693.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignment.DashboardController">
+   <children>
+      <Pane fx:id="headingWrapper" layoutX="101.0" prefHeight="36.0" prefWidth="396.0">
+         <children>
+            <Label fx:id="headingLabel" layoutX="167.0" layoutY="10.0" text="SUMMARY" />
+         </children>
+      </Pane>
+      <Pane fx:id="menu" prefHeight="364.0" prefWidth="101.0">
+         <children>
+            <GridPane layoutY="37.0" prefHeight="275.0" prefWidth="101.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Button fx:id="logoutBtn" graphicTextGap="0.0" mnemonicParsing="false" onAction="#goToAppStartListener" prefHeight="40.0" prefWidth="107.0" text="Log Out" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin></Button>
+                  <Button fx:id="invoiceBtn" graphicTextGap="0.0" mnemonicParsing="false" onAction="#goToInvoicesListener" prefHeight="40.0" prefWidth="107.0" text="Invoices" GridPane.rowIndex="4" />
+                  <Button fx:id="rentalBtn" graphicTextGap="0.0" mnemonicParsing="false" onAction="#goToRentalsListener" prefHeight="40.0" prefWidth="107.0" text="Rentals" GridPane.rowIndex="3" />
+                  <Button fx:id="customerBtn" graphicTextGap="0.0" mnemonicParsing="false" onAction="#goToCustomersListener" prefHeight="40.0" prefWidth="107.0" text="Customers" GridPane.rowIndex="2" />
+                  <Button fx:id="pptyBtn" graphicTextGap="0.0" mnemonicParsing="false" onAction="#goToPropertiesListener" prefHeight="40.0" prefWidth="107.0" text="Properties" GridPane.rowIndex="1" />
+                  <Button fx:id="dashboardBtn" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="107.0" text="Dashboard" />
+               </children>
+               <padding>
+                  <Insets right="2.0" />
+               </padding>
+            </GridPane>
+            <Label fx:id="logo" accessibleRole="TEXT" contentDisplay="CENTER" layoutX="-1.0" prefHeight="36.0" prefWidth="101.0" text="CSYM025" textAlignment="CENTER" textFill="#653737">
+               <padding>
+                  <Insets left="15.0" />
+               </padding>
+            </Label>
+         </children>
+      </Pane>
+      <TilePane fx:id="cardsWrapper" hgap="20.0" layoutX="101.0" layoutY="36.0" prefHeight="326.0" prefWidth="581.0" stylesheets="@styles.css" vgap="10.0">
+         <children>
+            <Pane id="pane1" fx:id="dashboardCard1" prefHeight="89.0" prefWidth="168.0" styleClass="pane">
+               <children>
+                  <Label fx:id="propertyCount" layoutX="53.0" layoutY="36.0" prefHeight="40.0" prefWidth="62.0" textAlignment="CENTER" textFill="#653737" />
+                  <Label alignment="CENTER" layoutX="30.0" prefHeight="36.0" prefWidth="109.0" text="Properties" />
+               </children>
+            </Pane>
+            <Pane id="pane2" prefHeight="89.0" prefWidth="150.0" styleClass="pane">
+               <children>
+                  <Label alignment="CENTER" layoutX="30.0" prefHeight="36.0" prefWidth="109.0" text="Customers" />
+                  <Label fx:id="customerCount" layoutX="53.0" layoutY="36.0" prefHeight="40.0" prefWidth="62.0" textAlignment="CENTER" textFill="#653737" />
+               </children>
+            </Pane>
+            <Pane id="pane3" fx:id="dashboardCard3" prefHeight="89.0" prefWidth="168.0" styleClass="pane">
+               <children>
+                  <Label fx:id="rentalCount" layoutX="53.0" layoutY="36.0" prefHeight="40.0" prefWidth="62.0" textAlignment="CENTER" textFill="#653737" />
+                  <Label alignment="CENTER" layoutX="30.0" prefHeight="36.0" prefWidth="109.0" text="Rentals" />
+               </children>
+            </Pane>
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </padding>
+      </TilePane>
+   </children>
+</AnchorPane>

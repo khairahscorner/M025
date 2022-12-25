@@ -1,0 +1,75 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+.root {
+	-fx-font-family: sans-serif;
+}
+.pane {
+	-fx-border-color: black;
+	-fx-border-width: 1px;
+	-fx-border-style: solid;
+}
+
+.button {
+	-fx-background-color: white;
+	-fx-border-color: white;
+	-fx-border-width: 1px;
+	-fx-border-style: solid;
+}
+
+
+#logo {
+	-fx-border-width: 0 0 1px 0;
+	-fx-border-color: black;
+}
+#menu {
+	-fx-border-width: 0 1px 0 0;
+	-fx-border-color: black;
+	-fx-background-color: white;
+}
+
+#menu .button {
+	/*-fx-border-color: black white black white;*/
+}
+
+#headingLabel {
+	-fx-font-weight: bold;
+	-fx-font-size: 16px;
+}
+
+#propertyCount, #customerCount, #rentalCount {
+	-fx-font-size: 20px;
+	-fx-font-weight: bold;
+	-fx-text-alignment: center;
+}
+
+#pptyCard, #pptyCard1 {
+	-fx-border-color: #555555;
+	-fx-border-width: 1px;
+	-fx-border-style: solid;	
+}
+
+
+#pptyStatus, #pptyStatus1 {
+	-fx-background-color: white;
+	-fx-border-color: white;
+	-fx-border-width: 1px;
+	-fx-border-style: solid;
+	-fx-border-radius: 5px;
+}
+
+#pptyTitle {
+	-fx-font-style: italic;
+	-fx-font-weight: bolder;
+	-fx-font-size: 18px;
+}
+
+#pptyDetailsArea {
+	-fx-font-size: 14px;
+	-fx-font-weight: 600;
+}
+
+#nameHeader, #emailHeader, #phoneHeader, #dobHeader, #rentalPptyHeader, #rentalCustHeader, #actionHeader {
+	-fx-font-weight: 800;
+	-fx-font-size: 14px;
+}
+
+

@@ -1,0 +1,10 @@
+.classpath
+.git
+.project
+.settings
+
+build.fxbuild
+
+*.dat
+Bin/
+/bin/
