@@ -17,9 +17,9 @@ import javafx.scene.text.Text;
 public class RentalsController extends DashboardController implements DateFormatter {
 
 	@FXML
-	private ComboBox<String> availableProperties; //pptyId only
+	private ComboBox<String> availableProperties;
 	@FXML
-	private ComboBox<String> availableCustomers; //custId only
+	private ComboBox<String> availableCustomers;
 	@FXML
 	private DatePicker rentDueDate;
 	@FXML
@@ -85,7 +85,7 @@ public class RentalsController extends DashboardController implements DateFormat
 			hashedCustomers.put(cust.getCustId(), cust);
 		    availableCustomers.getItems().add(cust.getCustId());
 		}
-		
+
 //		System.out.println(pList.getProperties().size());
 //		System.out.println(filteredProperties.size());
 	}

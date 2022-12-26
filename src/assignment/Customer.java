@@ -60,9 +60,8 @@ public class Customer implements Serializable, DateFormatter {
 		return dob;
 	}
 
-	public void setDOB(LocalDate date) {
-		//ensure the localdate and dob remains formatted at dd/mm/yyyy
-		dob = LocalDate.parse(date.format(dateFormatter), dateFormatter);
+	public void setDOB(String d) {
+		dob = LocalDate.parse(d, dateFormatter);
 	}
 	
 	public String getCustId() {

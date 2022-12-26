@@ -175,7 +175,7 @@ public class Property implements Serializable, DateFormatter {
 		return "Property Code: " + currPpty.getPropertyId() + "\nDate Listed: " + currPpty.getDateListed().format(dateFormatter) + "\nRental Status: " + currPpty.getRentalStatus()
 		+ "\nFurnishing type: " + currPpty.getFurnishedStatus() + "\nPostcode: " + currPpty.getPostcode() + "\nNo. of Bedrooms:" +
 		currPpty.getBedrooms() + "\nNo. of Bathrooms: " + currPpty.getBathrooms() + "\nGarden?: " + currPpty.getGarden().toUpperCase()
-		+ "\nRent: £" + dpFormatter.format(currPpty.getRentPerMonth()) + "\nDeposit: £" + currPpty.getDeposit()
+		+ "\nMonthly Rent: £" + dpFormatter.format(currPpty.getRentPerMonth()) + "\nDeposit: £" + currPpty.getDeposit()
 		+ "\nAgent fee: £" + currPpty.getAgentFee();
 		
 	}

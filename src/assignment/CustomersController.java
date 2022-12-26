@@ -32,7 +32,7 @@ public class CustomersController extends DashboardController implements DateForm
 	@FXML
 	private Pane emptyCustomerList;
 	@FXML
-	private Pane customersWrapper;
+	private AnchorPane customersWrapper;
 	
 	
 	private CustomerList cList;
@@ -45,8 +45,6 @@ public class CustomersController extends DashboardController implements DateForm
 	}
 	
 	private void populateList() {
-		emptyCustomerList = new Pane();
-		customersWrapper = new Pane();
 		
 		if(Customer.getLastIndex() < 1) {
 			emptyListLabel.setVisible(true);

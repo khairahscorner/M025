@@ -8,13 +8,11 @@ public class PropertyList implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private HashMap<String, Property> pptyList;
-//	private List<Property> pptyList;
-	private ArrayList<String> pptyKeys;
+	private Map<String, Property> pptyList;
+	private List<String> pptyKeys;
 
 	public  PropertyList() {
 		pptyList = new HashMap<String, Property>();
-//		pptyList = new ArrayList<Property>();
 		pptyKeys = new ArrayList<String>();
 	}
 
@@ -22,7 +20,7 @@ public class PropertyList implements Serializable {
 //	public List<Property> getProperties() {
 		return pptyList;
 	}
-	public ArrayList<String> getKeys() {
+	public List<String> getKeys() {
 		return pptyKeys; 
 	}
 
@@ -32,9 +30,9 @@ public class PropertyList implements Serializable {
 		pptyKeys.add(p.getPropertyId());
 	}
 
-	public void setPropertyList(HashMap<String, Property> pList) {
-//	public void setPropertyList(List<Property> pList) {
-		pptyList = pList;
+	public void setPropertyList(PropertyList pList) {
+		pptyList = pList.getProperties();
+		pptyKeys = pList.getKeys();
 	}
 	
 	@Override

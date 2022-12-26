@@ -31,8 +31,8 @@ public class ImportData implements DateFormatter {
 		
 		rList = DataHandler.readRentalList();
 		Rental.setLastRentalIndex(rList.getRentals().size());
-//		System.out.println(Property.getLastPropertyIndex());
-		//add more
+
+		
 	}
 
 	
@@ -42,7 +42,7 @@ public class ImportData implements DateFormatter {
 			Landmark.setLastIndex(lList.getLandmarks().size());
 		}
 		else if(type == "property") {
-			pList = DataHandler.readPropertyList(); // read existing propertiesList from file
+			pList = DataHandler.readPropertyList();
 			Property.setLastPropertyIndex(pList.getProperties().size());
 		}
 		else if(type == "customer") {
@@ -104,6 +104,7 @@ public class ImportData implements DateFormatter {
 		return pList;
 	}
 	
+	
 	public void createLandmark(String n, String p, double l1, double l2) {
 		Landmark landmark = new Landmark(n, p, l1, l2);
 		lList.addLandmark(landmark);
@@ -146,17 +147,47 @@ public class ImportData implements DateFormatter {
 		return lList;
 	}
 	
+	
 	public void createCustomer(String n, String e, String p, String d) {
 		Customer customer = new Customer(n, e, p, d);
 		cList.addCustomer(customer);
 	}
 	
-	//can extend and create from file too
+	//can extend and create customers from file too - assuming fields are labeled as [name, email, phone, date of birth]
+	public void createCustomer(String lineInFile) {	       
+	      if(lineCount > 1) {
+
+	    	  Customer cust = new Customer();
+
+		      // Tokenize the last line read from the file.
+		      String[] fields = lineInFile.split(",");
+		      
+		      for (int i = 0; i < fields.length; i++) {
+		         switch(i) {
+		         case 0: cust.setName(fields[0]); break;
+		         case 1: cust.setEmail(fields[1]); break;
+		         case 2: cust.setPhone(fields[2]); break;
+		         case 3: cust.setDOB(fields[3]); break;
+		         }
+		      }
+		      cList.addCustomer(cust);
+	      }
+	   }
 	
+	public void importAllCustomers() throws IOException {
+		//REFERENCED CODE START
+		while (readNextLine()) {
+			createCustomer(lineInFile);
+		}
+		fileToImport.close();
+		System.out.println("No more customers to import");
+	}
 
 	public CustomerList getAllCustomers() {
 		return cList;
 	}
+	
+	
 	
 	public void createRental(Property p, Customer c, LocalDate r, LocalDate d) {
 		Rental rentalPpty  = new Rental(p, c, r, d);
@@ -169,6 +200,7 @@ public class ImportData implements DateFormatter {
 	public RentalList getAllRentals() {
 		return rList;
 	}
+	
 	
 	
 	//Referenced code START	
