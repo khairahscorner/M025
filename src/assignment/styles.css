@@ -71,12 +71,12 @@
 	-fx-font-weight: 600;
 }
 
-#nameHeader, #emailHeader, #phoneHeader, #dobHeader, #rentalPptyHeader, #rentalCustHeader, #actionHeader {
+#nameHeader, #emailHeader, #phoneHeader, #dobHeader, #rentalPptyHeader {
 	-fx-font-weight: 800;
 	-fx-font-size: 14px;
 }
 
-#importBtn {
+#importBtn, #addNewCustomer, #addNewRental, #generateInvoice {
 	-fx-background-color: #3fa944;
 	-fx-text-fill: white;
 	-fx-border-color: #3fa944;

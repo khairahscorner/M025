@@ -148,7 +148,7 @@ public class DashboardController {
     
     public void goToInvoicesListener(ActionEvent e) throws IOException {
     	Parent parent = FXMLLoader.load(
-	               getClass().getResource("Invoices.fxml")); 
+	               getClass().getResource("TenancyInvoice.fxml")); 
 	      
 	      // Build the scene graph.
 	      Scene scene = new Scene(parent); 

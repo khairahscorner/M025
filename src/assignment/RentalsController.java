@@ -37,7 +37,7 @@ public class RentalsController extends DashboardController implements DateFormat
 	@FXML
 	private Pane emptyRentalsList;
 	@FXML
-	private Pane rentalsWrapper; 
+	private ScrollPane rentalsWrapper; 
 	@FXML
 	private TextArea rentalInvoice;
 	@FXML
@@ -49,23 +49,16 @@ public class RentalsController extends DashboardController implements DateFormat
 	private RentalList rList;
 	private PropertyList pList;
 	private CustomerList cList;
+	private Rental currRental;
 	
 	private HashMap<String, Property> filteredProperties;
-	private HashMap<String, Customer> hashedCustomers;
-	private HashMap<String, Rental> hashedRentals;
-	
+	private HashMap<String, Customer> hashedCustomers;	
 	
 	
 	
 	public void initialize() throws ClassNotFoundException, IOException {
 		rList = DataHandler.readRentalList();
 		Rental.setLastRentalIndex(rList.getRentals().size());
-		hashedRentals = new HashMap<String, Rental>();
-		populateList();
-
-		for (Rental r : rList.getRentals()) {
-			hashedRentals.put(r.getRentalId(), r);
-		}
 
 		pList = DataHandler.readPropertyList();
 		filteredProperties = new HashMap<String, Property>();
@@ -85,52 +78,57 @@ public class RentalsController extends DashboardController implements DateFormat
 			hashedCustomers.put(cust.getCustId(), cust);
 		    availableCustomers.getItems().add(cust.getCustId());
 		}
-
-//		System.out.println(pList.getProperties().size());
-//		System.out.println(filteredProperties.size());
-	}
-	
-	private void populateList() {
-		emptyRentalsList = new Pane();
-		rentalsWrapper = new Pane();
 		
-		if(Rental.getLastRentalIndex() < 1) {
-			emptyListLabel.setVisible(true);
+		if(Rental.getLastRentalIndex() == 0) {
+			emptyRentalsList.setVisible(true);
 			allRentals.setVisible(false);
 		} else {
 			allRentals.setVisible(true);
-			emptyListLabel.setVisible(false);
-						
-			for(int i = 0; i < rList.getRentals().size(); i++) {
-				Rental currRental = rList.getRentals().get(i);
-				Property currPpty = currRental.getRentalPpty();
-				Customer currCust = currRental.getRentalCustomer();
-				
-				Text pptyName = new Text();
-				pptyName.setText(currPpty.getPropertyId());
-				
-				Text custName = new Text();
-				Button viewBtn = new Button("View Invoice");
-				viewBtn.setId(currRental.getRentalId());
-				viewBtn.setOnAction(new EventHandler<ActionEvent>() {
-				    @Override
-				    public void handle(ActionEvent event) {
-				    	showRentalPropertyDetails(currPpty, currCust, hashedRentals.get(viewBtn.getId()));			    	
-				    }
-				});
-				
-				custName.setText(currCust.getName());				
-				
-				allRentals.getRowConstraints().add(new RowConstraints(40));
-				allRentals.add(pptyName, 0, i+1);
-				allRentals.add(custName, 1, i+1);
-				allRentals.add(viewBtn, 2, i+1);
-				
-				//add padding to each cell
-				GridPane.setMargin(pptyName, new Insets(5));
-				GridPane.setMargin(custName, new Insets(5));
-				GridPane.setMargin(viewBtn, new Insets(5));
-			}
+			emptyRentalsList.setVisible(false);
+			populateList();
+		}
+		
+	}
+	
+	private void populateList() {
+		for(int i = 0; i < rList.getRentals().size(); i++) {
+			String key = rList.getKeys().get(i);
+			currRental = rList.getRentals().get(key);
+			
+			Property currPpty = currRental.getRentalPpty();
+			Customer currCust = currRental.getRentalCustomer();
+			
+			Text rentalCode = new Text();
+			Text pptyCode = new Text();
+			rentalCode.setText(currRental.getRentalId());
+			pptyCode.setText(currPpty.getPropertyId());
+			
+			Text custName = new Text();
+			custName.setText(currCust.getName());				
+			Button viewBtn = new Button("View Invoice");
+			viewBtn.setId(key);
+
+			viewBtn.setOnAction(new EventHandler<ActionEvent>() {
+			    @Override
+			    public void handle(ActionEvent event) {
+			    	System.out.println(viewBtn.getId());
+			    	showRentalPropertyDetails(currPpty, currCust, viewBtn.getId());			    	
+			    }
+			});			
+			
+			
+			allRentals.getRowConstraints().add(new RowConstraints(40));
+			allRentals.add(rentalCode, 0, i+1);
+			allRentals.add(pptyCode, 1, i+1);
+			allRentals.add(custName, 2, i+1);
+			allRentals.add(viewBtn, 3, i+1);
+			
+			
+			//add padding to each cell
+			GridPane.setMargin(rentalCode, new Insets(5));
+			GridPane.setMargin(pptyCode, new Insets(5));
+			GridPane.setMargin(custName, new Insets(5));
+			GridPane.setMargin(viewBtn, new Insets(5));
 		}
 	}
 	
@@ -168,12 +166,17 @@ public class RentalsController extends DashboardController implements DateFormat
 		else {
 			try {
 				ImportData da = new ImportData();
-				
 				da.createRental(selectedProperty, selectedCustomer, LocalDate.now(), rentDueDate.getValue());
 				
+				//ensure the property object in the rental(which references the ppty object in the list) has the rental status set to true
+				selectedProperty.setRentalStatus(true);
+				
+				
 				DataHandler.writeToFile(da.getAllRentals());
-				pList.getProperties().get(selectedProperty.getPropertyId()).setRentalStatus(true);
-								
+//				
+//				//set original property to true??
+//				//pList.getProperties().get(selectedProperty.getPropertyId()).setRentalStatus(true);
+//								
 				DataHandler.writeToFile(pList);
 				
 				alert.setAlertType(AlertType.INFORMATION);
@@ -201,8 +204,11 @@ public class RentalsController extends DashboardController implements DateFormat
 		}
 }
 	
-	private void showRentalPropertyDetails(Property p, Customer c, Rental r) {
+	private void showRentalPropertyDetails(Property p, Customer c, String key) {
+		System.out.println("inside: " + key);
+		Rental r = rList.getRentals().get(key);
 		RentalInvoice newInvoice = new RentalInvoice(r);
+		
 		
     	rentalInvoice.setText(newInvoice.generateInvoice() + "\n");
     	

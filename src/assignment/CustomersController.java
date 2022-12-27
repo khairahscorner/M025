@@ -115,11 +115,10 @@ public class CustomersController extends DashboardController implements DateForm
 
 	            
 			} catch(Exception exception) {
-//				alert.setAlertType(AlertType.ERROR);
-//                alert.setTitle("Error adding Customer");
-//                alert.setContentText("An error occured");
-//                alert.show();
-				System.out.println(exception.getStackTrace());
+				alert.setAlertType(AlertType.ERROR);
+                alert.setTitle("Error adding Customer");
+                alert.setContentText("An error occured");
+                alert.show();
 			}
 		}
     }

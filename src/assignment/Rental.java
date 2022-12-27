@@ -69,7 +69,9 @@ public class Rental implements Serializable, DateFormatter {
 		lastRentalIndex = i;
 	}
 	
-	
+	public String toString() {
+		return rentalId + " name: " + ppty.getPropertyId();
+	}
 	
 	
 }
