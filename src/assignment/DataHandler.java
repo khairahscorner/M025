@@ -134,15 +134,6 @@ public class DataHandler {
 		if (obj instanceof RentalList) {
 			rList = (RentalList) obj;
 		}
-		System.out.println("list size: "+ rList.getRentals().size());
-		
-		// display list
-//		if (rList.getHires().size() > 0) {
-//			System.out.println("Book Hires in the list are: ");
-//			for (int i = 0; i < list.getHires().size(); i++) {
-//				System.out.println("Book Hire: " + list.getHires().get(i));
-//			}
-//		}
 		return rList;
 	}
 	

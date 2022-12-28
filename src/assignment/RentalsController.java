@@ -2,6 +2,7 @@ package assignment;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import javafx.event.ActionEvent;
@@ -58,8 +59,9 @@ public class RentalsController extends DashboardController implements DateFormat
 	
 	public void initialize() throws ClassNotFoundException, IOException {
 		rList = DataHandler.readRentalList();
-		Rental.setLastRentalIndex(rList.getRentals().size());
-
+		
+		System.out.println("lasss:" + Rental.getLastRentalIndex());
+		
 		pList = DataHandler.readPropertyList();
 		filteredProperties = new HashMap<String, Property>();
 		
@@ -79,12 +81,14 @@ public class RentalsController extends DashboardController implements DateFormat
 		    availableCustomers.getItems().add(cust.getCustId());
 		}
 		
-		if(Rental.getLastRentalIndex() == 0) {
+		if(rList.getKeys().size() == 0) {
 			emptyRentalsList.setVisible(true);
 			allRentals.setVisible(false);
+			rentalsWrapper.setVisible(false);
 		} else {
 			allRentals.setVisible(true);
-			emptyRentalsList.setVisible(false);
+			rentalsWrapper.setVisible(true);
+			emptyListLabel.setVisible(false);
 			populateList();
 		}
 		
@@ -157,27 +161,31 @@ public class RentalsController extends DashboardController implements DateFormat
             alert.setTitle("Error renting property");
             alert.setContentText("Please fill in all details correctly");
             alert.show();
-		} else if (!rentDueDate.getValue().isAfter(LocalDate.now())) {
+		}
+//		else if (!rentDueDate.getValue().isAfter(LocalDate.now())) {
+//			alert.setAlertType(AlertType.ERROR);
+//            alert.setTitle("Error renting property");
+//            alert.setContentText("Please select a date after " + LocalDate.now().format(dateFormatter));
+//            alert.show();
+//		}
+		else if (ChronoUnit.MONTHS.between(LocalDate.now(), rentDueDate.getValue()) < 1) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error renting property");
-            alert.setContentText("Please select a date after " + LocalDate.now().format(dateFormatter));
+            alert.setContentText("Please select a date at least 1 month after " + LocalDate.now().format(dateFormatter));
             alert.show();
 		}
 		else {
 			try {
 				ImportData da = new ImportData();
+				
 				da.createRental(selectedProperty, selectedCustomer, LocalDate.now(), rentDueDate.getValue());
 				
 				//ensure the property object in the rental(which references the ppty object in the list) has the rental status set to true
 				selectedProperty.setRentalStatus(true);
 				
-				
 				DataHandler.writeToFile(da.getAllRentals());
-//				
-//				//set original property to true??
-//				//pList.getProperties().get(selectedProperty.getPropertyId()).setRentalStatus(true);
-//								
 				DataHandler.writeToFile(pList);
+							
 				
 				alert.setAlertType(AlertType.INFORMATION);
 	            alert.setTitle("Successful");
@@ -191,8 +199,7 @@ public class RentalsController extends DashboardController implements DateFormat
 	            } else {
 	            	//still refresh
 	            	goToRentalsListener(e);
-	            }
-	            	            
+	            }         	            
 
 	            
 			} catch(Exception exception) {
@@ -203,9 +210,9 @@ public class RentalsController extends DashboardController implements DateFormat
 			}
 		}
 }
+
 	
 	private void showRentalPropertyDetails(Property p, Customer c, String key) {
-		System.out.println("inside: " + key);
 		Rental r = rList.getRentals().get(key);
 		RentalInvoice newInvoice = new RentalInvoice(r);
 		
@@ -213,11 +220,11 @@ public class RentalsController extends DashboardController implements DateFormat
     	rentalInvoice.setText(newInvoice.generateInvoice() + "\n");
     	
     	rentalPptyDetails.setText("----- Property Details ------\n");
-    	rentalPptyDetails.appendText("Type: " + p.getFurnishedStatus() + " " + p.getType() + "\n" 
-    	+ Property.getPropertyDetails(p) + "\n");
+    	rentalPptyDetails.appendText(Property.getPropertyDetails(p) + "\n");
     	
     	rentalCustomerDetails.setText("----- Customer Details ------\n");
     	rentalCustomerDetails.appendText(c.toString());
     	
 	}
 }
+

@@ -1,7 +1,6 @@
 package assignment;
 
 import java.io.*;
-import java.util.Properties;
 import java.util.Scanner;
 import java.time.LocalDate;
 
@@ -29,10 +28,19 @@ public class ImportData implements DateFormatter {
 		cList = DataHandler.readCustomerList();
 		Customer.setLastIndex(cList.getCustomers().size());
 		
-		rList = DataHandler.readRentalList();
-		Rental.setLastRentalIndex(rList.getRentals().size());
-
 		
+		rList = DataHandler.readRentalList();		
+		//because rentals can be deleted, the correct last index has to be gotten from the last rental in the file, 
+		//to avoid creating duplicate keys and overwriting data
+		if(rList.getRentals().size() == 0) {
+			Rental.setLastRentalIndex(rList.getRentals().size());
+		} 
+		else {
+			String lastRentalKeyInFile = rList.getKeys().get(rList.getKeys().size() - 1);
+			int lastRentalIdFromFile = Integer.parseInt(lastRentalKeyInFile.split("R")[1]);
+
+			Rental.setLastRentalIndex((lastRentalIdFromFile + 1));
+		}
 	}
 
 	

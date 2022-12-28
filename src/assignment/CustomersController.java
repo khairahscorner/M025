@@ -36,6 +36,7 @@ public class CustomersController extends DashboardController implements DateForm
 	
 	
 	private CustomerList cList;
+	private int gridCount;
 	
 	
 	public void initialize() throws ClassNotFoundException, IOException {
@@ -45,7 +46,7 @@ public class CustomersController extends DashboardController implements DateForm
 	}
 	
 	private void populateList() {
-		
+		gridCount = 1;
 		if(Customer.getLastIndex() < 1) {
 			emptyListLabel.setVisible(true);
 			allCustomers.setVisible(false);
@@ -53,30 +54,32 @@ public class CustomersController extends DashboardController implements DateForm
 			allCustomers.setVisible(true);
 			emptyListLabel.setVisible(false);
 			
-			for(int i = 0; i < cList.getCustomers().size(); i++) {
+			cList.getCustomers().forEach(cust -> {
 				Text name = new Text();
-				name.setText(cList.getCustomers().get(i).getName());
+				name.setText(cust.getName());
 				Text email = new Text();
 				Text phone = new Text();
 				Text dob = new Text();
 				
-				email.setText(cList.getCustomers().get(i).getEmail());
-				phone.setText(cList.getCustomers().get(i).getPhone());
-				dob.setText(cList.getCustomers().get(i).getDOB().format(dateFormatter));
+				email.setText(cust.getEmail());
+				phone.setText(cust.getPhone());
+				dob.setText(cust.getDOB().format(dateFormatter));
 				
 				
 				allCustomers.getRowConstraints().add(new RowConstraints(40));
-				allCustomers.add(name, 0, i+1);
-				allCustomers.add(email, 1, i+1);
-				allCustomers.add(phone, 2, i+1);
-				allCustomers.add(dob, 3, i+1);
+				allCustomers.add(name, 0, gridCount);
+				allCustomers.add(email, 1, gridCount);
+				allCustomers.add(phone, 2, gridCount);
+				allCustomers.add(dob, 3, gridCount);
 				
 				//add padding to each cell
 				GridPane.setMargin(name, new Insets(5));
 				GridPane.setMargin(email, new Insets(5));
 				GridPane.setMargin(phone, new Insets(5));
 				GridPane.setMargin(dob, new Insets(5));
-			}
+				gridCount++;
+			});
+			
 		}
 	}
 	

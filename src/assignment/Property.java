@@ -172,7 +172,7 @@ public class Property implements Serializable, DateFormatter {
 	}
 	
 	public static String getPropertyDetails(Property currPpty) {
-		return "Property Code: " + currPpty.getPropertyId() + "\nDate Listed: " + currPpty.getDateListed().format(dateFormatter) + "\nRental Status: " + currPpty.getRentalStatus()
+		return "Type: " + currPpty.getFurnishedStatus() + " " + currPpty.getType() + "\nProperty Code: " + currPpty.getPropertyId() + "\nDate Listed: " + currPpty.getDateListed().format(dateFormatter) + "\nRental Status: " + currPpty.getRentalStatus()
 		+ "\nFurnishing type: " + currPpty.getFurnishedStatus() + "\nPostcode: " + currPpty.getPostcode() + "\nNo. of Bedrooms:" +
 		currPpty.getBedrooms() + "\nNo. of Bathrooms: " + currPpty.getBathrooms() + "\nGarden?: " + currPpty.getGarden().toUpperCase()
 		+ "\nMonthly Rent: £" + dpFormatter.format(currPpty.getRentPerMonth()) + "\nDeposit: £" + currPpty.getDeposit()

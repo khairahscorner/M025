@@ -41,7 +41,12 @@ public class TenancyEndInvoice implements Invoice, DateFormatter {
 	    
 	    str += "Deposit: £"+ rentalPpty.getDeposit() + "\n";
 	    str += "Damage Deductions: £"+ deductions + "\n";
-	    str += "Deposit Amount to Return: £"+ (rentalPpty.getDeposit() - deductions) + "\n";
+	    if(deductions > rentalPpty.getDeposit()) {
+	    	str += "Outstanding Amount Owed by Customer: £"+ (deductions - rentalPpty.getDeposit()) + "\n";
+	    } 
+	    else {
+	    	str += "Deposit Amount to Return: £"+ (rentalPpty.getDeposit() - deductions) + "\n";
+	    }
 			
 		return str;
 	}

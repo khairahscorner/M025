@@ -7,7 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
@@ -194,20 +193,21 @@ public class PropertiesController extends DashboardController implements DateFor
 		System.out.println(selectedPptyAvailability);
 		
 		if(selectedPptyAvailability.equals("Rented")) {
-			for (String key : pList.getKeys()) {
-			    if(pList.getProperties().get(key).getRentalStatus()) {
+			pList.getKeys().forEach(key -> {
+				if(pList.getProperties().get(key).getRentalStatus()) {
 			    	Property availablePpty = pList.getProperties().get(key);		    	
 			    	pListToShow.addProperty(availablePpty);
 			    }
-			}
+			});
 			System.out.println(pListToShow.getProperties().size());
-		} else if (selectedPptyAvailability.equals("Available")) {
-			for (String key : pList.getKeys()) {
-			    if(!pList.getProperties().get(key).getRentalStatus()) {
+		} 
+		else if (selectedPptyAvailability.equals("Available")) {
+			pList.getKeys().forEach(key -> {
+				if(!pList.getProperties().get(key).getRentalStatus()) {
 			    	Property availablePpty = pList.getProperties().get(key);		    	
 			    	pListToShow.addProperty(availablePpty);
 			    }
-			} 
+			});
 			System.out.println(pListToShow.getProperties().size());
 		}
 		else {
@@ -218,5 +218,7 @@ public class PropertiesController extends DashboardController implements DateFor
 		return pListToShow;
 	}
 }
+
+
 
 

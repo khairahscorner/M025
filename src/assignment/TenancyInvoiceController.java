@@ -5,13 +5,9 @@ import java.time.LocalDate;
 import java.util.*;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.*;
-import javafx.scene.layout.*;
-import javafx.scene.text.Text;
 
 
 public class TenancyInvoiceController extends DashboardController implements DateFormatter {
@@ -32,29 +28,17 @@ public class TenancyInvoiceController extends DashboardController implements Dat
 	private String selectedRentalId;
 
 	private PropertyList pList;
-//	private CustomerList cList;
-//	
-//	private HashMap<String, Property> filteredProperties;
-//	private HashMap<String, Customer> hashedCustomers;
-//	private HashMap<String, Rental> hashedRentals;
-//	
-//	
-//	
-//	
+
+	
+
+	
 	public void initialize() throws ClassNotFoundException, IOException {
-		rList = DataHandler.readRentalList();
-		Rental.setLastRentalIndex(rList.getRentals().size());
-		
+		rList = DataHandler.readRentalList();		
 		pList = DataHandler.readPropertyList();
 
 		for (String key: rList.getKeys()) {
 			rentalProperties.getItems().add(key);
 		}
-
-
-
-//		System.out.println(pList.getProperties().size());
-//		System.out.println(filteredProperties.size());
 	}
 	
 
@@ -67,15 +51,14 @@ public class TenancyInvoiceController extends DashboardController implements Dat
 	public void generateInvoiceListener(ActionEvent e) throws IOException {
 		double convertedDeduction = 0;
 		Alert alert = new Alert(AlertType.NONE);
-		Rental currRental = rList.getRentals().get(selectedRentalId);
-				
+		Rental currRental = rList.getRentals().get(selectedRentalId);				
 		
 		try {
 			convertedDeduction = Double.parseDouble(deductions.getText());
 		} catch(Exception error) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error generating invoice");
-            alert.setContentText("Please enter a correct deduction value");
+            alert.setContentText("Please enter a valid value to deduct");
             alert.show();
             return;
 		}
@@ -83,15 +66,14 @@ public class TenancyInvoiceController extends DashboardController implements Dat
 		if(selectedRentalId == null) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error generating invoice");
-            alert.setContentText("Please fill in all details correctly");
+            alert.setContentText("Please select a rental property");
             alert.show();
 		} else if (convertedDeduction < 0) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error generating invoice");
-            alert.setContentText("Please enter a positive deduction value");
+            alert.setContentText("Please enter a positive value to deduct");
             alert.show();
-		}
-		else if(LocalDate.now().isBefore(currRental.getDueDate())) {
+		} else if(LocalDate.now().isBefore(currRental.getDueDate())) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error generating invoice");
             alert.setContentText("Invoice can only be generated after tenancy has ended");
@@ -99,13 +81,13 @@ public class TenancyInvoiceController extends DashboardController implements Dat
 		}
 		else {
 			try {
-				//ensure the property object in the property list itself has the rental status set back to false
 				Property currPpty = currRental.getRentalPpty();
-				pList.getProperties().get(currPpty.getPropertyId()).setRentalStatus(false);
-				DataHandler.writeToFile(pList);
-			
+				//ensure the property object in the property list itself has the rental status set back to false
+				pList.getProperties().get(currPpty.getPropertyId()).setRentalStatus(false);			
 				
 				rList.removeRental(selectedRentalId);
+
+				DataHandler.writeToFile(pList);
 				DataHandler.writeToFile(rList);				
 				
 				alert.setAlertType(AlertType.INFORMATION);
@@ -137,7 +119,11 @@ public class TenancyInvoiceController extends DashboardController implements Dat
 		TenancyEndInvoice eotInvoice = new TenancyEndInvoice(r, deduction);
 		
 		displayInvoice.setText(eotInvoice.generateInvoice() + "\n");
+		
+		displayInvoice.appendText("----- Property Details ------\n");
+		displayInvoice.appendText(Property.getPropertyDetails(r.getRentalPpty()) + "\n");
     	
+		displayInvoice.appendText("\n----- Customer Details ------\n" + r.getRentalCustomer().toString());	
 	}
 	
 	private void resetForm() {
