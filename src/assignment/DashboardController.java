@@ -160,7 +160,7 @@ public class DashboardController {
     }
     
     public void selectImportTypeListener() {
-    	selectedFileTypeToImport = selectImportType.valueProperty().getValue();
+    	selectedFileTypeToImport = selectImportType.getValue();
 	}
     
     public void filePickerListener(ActionEvent e) throws IOException {	
@@ -171,7 +171,7 @@ public class DashboardController {
 	      selectedFilePathToImport = selectedFile.getPath();
 	}
     
-    public void ImportDataListener(ActionEvent e) throws IOException {
+    public void importDataListener(ActionEvent e) throws IOException {
 		
 		Alert alert = new Alert(AlertType.NONE);
 		

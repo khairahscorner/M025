@@ -43,7 +43,7 @@ public class TenancyInvoiceController extends DashboardController implements Dat
 	
 
 	public void selectRentalPptyListener() {
-		selectedRentalId = rentalProperties.valueProperty().getValue();
+		selectedRentalId = rentalProperties.getValue();
 		System.out.println(selectedRentalId);
 	}
 	

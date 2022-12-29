@@ -89,7 +89,7 @@
             <Label layoutX="172.0" layoutY="61.0" prefHeight="17.0" prefWidth="50.0" text="Type: " />
             <Label layoutX="172.0" layoutY="111.0" text="Choose:" />
             <ComboBox fx:id="selectImportType" layoutX="234.0" layoutY="56.0" onAction="#selectImportTypeListener" prefHeight="26.0" prefWidth="120.0" promptText="select type..." />
-            <Button fx:id="importBtn" layoutX="214.0" layoutY="158.0" mnemonicParsing="false" onAction="#ImportDataListener" prefHeight="36.0" prefWidth="101.0" text="Submit" />
+            <Button fx:id="importBtn" layoutX="214.0" layoutY="158.0" mnemonicParsing="false" onAction="#importDataListener" prefHeight="36.0" prefWidth="101.0" text="Submit" />
          </children>
       </Pane>
    </children>

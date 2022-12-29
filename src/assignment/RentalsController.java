@@ -138,21 +138,21 @@ public class RentalsController extends DashboardController implements DateFormat
 	
 	
 	public void selectPropertyToRentListener() {
-		String selectedPptyId = availableProperties.valueProperty().getValue();
+		String selectedPptyId = availableProperties.getValue();
 		System.out.println(selectedPptyId);
 		selectedProperty = filteredProperties.get(selectedPptyId);
 	    System.out.println(selectedProperty);
 	}
 	
 	public void selectCustomerListener() {
-		String selectedCustId = availableCustomers.valueProperty().getValue();
+		String selectedCustId = availableCustomers.getValue();
 		System.out.println(selectedCustId);
 		selectedCustomer = hashedCustomers.get(selectedCustId);
 	    System.out.println(selectedCustomer);
 	}
 	
 	
-	public void RentPropertyListener(ActionEvent e) throws IOException {
+	public void rentPropertyListener(ActionEvent e) throws IOException {
 		
 		Alert alert = new Alert(AlertType.NONE);
 		
@@ -219,7 +219,7 @@ public class RentalsController extends DashboardController implements DateFormat
 		
     	rentalInvoice.setText(newInvoice.generateInvoice() + "\n");
     	
-    	rentalPptyDetails.setText("----- Property Details ------\n");
+    	rentalPptyDetails.setText("-- Property Details at Rental --\n");
     	rentalPptyDetails.appendText(Property.getPropertyDetails(p) + "\n");
     	
     	rentalCustomerDetails.setText("----- Customer Details ------\n");

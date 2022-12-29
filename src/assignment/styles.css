@@ -34,7 +34,7 @@
 	-fx-border-radius: 0;
 }
 
-#headingLabel {
+#headingLabel, #formHeading {
 	-fx-font-weight: bold;
 	-fx-font-size: 16px;
 }
@@ -60,7 +60,7 @@
 	-fx-border-radius: 5px;
 }
 
-#pptyTitle {
+#pptyTitle, #editLabel {
 	-fx-font-style: italic;
 	-fx-font-weight: bolder;
 	-fx-font-size: 14px;
@@ -76,10 +76,13 @@
 	-fx-font-size: 14px;
 }
 
-#importBtn, #addNewCustomer, #addNewRental, #generateInvoice {
+#importBtn, #addNewCustomer, #addNewRental, #generateInvoice, #submitEdit, #updateDetails {
 	-fx-background-color: #3fa944;
 	-fx-text-fill: white;
 	-fx-border-color: #3fa944;
+}
+#editPptyDetails {
+	-fx-background-color: white;
 }
 
 

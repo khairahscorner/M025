@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,14 +18,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="scene1" prefHeight="650.0" prefWidth="948.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignment.PropertiesController">
+<AnchorPane fx:id="scene1" prefHeight="705.0" prefWidth="948.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignment.PropertiesController">
    <children>
       <Pane fx:id="headingWrapper" layoutX="101.0" prefHeight="45.0" prefWidth="777.0">
          <children>
-            <Label fx:id="headingLabel" layoutX="353.0" layoutY="14.0" text="All Properties" />
+            <Label fx:id="headingLabel" layoutX="353.0" layoutY="14.0" text="ll Properties" />
          </children>
       </Pane>
-      <Pane fx:id="menu" prefHeight="650.0" prefWidth="101.0">
+      <Pane fx:id="menu" prefHeight="705.0" prefWidth="101.0">
          <children>
             <GridPane fx:id="dashboardItem" layoutY="37.0" prefHeight="275.0" prefWidth="101.0">
               <columnConstraints>
@@ -57,11 +58,11 @@
             </Label>
          </children>
       </Pane>
-      <SplitPane dividerPositions="0.6664626682986536" layoutX="119.0" layoutY="64.0" prefHeight="562.0" prefWidth="819.0">
+      <SplitPane dividerPositions="0.6664626682986536" layoutX="119.0" layoutY="64.0" prefHeight="624.0" prefWidth="819.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="560.0" prefWidth="691.0">
                <children>
-                  <ScrollPane prefWidth="541.0">
+                  <ScrollPane prefHeight="620.0" prefWidth="541.0">
                      <content>
                         <AnchorPane prefHeight="559.0" prefWidth="493.0">
                            <children>
@@ -124,7 +125,7 @@
                         </AnchorPane>
                      </content>
                   </ScrollPane>
-                  <Pane fx:id="emptyPptyList" prefHeight="564.0" prefWidth="544.0">
+                  <Pane fx:id="emptyPptyList" prefHeight="619.0" prefWidth="544.0">
                      <children>
                         <Label fx:id="emptyListLabel" layoutX="198.0" layoutY="272.0" text="No Properties In The System" />
                      </children>
@@ -133,7 +134,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="560.0" prefWidth="275.0">
                <children>
-                  <Pane fx:id="emptyDetailsPane" layoutX="-2.0" prefHeight="560.0" prefWidth="270.0">
+                  <Pane fx:id="emptyDetailsPane" layoutX="-2.0" prefHeight="622.0" prefWidth="270.0">
                      <children>
                         <Text fx:id="pptyViewPlaceholder" layoutX="52.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on a property  to view" textAlignment="CENTER" wrappingWidth="172.43050768556708">
                            <font>
@@ -142,11 +143,27 @@
                         </Text>
                      </children>
                   </Pane>
-                  <Pane fx:id="pptyDetailsPane" layoutX="-1.0" prefHeight="560.0" prefWidth="270.0">
+                  <Pane fx:id="pptyDetailsPane" layoutX="-1.0" prefHeight="622.0" prefWidth="270.0">
                      <children>
-                        <Label fx:id="pptyTitle" alignment="CENTER" layoutX="2.0" layoutY="141.0" prefHeight="36.0" prefWidth="266.0" text="Label" textAlignment="CENTER" wrapText="true" />
-                        <TextArea fx:id="pptyDetailsArea" layoutX="1.0" layoutY="177.0" prefHeight="327.0" prefWidth="266.0" style="-fx-font-weight: 600;" stylesheets="@styles.css" text="Details here" wrapText="true" />
-                        <Button fx:id="editBtn" layoutX="93.0" layoutY="518.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="81.0" text="Edit" textFill="#653737" />
+                        <Pane fx:id="editPptyDetails" layoutX="1.0" layoutY="130.0" prefHeight="493.0" prefWidth="269.0">
+                           <children>
+                              <Label fx:id="editLabel" alignment="CENTER" layoutX="64.0" layoutY="3.0" prefHeight="34.0" prefWidth="142.0" text="Edit Property" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="editRent" layoutX="16.0" layoutY="71.0" prefHeight="34.0" prefWidth="184.0" />
+                              <Label layoutX="16.0" layoutY="46.0" prefHeight="20.0" prefWidth="74.0" text="Rent PCM:" />
+                              <Label layoutX="16.0" layoutY="119.0" prefHeight="20.0" prefWidth="119.0" text="Furnishing Type:" />
+                              <Label layoutX="16.0" layoutY="192.0" prefHeight="20.0" prefWidth="119.0" text="No. of Bedrooms:" />
+                              <TextField fx:id="editBedrooms" layoutX="16.0" layoutY="218.0" prefHeight="34.0" prefWidth="184.0" />
+                              <Label layoutX="16.0" layoutY="263.0" prefHeight="20.0" prefWidth="119.0" text="No. of Bathrooms:" />
+                              <TextField fx:id="editBathrooms" layoutX="16.0" layoutY="286.0" prefHeight="34.0" prefWidth="184.0" />
+                              <Button fx:id="submitEdit" layoutX="14.0" layoutY="348.0" mnemonicParsing="false" onAction="#updatePptyDetailsListener" prefHeight="34.0" prefWidth="74.0" text="Update" />
+                              <Button fx:id="cancelEdit" layoutX="108.0" layoutY="348.0" mnemonicParsing="false" onAction="#goBackToDetailsViewListener" prefHeight="34.0" prefWidth="74.0" text="Cancel" />
+                              <ComboBox fx:id="editFurnishing" layoutX="15.0" layoutY="144.0" onAction="#selectFurnishingStatusListener" prefHeight="34.0" prefWidth="184.0" promptText="Select option" />
+                           </children>
+                        </Pane>
                         <ImageView fx:id="pptyImg" fitHeight="122.0" fitWidth="259.0" layoutX="4.0" layoutY="8.0" pickOnBounds="true">
                            <image>
                               <Image url="@../../../../Downloads/sunset-in-hong-kong-tolulope-khairahscorner-living-in-the-uk-series.jpg" />
@@ -164,6 +181,13 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
                               </Label>
+                           </children>
+                        </Pane>
+                        <Pane fx:id="mainPptyDetails" layoutX="-1.0" layoutY="129.0" prefHeight="493.0" prefWidth="269.0" visible="false">
+                           <children>
+                              <Label fx:id="pptyTitle" alignment="CENTER" layoutY="5.0" prefHeight="36.0" prefWidth="266.0" text="Label" textAlignment="CENTER" wrapText="true" />
+                              <TextArea fx:id="pptyDetailsArea" layoutX="2.0" layoutY="48.0" prefHeight="383.0" prefWidth="266.0" style="-fx-font-weight: 600;" stylesheets="@styles.css" text="Details here" wrapText="true" />
+                              <Button fx:id="editBtn" layoutX="89.0" layoutY="447.0" mnemonicParsing="false" onAction="#openEditViewListener" prefHeight="28.0" prefWidth="81.0" text="Edit" textFill="#653737" />
                            </children>
                         </Pane>
                      </children>

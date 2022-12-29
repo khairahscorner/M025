@@ -6,22 +6,18 @@ import java.util.*;
 
 public class DataHandler {
 	private static String propertyListFileName;
-//	private static String pptyKeysFile;
 	private static String customerListFileName;
 	private static String rentalListFileName;
 	private static String landmarksFileName;
+	private static String usersFileName;
+	
 	
 	public static void readProperties(Properties config) {
 		propertyListFileName = config.getProperty("properties.file");
-//		pptyKeysFile = config.getProperty("propertyKeys.file");
 		customerListFileName = config.getProperty("customers.file");
 		rentalListFileName = config.getProperty("rentals.file");
 		landmarksFileName = config.getProperty("landmarks.file");
-		
-//		System.out.println(propertyListFileName);
-//		System.out.println(customerListFileName);
-//		System.out.println(rentalListFileName);
-//		System.out.println(landmarksFileName);
+		usersFileName = config.getProperty("users.file");	
 	}
 	
 	
@@ -45,13 +41,15 @@ public class DataHandler {
     	  if (f.length() > 0) {
             obj = objToread.readObject();
             objToread.close();
-    	   } else {
-    		   System.out.println("File " + inputFile + " is empty");
-    	   }
-    	}
-    	  else {
-    		  System.out.println("File " + inputFile + " does not exist");
     	  }
+    	  else {
+    		  System.out.println("File " + inputFile + " is empty");
+    	  }
+    	}
+    	else {
+    		System.out.println("File " + inputFile + " does not exist");
+    	}
+    	
         return obj;
     }
     
@@ -60,7 +58,6 @@ public class DataHandler {
     
 	public static void writeToFile(CustomerList cList) throws IOException {
 	      doSerialize(cList, customerListFileName);
-	      System.out.println("Customers " +"were written to "+ customerListFileName);	
 	}
     
 	public static CustomerList readCustomerList() throws IOException, ClassNotFoundException {
@@ -70,14 +67,13 @@ public class DataHandler {
 		if (obj instanceof CustomerList) {
 			cList = (CustomerList) obj;
 		}
-		System.out.println("list size: " + cList.getCustomers().size());
+
 		return cList;
 	}
 	
 	
 	public static void writeToFile(PropertyList pList) throws IOException {
 	      doSerialize(pList, propertyListFileName);
-	      System.out.println("Properties " +"were written to "+ propertyListFileName);	
 	}
 	
 	public static PropertyList readPropertyList() throws IOException, ClassNotFoundException {
@@ -86,22 +82,13 @@ public class DataHandler {
 		if (obj instanceof PropertyList) {
 			pList = (PropertyList) obj;
 		}
-		System.out.println("list size: " + pList.getProperties().size());
-	
-//		if (pList.getProperties().size() > 0) {
-//			System.out.println("Properties in the list are: ");
-//			for (int i = 0; i < pList.getKeys().size(); i++) {
-//				String k = pList.getKeys().get(i);
-//				System.out.println("Property key: " + k + " Ppty: " + pList.getProperties().get(k).getRentalStatus());
-//			}
-//		}
 		
 		return pList;
 	}
 	
+	
 	public static void writeToFile(LandmarkList l) throws IOException {
 	      doSerialize(l, landmarksFileName);
-	      System.out.println("Landmark " +"were written to "+ landmarksFileName);	
 	}
 	
 	public static LandmarkList readLandmarkList() throws IOException, ClassNotFoundException {
@@ -110,21 +97,13 @@ public class DataHandler {
 		if (obj instanceof LandmarkList) {
 			list = (LandmarkList) obj;
 		}
-		System.out.println("list size: " + list.getLandmarks().size());
-		
-//		if (list.getLandmarks().size() > 0) {
-//			System.out.println("Landmarks in the list are: ");
-//			for (int i = 0; i < list.getLandmarks().size(); i++) {
-//				System.out.println("Landmark: " + list.getLandmarks().get(i).getName());
-//			}
-//		}
 		
 		return list;
 	}
 	
+	
 	public static void writeToFile(RentalList rList) throws IOException {
 	      doSerialize(rList, rentalListFileName);
-	      System.out.println("Rentals " +"were written to "+ rentalListFileName);	
 	}
 	
 	public static RentalList readRentalList() throws IOException, ClassNotFoundException {
@@ -134,7 +113,24 @@ public class DataHandler {
 		if (obj instanceof RentalList) {
 			rList = (RentalList) obj;
 		}
+		
 		return rList;
+	}
+	
+	
+	public static void writeToFile(Admin user) throws IOException {
+	      doSerialize(user, usersFileName);	
+	}
+	
+	public static Admin readAdmins() throws IOException, ClassNotFoundException {
+		Admin user = new Admin();
+		Object obj;
+		obj =  doDeserialize(usersFileName);
+		if (obj instanceof Admin) {
+			user = (Admin) obj;
+		}
+		
+		return user;
 	}
 	
 
