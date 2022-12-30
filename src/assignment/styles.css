@@ -81,8 +81,18 @@
 	-fx-text-fill: white;
 	-fx-border-color: #3fa944;
 }
+
 #editPptyDetails {
 	-fx-background-color: white;
+}
+
+#optionsWrapper .label {
+	-fx-font-size: 12px;
+}
+
+#tableCount {
+	-fx-font-weight: 700;
+	-fx-font-style: italic;
 }
 
 

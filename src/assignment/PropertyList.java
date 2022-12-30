@@ -17,16 +17,15 @@ public class PropertyList implements Serializable {
 	}
 
 	public Map<String, Property> getProperties() {
-//	public List<Property> getProperties() {
 		return pptyList;
 	}
+	
 	public List<String> getKeys() {
 		return pptyKeys; 
 	}
 
 	public void addProperty(Property p) {
 		pptyList.put(p.getPropertyId(), p);
-//		pptyList.add(p);
 		pptyKeys.add(p.getPropertyId());
 	}
 

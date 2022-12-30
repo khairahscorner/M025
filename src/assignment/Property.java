@@ -2,6 +2,7 @@ package assignment;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 public class Property implements Serializable, DateFormatter {
 	private static final long serialVersionUID = 1L; //default fix from compiler
@@ -172,12 +173,28 @@ public class Property implements Serializable, DateFormatter {
 	}
 	
 	public static String getPropertyDetails(Property currPpty) {
-		return "Type: " + currPpty.getFurnishedStatus() + " " + currPpty.getType() + "\nProperty Code: " + currPpty.getPropertyId() + "\nDate Listed: " + currPpty.getDateListed().format(dateFormatter) + "\nRental Status: " + currPpty.getRentalStatus()
+		return "Type: " + currPpty.getType() + "\nProperty Code: " + currPpty.getPropertyId() + "\nDate Listed: " + currPpty.getDateListed().format(dateFormatter) + "\nRental Status: " + currPpty.getRentalStatus()
 		+ "\nFurnishing type: " + currPpty.getFurnishedStatus() + "\nPostcode: " + currPpty.getPostcode() + "\nNo. of Bedrooms:" +
 		currPpty.getBedrooms() + "\nNo. of Bathrooms: " + currPpty.getBathrooms() + "\nGarden?: " + currPpty.getGarden().toUpperCase()
 		+ "\nMonthly Rent: £" + dpFormatter.format(currPpty.getRentPerMonth()) + "\nDeposit: £" + currPpty.getDeposit()
 		+ "\nAgent fee: £" + currPpty.getAgentFee();
 		
+	}
+	
+	public static String getLandmarksProximity(Property currPpty, List<Landmark> allLandmarks) {
+		String pptyPostCode = currPpty.getPostcode().split(" ")[0];
+		String str = "\n\n ---- Proximity to Landmarks in " + pptyPostCode + " ----\n";
+		
+		for(int i = 0; i < Landmark.getLastIndex(); i++) {
+			String landmarkCode = allLandmarks.get(i).getPostcode().split(" ")[0];
+			if(pptyPostCode.equals(landmarkCode)) {
+				str += allLandmarks.get(i).getName() + ": " + dpFormatter.format(
+						DistanceCalculator.getDistance(currPpty.getLatitude(), currPpty.getLongitude(), allLandmarks.get(i).getLatitude(), 
+								allLandmarks.get(i).getLongitude(), "K")) + "km\n";
+				
+			};
+		}
+		return str;		
 	}
 	
 	

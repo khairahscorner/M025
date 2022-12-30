@@ -18,11 +18,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="scene1" prefHeight="705.0" prefWidth="948.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignment.PropertiesController">
+<AnchorPane fx:id="scene1" prefHeight="705.0" prefWidth="1087.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignment.PropertiesController">
    <children>
-      <Pane fx:id="headingWrapper" layoutX="101.0" prefHeight="45.0" prefWidth="777.0">
+      <Pane fx:id="headingWrapper" layoutX="101.0" prefHeight="45.0" prefWidth="985.0">
          <children>
-            <Label fx:id="headingLabel" layoutX="353.0" layoutY="14.0" text="ll Properties" />
+            <Label fx:id="headingLabel" layoutX="453.0" layoutY="19.0" text="All Properties" />
          </children>
       </Pane>
       <Pane fx:id="menu" prefHeight="705.0" prefWidth="101.0">
@@ -58,15 +58,20 @@
             </Label>
          </children>
       </Pane>
-      <SplitPane dividerPositions="0.6664626682986536" layoutX="119.0" layoutY="64.0" prefHeight="624.0" prefWidth="819.0">
+      <SplitPane dividerPositions="0.7095588235294118" layoutX="119.0" layoutY="64.0" prefHeight="624.0" prefWidth="954.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="560.0" prefWidth="691.0">
                <children>
-                  <ScrollPane prefHeight="620.0" prefWidth="541.0">
+                  <Pane fx:id="emptyPptyList" prefHeight="619.0" prefWidth="651.0">
+                     <children>
+                        <Label fx:id="emptyListLabel" layoutX="198.0" layoutY="272.0" text="No Properties In The System" />
+                     </children>
+                  </Pane>
+                  <ScrollPane prefHeight="620.0" prefWidth="664.0">
                      <content>
-                        <AnchorPane prefHeight="559.0" prefWidth="493.0">
+                        <AnchorPane prefHeight="606.0" prefWidth="647.0">
                            <children>
-                              <GridPane fx:id="headerWrapper" gridLinesVisible="true" layoutX="1.0" layoutY="75.0" prefHeight="45.0" prefWidth="519.0">
+                              <GridPane fx:id="headerWrapper" gridLinesVisible="true" layoutX="1.0" layoutY="75.0" prefHeight="50.0" prefWidth="637.0">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="214.0" minWidth="10.0" prefWidth="115.5" />
                                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="451.56678771972656" minWidth="10.0" prefWidth="138.5" />
@@ -80,7 +85,7 @@
                                     <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                                  </padding>
                                  <children>
-                                    <Label prefHeight="36.0" prefWidth="124.0" text="Property Code">
+                                    <Label prefHeight="36.0" prefWidth="158.0" text="Property Code">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -88,29 +93,53 @@
                                           <Insets left="10.0" right="10.0" />
                                        </padding>
                                     </Label>
-                                    <Label prefHeight="30.0" prefWidth="155.0" text="Date Listed" GridPane.columnIndex="1">
+                                    <Label prefHeight="53.0" prefWidth="193.0" text="Date Listed" GridPane.columnIndex="1">
                                        <padding>
                                           <Insets left="10.0" right="10.0" />
                                        </padding>
                                     </Label>
-                                    <Label prefHeight="30.0" prefWidth="155.0" text="Rental Status" GridPane.columnIndex="2">
+                                    <Label prefHeight="46.0" prefWidth="176.0" text="Rental Status" GridPane.columnIndex="2">
                                        <padding>
                                           <Insets left="10.0" right="10.0" />
                                        </padding>
                                     </Label>
-                                    <Label prefHeight="30.0" prefWidth="118.0" text="Action" GridPane.columnIndex="3">
+                                    <Label prefHeight="38.0" prefWidth="145.0" text="Action" GridPane.columnIndex="3">
                                        <padding>
                                           <Insets left="10.0" right="10.0" />
                                        </padding>
                                     </Label>
                                  </children>
                               </GridPane>
-                              <Pane fx:id="optionsWrapper" prefHeight="74.0" prefWidth="523.0">
+                              <Pane fx:id="optionsWrapper" prefHeight="74.0" prefWidth="643.0">
                                  <children>
-                                    <ComboBox fx:id="pptyAvailability" layoutX="14.0" layoutY="37.0" onAction="#selectAvailabilityListener" prefHeight="26.0" prefWidth="130.0" promptText="All Properties:" />
+                                    <ComboBox fx:id="pptyAvailability" layoutX="61.0" layoutY="41.0" onAction="#selectAvailabilityListener" prefHeight="26.0" prefWidth="133.0" promptText="All properties" />
+                                    <ComboBox fx:id="pptyPrice" layoutX="86.0" layoutY="5.0" onAction="#selectPriceListener" prefHeight="26.0" prefWidth="109.0" />
+                                    <Label layoutX="12.0" layoutY="8.0" prefHeight="20.0" prefWidth="76.0" text="Sort by price:">
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font></Label>
+                                    <ComboBox fx:id="pptyDate" layoutX="288.0" layoutY="5.0" onAction="#selectDateListedListener" prefHeight="26.0" prefWidth="133.0" />
+                                    <ComboBox fx:id="pptyBedrooms" layoutX="220.0" layoutY="41.0" onAction="#selectBedroomsListener" prefHeight="26.0" prefWidth="110.0" promptText="Bedrooms" />
+                                    <Label layoutX="13.0" layoutY="42.0" prefHeight="25.0" prefWidth="63.0" text="Filter by:">
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font></Label>
+                                    <ComboBox fx:id="pptyBathrooms" layoutX="364.0" layoutY="41.0" onAction="#selectBathroomsListener" prefHeight="26.0" prefWidth="110.0" promptText="Bathrooms" />
+                                    <Label layoutX="210.0" layoutY="8.0" prefHeight="20.0" prefWidth="78.0" text="Sort by date:">
+                                       <font>
+                                          <Font size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="428.0" layoutY="8.0" prefHeight="20.0" prefWidth="119.0" text="Search by postcode:">
+                                       <font>
+                                          <Font size="12.0" />
+                                       </font>
+                                    </Label>
+                                    <ComboBox fx:id="pptyPostcode" layoutX="550.0" layoutY="4.0" onAction="#selectPostcodeListener" prefHeight="26.0" prefWidth="78.0" />
+                                    <Text fx:id="tableCount" layoutX="519.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="RIGHT" wrappingWidth="109.34096599280599" />
                                  </children>
                               </Pane>
-                              <GridPane fx:id="pptiesWrapper" gridLinesVisible="true" layoutX="1.0" layoutY="118.0" prefWidth="519.0">
+                              <GridPane fx:id="pptiesWrapper" gridLinesVisible="true" layoutX="1.0" layoutY="118.0" prefHeight="19.0" prefWidth="637.0">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="214.0" minWidth="10.0" prefWidth="115.5" />
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="451.56678771972656" minWidth="10.0" prefWidth="138.5" />
@@ -125,14 +154,9 @@
                         </AnchorPane>
                      </content>
                   </ScrollPane>
-                  <Pane fx:id="emptyPptyList" prefHeight="619.0" prefWidth="544.0">
-                     <children>
-                        <Label fx:id="emptyListLabel" layoutX="198.0" layoutY="272.0" text="No Properties In The System" />
-                     </children>
-                  </Pane>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="560.0" prefWidth="275.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="622.0" prefWidth="277.0">
                <children>
                   <Pane fx:id="emptyDetailsPane" layoutX="-2.0" prefHeight="622.0" prefWidth="270.0">
                      <children>
@@ -161,7 +185,7 @@
                               <TextField fx:id="editBathrooms" layoutX="16.0" layoutY="286.0" prefHeight="34.0" prefWidth="184.0" />
                               <Button fx:id="submitEdit" layoutX="14.0" layoutY="348.0" mnemonicParsing="false" onAction="#updatePptyDetailsListener" prefHeight="34.0" prefWidth="74.0" text="Update" />
                               <Button fx:id="cancelEdit" layoutX="108.0" layoutY="348.0" mnemonicParsing="false" onAction="#goBackToDetailsViewListener" prefHeight="34.0" prefWidth="74.0" text="Cancel" />
-                              <ComboBox fx:id="editFurnishing" layoutX="15.0" layoutY="144.0" onAction="#selectFurnishingStatusListener" prefHeight="34.0" prefWidth="184.0" promptText="Select option" />
+                              <ComboBox fx:id="editFurnishing" layoutX="15.0" layoutY="144.0" prefHeight="34.0" prefWidth="184.0" promptText="Select option" />
                            </children>
                         </Pane>
                         <ImageView fx:id="pptyImg" fitHeight="122.0" fitWidth="259.0" layoutX="4.0" layoutY="8.0" pickOnBounds="true">

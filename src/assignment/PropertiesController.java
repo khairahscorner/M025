@@ -1,7 +1,6 @@
 package assignment;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.*;
 
 import javafx.event.ActionEvent;
@@ -50,6 +49,19 @@ public class PropertiesController extends DashboardController implements DateFor
 	
 	@FXML
 	private ComboBox<String> pptyAvailability;
+	@FXML
+	private ComboBox<String> pptyPrice; 
+	@FXML
+	private ComboBox<String> pptyDate; 
+	@FXML
+	private ComboBox<String> pptyBedrooms;
+	@FXML
+	private ComboBox<String> pptyBathrooms;
+	@FXML
+	private ComboBox<String> pptyPostcode;
+	@FXML
+	private Text tableCount;
+	
 	
 	@FXML
 	private Pane editPptyDetails;
@@ -64,25 +76,40 @@ public class PropertiesController extends DashboardController implements DateFor
 	@FXML
 	private TextField editBathrooms;
 	
+	
+	
 	private LandmarkList lList;
 	private PropertyList pList;
 	private Property currPpty;
 	
-	private String selectedPptyAvailability = "All Properties";
-	private String selectedFurnishing = null;
-	    
+	private String selectedPptyAvailability;
 	
+	private String sortOption = null;
+	  
 
 	
 	public void initialize() throws ClassNotFoundException, IOException {
-		pptyAvailability.getItems().addAll("All Properties", "Rented", "Available");
-		editFurnishing.getItems().addAll("Unfurnished", "Semi-furnished", "Furnished");
-		
 		pList = DataHandler.readPropertyList();
 		Property.setLastPropertyIndex(pList.getProperties().size());
 	      
-	      lList = DataHandler.readLandmarkList();
-	      Landmark.setLastIndex(lList.getLandmarks().size());
+	    lList = DataHandler.readLandmarkList();
+	    Landmark.setLastIndex(lList.getLandmarks().size());
+	    
+		pptyAvailability.getItems().addAll("Rented", "Available", "All Properties");
+		editFurnishing.getItems().addAll("Unfurnished", "Semi-furnished", "Furnished");
+		
+		pptyPrice.getItems().addAll("Low to High", "High to Low");
+		pptyDate.getItems().addAll("Most Recent", "Earliest");
+		pptyBedrooms.getItems().addAll("1", "2", "3+");
+		pptyBathrooms.getItems().addAll("1", "2", "3+");
+		
+		HashMap<String,String> postcodeMap = new HashMap<String,String>();  
+		for (String key: pList.getKeys()) {
+			String pptyPostcode = pList.getProperties().get(key).getPostcode();
+			postcodeMap.put(pptyPostcode.split(" ")[0], pptyPostcode.split(" ")[0]);
+		}
+		pptyPostcode.getItems().addAll(postcodeMap.keySet());
+		
 	         
     	  
     	  if(pList.getProperties().size() == 0) {
@@ -97,18 +124,20 @@ public class PropertiesController extends DashboardController implements DateFor
     		  optionsWrapper.setVisible(true);
     		  headerWrapper.setVisible(true); 		  
     		  
-    		  populateList(pList); 
-    		    		  
+    		  populateList(pList);	    		  
     	  }
     	  
     	  //ensures the other side showing the details only shows empty on load
     	  emptyDetailsPane.setVisible(true);
     	  pptyDetailsPane.setVisible(false);
-  	   	  
-    	  
+  	    	  
+    	  System.out.println(pptyPrice.getValue());
+
   }
 	
 	private void populateList(PropertyList pList) {
+		tableCount.setText("List count: " + pList.getProperties().size());
+		
 		for(int i = 0; i < pList.getProperties().size(); i++) {
 			Text pptyCode = new Text();
 			Text pptyDateListed = new Text();
@@ -172,21 +201,9 @@ public class PropertiesController extends DashboardController implements DateFor
 		pptyTitle.setText(currPpty.getFurnishedStatus() + " " + currPpty.getType());
 		pptyDetailsArea.setText(Property.getPropertyDetails(currPpty));
 		
-		String pptyPostCode = currPpty.getPostcode().split(" ")[0];
 		List<Landmark> allLandmarks = lList.getLandmarks();
+		pptyDetailsArea.appendText(Property.getLandmarksProximity(currPpty, allLandmarks));
 		
-		pptyDetailsArea.appendText("\n\n ---- Proximity to Landmarks in " + pptyPostCode + " ----\n");
-
-		for(int i = 0; i < Landmark.getLastIndex(); i++) {
-			String landmarkCode = allLandmarks.get(i).getPostcode().split(" ")[0];
-			if(pptyPostCode.equals(landmarkCode)) {
-				pptyDetailsArea.appendText(allLandmarks.get(i).getName() + ": " + dpFormatter.format(
-						DistanceCalculator.getDistance(currPpty.getLatitude(), currPpty.getLongitude(), allLandmarks.get(i).getLatitude(), 
-								allLandmarks.get(i).getLongitude(), "K")) + "km\n"
-				);
-				
-			};
-		}
 		pptyDetailsArea.setEditable(false);		
     }
 	
@@ -194,49 +211,100 @@ public class PropertiesController extends DashboardController implements DateFor
 	public void selectAvailabilityListener() {
 		selectedPptyAvailability = pptyAvailability.getValue();
 		
-		//how to clear the gridPane replace with the new values and still retain the grid lines????
+		clearTable();
 		
+		populateList(PropertyActions.filterPropertiesByRentalStatus(pList, selectedPptyAvailability)); 
+		
+		
+		//reset other options
+//		pptyAvailability.setValue(null);
+//		pptyAvailability.setPromptText("All Properties");
+//		pptyBedrooms.setValue("0");
+//		pptyBedrooms.setPromptText("Bedrooms");
+//		pptyBathrooms.setValue("0");
+//		pptyBathrooms.setPromptText("Bathrooms");
+//		pptyPrice.setValue(null);
+//		pptyDate.setPromptText("");
+//		pptyPostcode.setPromptText("");
+	}
+	
+	public void selectPriceListener() {
+		String option = pptyPrice.getValue();
+		if(option == "Low to High") {
+			sortOption = "ASC";
+		} else {
+			sortOption = "DESC";
+		}
+		clearTable();
+		
+		populateList(PropertyActions.sortPropertiesByPrice(pList, sortOption));
+		
+	}
+	
+	public void selectDateListedListener() {
+		String option = pptyDate.getValue();
+		if(option == "Earliest") {
+			sortOption = "ASC";
+		} else {
+			sortOption = "DESC";
+		}
+		clearTable();
+		
+		populateList(PropertyActions.sortPropertiesByDate(pList, sortOption));
+		
+	}
+	
+	public void selectBedroomsListener() {
+
+		int num = 0;
+		String option = pptyBedrooms.getValue();
+		if(option == "3+") {
+			num = 3;
+		} else {
+			num = Integer.parseInt(option);
+		}
+		clearTable();
+		
+		populateList(PropertyActions.filterPropertiesByBedrooms(pList, num));
+		
+	}
+	
+	public void selectBathroomsListener() {
+		int num = 0;
+		String option = pptyBathrooms.getValue();
+		if(option == "3+") {
+			num = 3;
+		} else {
+			num = Integer.parseInt(option);
+		}
+		clearTable();
+		
+		populateList(PropertyActions.filterPropertiesByBathrooms(pList, num));
+		
+	}
+	
+	public void selectPostcodeListener() {
+		String postcode = pptyPostcode.getValue();
+
+		clearTable();
+		
+		populateList(PropertyActions.filterPropertiesByPostcode(pList, postcode));
+		
+	}
+	
+	
+	private void clearTable() {
+		//how to still retain the grid lines after replacing with new ppty list????
+
 		// REFERENCED CODE -START
 		pptiesWrapper.getChildren().clear();
 		while(pptiesWrapper.getRowConstraints().size() > 0){
 			pptiesWrapper.getRowConstraints().remove(0);
 		}
 		// STOP
-		
-		populateList(filterProperties()); 
-		
-		System.out.println(pList.getProperties().size());
 	}
 	
-	private PropertyList filterProperties() {
-		PropertyList pListToShow = new PropertyList();
-		System.out.println(selectedPptyAvailability);
-		
-		if(selectedPptyAvailability.equals("Rented")) {
-			pList.getKeys().forEach(key -> {
-				if(pList.getProperties().get(key).getRentalStatus()) {
-			    	Property availablePpty = pList.getProperties().get(key);		    	
-			    	pListToShow.addProperty(availablePpty);
-			    }
-			});
-			System.out.println(pListToShow.getProperties().size());
-		} 
-		else if (selectedPptyAvailability.equals("Available")) {
-			pList.getKeys().forEach(key -> {
-				if(!pList.getProperties().get(key).getRentalStatus()) {
-			    	Property availablePpty = pList.getProperties().get(key);		    	
-			    	pListToShow.addProperty(availablePpty);
-			    }
-			});
-			System.out.println(pListToShow.getProperties().size());
-		}
-		else {
-			pListToShow.setPropertyList(pList);
-			System.out.println(pListToShow.getProperties().size());
-		}
-		  
-		return pListToShow;
-	}
+	
 	
 	public void openEditViewListener() throws ClassNotFoundException, IOException {
 		editPptyDetails.setVisible(true);
@@ -249,11 +317,6 @@ public class PropertiesController extends DashboardController implements DateFor
 		editBathrooms.setText(Integer.toString(currPpty.getBathrooms()));
 	}
 	
-	public void selectFurnishingStatusListener() {
-//		selectedFurnishing = editFurnishing.valueProperty().getValue();
-		selectedFurnishing = editFurnishing.getValue();
-		System.out.println(selectedFurnishing);
-	}
 	
 	public void goBackToDetailsViewListener() throws ClassNotFoundException, IOException {
 		editPptyDetails.setVisible(false);
@@ -322,8 +385,17 @@ public class PropertiesController extends DashboardController implements DateFor
 			}
 		}
 	}
+	
+	
+
+
+
 }
 
 
+
+
+//sorting objects low to high: https://stackoverflow.com/questions/5805602/how-to-sort-list-of-objects-by-some-property
+//Reverse sorting objects: https://www.benchresources.net/java-8-comparator-comparing-method-for-custom-reverse-sorting/
 
 

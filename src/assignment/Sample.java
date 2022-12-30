@@ -49,5 +49,16 @@ public class Sample {
 			System.out.println(e.toString());
 		}
 	} 
+	
+	public void calcLatLong(String postCode) {
+		final Geocoder geocoder = new Geocoder();
+		GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(postCode).getGeocoderRequest();
+		GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
+		List results = geocoderResponse.getResults();
+		System.out.println("results :  "+results); //This will print geographical information
+		float latitude = results.get(0).getGeometry().getLocation().getLat().floatValue();
+		float longitude = results.get(0).getGeometry().getLocation().getLng().floatValue();
+		System.out.println("Lat/Long :  " + latitude +" , "+longitude);
+	}
 
 }

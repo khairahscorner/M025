@@ -14,8 +14,8 @@ public class RentalInvoice implements Invoice, DateFormatter {
 		
 		Property rentalPpty = r.getRentalPpty();
 		
-		getNoOfMonths(r.getRentDate(), r.getDueDate());
-		getTotalRent(r.getRentDate(), r.getDueDate(), rentalPpty.getRentPerMonth());
+		setNoOfMonths(r.getRentDate(), r.getDueDate());
+		setTotalRent(r.getRentDate(), r.getDueDate(), rentalPpty.getRentPerMonth());
 	}
 	
 	
@@ -40,13 +40,13 @@ public class RentalInvoice implements Invoice, DateFormatter {
 		return str;
 	}
 	
-	private void getNoOfMonths(LocalDate startDate, LocalDate endDate) {
+	private void setNoOfMonths(LocalDate startDate, LocalDate endDate) {
 		//convert the days to months and round up the months - 28 days per month;
 		double noOfDays = ChronoUnit.DAYS.between(startDate, endDate);
 		rentMonths = Math.round(noOfDays/28);
 	}
 	
-	private void getTotalRent(LocalDate startDate, LocalDate endDate, double rentPerMonth) {		
+	private void setTotalRent(LocalDate startDate, LocalDate endDate, double rentPerMonth) {		
 		double rentDue = rentMonths * rentPerMonth;		
 		totalRent = Double.parseDouble(dpFormatter.format(rentDue));	
 	}
