@@ -22,7 +22,8 @@
    <children>
       <Pane fx:id="headingWrapper" layoutX="101.0" prefHeight="45.0" prefWidth="985.0">
          <children>
-            <Label fx:id="headingLabel" layoutX="453.0" layoutY="19.0" text="All Properties" />
+            <Label fx:id="headingLabel" alignment="CENTER" layoutX="366.0" layoutY="3.0" prefHeight="39.0" prefWidth="253.0" text="All Properties" />
+            <Button fx:id="addNewBtn" layoutX="20.0" layoutY="13.0" mnemonicParsing="false" onAction="#goToAddPropertyListener" prefHeight="25.0" prefWidth="73.0" text="Add New" />
          </children>
       </Pane>
       <Pane fx:id="menu" prefHeight="705.0" prefWidth="101.0">

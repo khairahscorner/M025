@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 
 
-public class ImportData implements DateFormatter {
+public class ImportData implements DataFormatter {
 	private PropertyList pList;
 	private CustomerList cList;
 	private LandmarkList lList;

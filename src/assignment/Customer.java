@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 
-public class Customer implements Serializable, DateFormatter {
+public class Customer implements Serializable, DataFormatter {
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private String email;

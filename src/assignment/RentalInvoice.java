@@ -3,7 +3,7 @@ package assignment;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
-public class RentalInvoice implements Invoice, DateFormatter {
+public class RentalInvoice implements Invoice, DataFormatter {
 	
 	private long rentMonths;
 	private double totalRent;

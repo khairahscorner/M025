@@ -15,7 +15,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
 
-public class RentalsController extends DashboardController implements DateFormatter {
+public class RentalsController extends DashboardController implements DataFormatter {
 
 	@FXML
 	private ComboBox<String> availableProperties;
@@ -222,7 +222,7 @@ public class RentalsController extends DashboardController implements DateFormat
     	rentalPptyDetails.setText("-- Property Details at Rental --\n");
     	rentalPptyDetails.appendText(Property.getPropertyDetails(p) + "\n");
     	
-    	rentalCustomerDetails.setText("----- Customer Details ------\n");
+    	rentalCustomerDetails.setText("--- Customer Details at Rental ---\n");
     	rentalCustomerDetails.appendText(c.toString());
     	
 	}

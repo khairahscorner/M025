@@ -6,5 +6,6 @@
 build.fxbuild
 
 *.dat
+.DS_Store
 Bin/
 /bin/

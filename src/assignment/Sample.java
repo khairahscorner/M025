@@ -5,8 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
+//import com.google.maps.GeoApiContext;
+//import com.google.maps.GeocodingApi;
+//import com.google.maps.errors.ApiException;
+//import com.google.maps.model.GeocodingResult;
+//import com.google.maps.model.ComponentFilter;
 
-public class Sample {
+
+public class Sample implements DataFormatter {
 	private static final Properties fileNames = new Properties();
 
 	public static void initialise() throws FileNotFoundException, IOException {
@@ -16,7 +22,7 @@ public class Sample {
 	
 	public static void main(String[] args) throws ClassNotFoundException, IOException {
 		try {
-			initialise();
+//			initialise();
 		
 			//Properties
 //			ImportData da = new ImportData("/Users/airah/Desktop/JavaAssignmentFiles/House_Rent_Dataset.csv", "property");
@@ -50,15 +56,15 @@ public class Sample {
 		}
 	} 
 	
-	public void calcLatLong(String postCode) {
-		final Geocoder geocoder = new Geocoder();
-		GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().setAddress(postCode).getGeocoderRequest();
-		GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
-		List results = geocoderResponse.getResults();
-		System.out.println("results :  "+results); //This will print geographical information
-		float latitude = results.get(0).getGeometry().getLocation().getLat().floatValue();
-		float longitude = results.get(0).getGeometry().getLocation().getLng().floatValue();
-		System.out.println("Lat/Long :  " + latitude +" , "+longitude);
+	public static void calcLatLong(String postCode) throws IOException, InterruptedException {
+		
+		//use your google api key to create a GeoApiContext instance
+		
+//		GeoApiContext context = new GeoApiContext.Builder().apiKey("AIzaSyD4tGRs_MmWBuSmSuShgNmO_Swew5XU2mw").build();
+//
+//		//this will get geolocation details via zip 
+//		GeocodingResult[]results = GeocodingApi.newRequest(context).components(ComponentFilter.postalCode(postCode)).await(); 
+//		System.out.println(results[0]);
 	}
 
 }

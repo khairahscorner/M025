@@ -1,6 +1,6 @@
 package assignment;
 
-public class TenancyEndInvoice implements Invoice, DateFormatter {
+public class TenancyEndInvoice implements Invoice, DataFormatter {
 	
 	private double deductions;
 	private Rental rentalDetails;

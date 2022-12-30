@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 
-public class Rental implements Serializable, DateFormatter {
+public class Rental implements Serializable, DataFormatter {
 	private static final long serialVersionUID = 1L;
 	
 	private Property ppty;

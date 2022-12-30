@@ -15,7 +15,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
 
-public class CustomersController extends DashboardController implements DateFormatter {
+public class CustomersController extends DashboardController implements DataFormatter {
 	@FXML
 	private AnchorPane customerForm;
 	@FXML

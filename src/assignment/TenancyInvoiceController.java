@@ -10,7 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.*;
 
 
-public class TenancyInvoiceController extends DashboardController implements DateFormatter {
+public class TenancyInvoiceController extends DashboardController implements DataFormatter {
 
 	@FXML
 	private ComboBox<String> rentalProperties;
@@ -53,6 +53,14 @@ public class TenancyInvoiceController extends DashboardController implements Dat
 		Alert alert = new Alert(AlertType.NONE);
 		Rental currRental = rList.getRentals().get(selectedRentalId);				
 		
+		if(selectedRentalId == null) {
+			alert.setAlertType(AlertType.ERROR);
+            alert.setTitle("Error generating invoice");
+            alert.setContentText("Please select a rental property");
+            alert.show();
+            return;
+		}
+		
 		try {
 			convertedDeduction = Double.parseDouble(deductions.getText());
 		} catch(Exception error) {
@@ -63,12 +71,8 @@ public class TenancyInvoiceController extends DashboardController implements Dat
             return;
 		}
 		
-		if(selectedRentalId == null) {
-			alert.setAlertType(AlertType.ERROR);
-            alert.setTitle("Error generating invoice");
-            alert.setContentText("Please select a rental property");
-            alert.show();
-		} else if (convertedDeduction < 0) {
+		
+		if (convertedDeduction < 0) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error generating invoice");
             alert.setContentText("Please enter a positive value to deduct");

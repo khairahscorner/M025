@@ -2,7 +2,7 @@ package assignment;
 
 import java.io.Serializable;
 
-public class Admin implements Serializable, DateFormatter {
+public class Admin implements Serializable, DataFormatter {
 	private static final long serialVersionUID = 1L;
 	private String username;
 	private String password;

@@ -6,19 +6,26 @@ import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
+import javafx.stage.Stage;
 
-public class PropertiesController extends DashboardController implements DateFormatter {
+public class PropertiesController extends DashboardController implements DataFormatter {
 	
 	@FXML
 	private Pane optionsWrapper;
 	@FXML
 	private GridPane headerWrapper;	
+	@FXML
+	private Button addNewBtn;
 	
 	
 	@FXML
@@ -84,6 +91,7 @@ public class PropertiesController extends DashboardController implements DateFor
 	
 	private String selectedPptyAvailability;
 	
+	private String defaultDateSort = "Most Recent";
 	private String sortOption = null;
 	  
 
@@ -110,8 +118,7 @@ public class PropertiesController extends DashboardController implements DateFor
 		}
 		pptyPostcode.getItems().addAll(postcodeMap.keySet());
 		
-	         
-    	  
+	           
     	  if(pList.getProperties().size() == 0) {
     		  emptyPptyList.setVisible(true);
     		  pptiesWrapper.setVisible(false);
@@ -124,15 +131,16 @@ public class PropertiesController extends DashboardController implements DateFor
     		  optionsWrapper.setVisible(true);
     		  headerWrapper.setVisible(true); 		  
     		  
-    		  populateList(pList);	    		  
+    		  //Default to most recent
+    		  pptyDate.setValue(defaultDateSort);
+    		  populateList(PropertyActions.sortPropertiesByDate(pList, "DESC"));
+//    		  populateList(pList);
     	  }
     	  
     	  //ensures the other side showing the details only shows empty on load
     	  emptyDetailsPane.setVisible(true);
     	  pptyDetailsPane.setVisible(false);
-  	    	  
-    	  System.out.println(pptyPrice.getValue());
-
+  	    
   }
 	
 	private void populateList(PropertyList pList) {
@@ -176,6 +184,19 @@ public class PropertiesController extends DashboardController implements DateFor
 			GridPane.setMargin(viewBtn, new Insets(5));
 		}
 	}
+	
+	public void goToAddPropertyListener(ActionEvent e) throws IOException {
+		Parent parent = FXMLLoader.load(getClass().getResource("PropertyCreate.fxml")); 
+	      
+	    Scene scene = new Scene(parent); 
+	    scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+	
+	    Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+	    stage.setTitle("Add Property - CSYM025 Lettings"); 
+	    stage.setScene(scene);
+	    stage.show(); 
+	}
+	
 	
 	private void viewPropertyDetailsListener(String currPptyId) {
 		emptyDetailsPane.setVisible(false);
@@ -385,17 +406,9 @@ public class PropertiesController extends DashboardController implements DateFor
 			}
 		}
 	}
-	
-	
-
-
 
 }
 
 
-
-
-//sorting objects low to high: https://stackoverflow.com/questions/5805602/how-to-sort-list-of-objects-by-some-property
-//Reverse sorting objects: https://www.benchresources.net/java-8-comparator-comparing-method-for-custom-reverse-sorting/
 
 

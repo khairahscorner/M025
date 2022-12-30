@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Property implements Serializable, DateFormatter {
+public class Property implements Serializable, DataFormatter {
 	private static final long serialVersionUID = 1L; //default fix from compiler
 	
 	private String propertyId;
