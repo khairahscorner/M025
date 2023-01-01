@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.shape.Line?>
 
-<AnchorPane prefHeight="340.0" prefWidth="693.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignment.DashboardController">
+<AnchorPane prefHeight="387.0" prefWidth="842.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignment.DashboardController">
    <children>
-      <Pane fx:id="headingWrapper" layoutX="101.0" prefHeight="36.0" prefWidth="591.0">
+      <Pane fx:id="headingWrapper" layoutX="101.0" prefHeight="36.0" prefWidth="763.0">
          <children>
-            <Label fx:id="headingLabel" layoutX="264.0" layoutY="10.0" text="SUMMARY" />
+            <Label fx:id="headingLabel" alignment="CENTER" layoutX="317.0" layoutY="2.0" prefHeight="32.0" prefWidth="130.0" text="SUMMARY" />
          </children>
       </Pane>
       <Pane fx:id="menu" prefHeight="366.0" prefWidth="101.0">
@@ -35,15 +35,13 @@
                   <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button fx:id="logoutBtn" graphicTextGap="0.0" mnemonicParsing="false" onAction="#goToAppStartListener" prefHeight="40.0" prefWidth="107.0" text="Log Out" GridPane.rowIndex="5">
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin></Button>
                   <Button fx:id="invoiceBtn" graphicTextGap="0.0" mnemonicParsing="false" onAction="#goToInvoicesListener" prefHeight="40.0" prefWidth="107.0" text="Invoices" GridPane.rowIndex="4" />
                   <Button fx:id="rentalBtn" graphicTextGap="0.0" mnemonicParsing="false" onAction="#goToRentalsListener" prefHeight="40.0" prefWidth="107.0" text="Rentals" GridPane.rowIndex="3" />
                   <Button fx:id="customerBtn" graphicTextGap="0.0" mnemonicParsing="false" onAction="#goToCustomersListener" prefHeight="40.0" prefWidth="107.0" text="Customers" GridPane.rowIndex="2" />
                   <Button fx:id="pptyBtn" graphicTextGap="0.0" mnemonicParsing="false" onAction="#goToPropertiesListener" prefHeight="40.0" prefWidth="107.0" text="Properties" GridPane.rowIndex="1" />
                   <Button fx:id="dashboardBtn" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="107.0" text="Dashboard" />
+                  <Button fx:id="landmarksBtn" graphicTextGap="0.0" mnemonicParsing="false" onAction="#goToLandmarksListener" prefHeight="40.0" prefWidth="107.0" text="Landmarks" GridPane.rowIndex="5" />
+                  <Button fx:id="logoutBtn" graphicTextGap="0.0" mnemonicParsing="false" onAction="#goToAppStartListener" prefHeight="40.0" prefWidth="107.0" text="Log Out" GridPane.rowIndex="6" />
                </children>
                <padding>
                   <Insets right="2.0" />
@@ -56,24 +54,30 @@
             </Label>
          </children>
       </Pane>
-      <TilePane fx:id="cardsWrapper" hgap="20.0" layoutX="101.0" layoutY="36.0" prefHeight="140.0" prefWidth="581.0" stylesheets="@styles.css" vgap="10.0">
+      <TilePane fx:id="cardsWrapper" hgap="20.0" layoutX="101.0" layoutY="36.0" prefHeight="125.0" prefWidth="764.0" stylesheets="@styles.css" vgap="10.0">
          <children>
             <Pane id="pane1" fx:id="dashboardCard1" prefHeight="89.0" prefWidth="168.0" styleClass="pane">
                <children>
-                  <Label fx:id="propertyCount" layoutX="53.0" layoutY="36.0" prefHeight="40.0" prefWidth="62.0" textAlignment="CENTER" textFill="#653737" />
+                  <Label fx:id="propertyCount" alignment="CENTER" layoutX="53.0" layoutY="36.0" prefHeight="40.0" prefWidth="62.0" textAlignment="CENTER" textFill="#653737" />
                   <Label alignment="CENTER" layoutX="30.0" prefHeight="36.0" prefWidth="109.0" text="Properties" />
                </children>
             </Pane>
             <Pane id="pane2" prefHeight="89.0" prefWidth="150.0" styleClass="pane">
                <children>
                   <Label alignment="CENTER" layoutX="30.0" prefHeight="36.0" prefWidth="109.0" text="Customers" />
-                  <Label fx:id="customerCount" layoutX="53.0" layoutY="36.0" prefHeight="40.0" prefWidth="62.0" textAlignment="CENTER" textFill="#653737" />
+                  <Label fx:id="customerCount" alignment="CENTER" layoutX="53.0" layoutY="36.0" prefHeight="40.0" prefWidth="62.0" textAlignment="CENTER" textFill="#653737" />
                </children>
             </Pane>
             <Pane id="pane3" fx:id="dashboardCard3" prefHeight="89.0" prefWidth="168.0" styleClass="pane">
                <children>
-                  <Label fx:id="rentalCount" layoutX="53.0" layoutY="36.0" prefHeight="40.0" prefWidth="62.0" textAlignment="CENTER" textFill="#653737" />
+                  <Label fx:id="rentalCount" alignment="CENTER" layoutX="53.0" layoutY="36.0" prefHeight="40.0" prefWidth="62.0" textAlignment="CENTER" textFill="#653737" />
                   <Label alignment="CENTER" layoutX="30.0" prefHeight="36.0" prefWidth="109.0" text="Rentals" />
+               </children>
+            </Pane>
+            <Pane id="pane3" fx:id="dashboardCard4" prefHeight="89.0" prefWidth="168.0" styleClass="pane">
+               <children>
+                  <Label fx:id="landmarkCount" alignment="CENTER" layoutX="53.0" layoutY="36.0" prefHeight="40.0" prefWidth="62.0" textAlignment="CENTER" textFill="#653737" />
+                  <Label alignment="CENTER" layoutX="30.0" prefHeight="36.0" prefWidth="109.0" text="Landmarks" />
                </children>
             </Pane>
          </children>
@@ -81,15 +85,30 @@
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </padding>
       </TilePane>
-      <Pane layoutX="116.0" layoutY="176.0" prefHeight="211.0" prefWidth="546.0">
+      <Pane layoutX="116.0" layoutY="176.0" prefHeight="211.0" prefWidth="734.0">
          <children>
-            <Button fx:id="selectFile" layoutX="234.0" layoutY="106.0" mnemonicParsing="false" onAction="#filePickerListener" prefHeight="26.0" prefWidth="120.0" text="select file...." />
-            <Line endX="443.0" layoutX="101.0" startX="-100.0" />
-            <Label fx:id="headingLabel1" alignment="CENTER" layoutX="214.0" layoutY="14.0" prefHeight="17.0" prefWidth="101.0" text="IMPORT DATA" textAlignment="CENTER" />
-            <Label layoutX="172.0" layoutY="61.0" prefHeight="17.0" prefWidth="50.0" text="Type: " />
-            <Label layoutX="172.0" layoutY="111.0" text="Choose:" />
-            <ComboBox fx:id="selectImportType" layoutX="234.0" layoutY="56.0" onAction="#selectImportTypeListener" prefHeight="26.0" prefWidth="120.0" promptText="select type..." />
-            <Button fx:id="importBtn" layoutX="214.0" layoutY="158.0" mnemonicParsing="false" onAction="#importDataListener" prefHeight="36.0" prefWidth="101.0" text="Submit" />
+            <Line endX="633.0" layoutX="101.0" startX="-100.0" />
+            <Label fx:id="headingLabel1" alignment="CENTER" layoutX="255.0" layoutY="4.0" prefHeight="45.0" prefWidth="209.0" text="IMPORT DATA" textAlignment="CENTER" />
+            <Button fx:id="importBtn" layoutX="309.0" layoutY="159.0" mnemonicParsing="false" onAction="#importDataListener" prefHeight="36.0" prefWidth="101.0" text="Submit" />
+            <GridPane layoutX="244.0" layoutY="59.0" prefHeight="80.0" prefWidth="216.0" vgap="20.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="122.18463134765625" minWidth="10.0" prefWidth="87.38006591796875" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="151.261474609375" minWidth="10.0" prefWidth="141.11993408203125" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label prefHeight="64.0" prefWidth="117.0" text="Type: " />
+                  <Label prefHeight="81.0" prefWidth="145.0" text="Choose:" GridPane.rowIndex="1" />
+                  <Button fx:id="selectFile" mnemonicParsing="false" onAction="#filePickerListener" prefHeight="63.0" prefWidth="158.0" text="select file...." GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="selectImportType" onAction="#selectImportTypeListener" prefHeight="48.0" prefWidth="146.0" promptText="select type..." GridPane.columnIndex="1" />
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </GridPane>
          </children>
       </Pane>
    </children>

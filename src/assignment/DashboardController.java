@@ -22,13 +22,13 @@ public class DashboardController {
     private Button  loginButton;
 
     @FXML
-    private Label propertyCount;
-    
+    private Label propertyCount; 
     @FXML
-    private Label rentalCount;
-    
+    private Label rentalCount; 
     @FXML
     private Label customerCount;
+    @FXML
+    private Label landmarkCount;
       
     @FXML
     private Button selectFile;
@@ -42,6 +42,7 @@ public class DashboardController {
     private PropertyList pList;
     private CustomerList cList;
     private RentalList rList;
+    private LandmarkList lList;
     
     private String selectedFilePathToImport;
     private String selectedFileTypeToImport;
@@ -57,11 +58,16 @@ public class DashboardController {
 	      
 	      rList = DataHandler.readRentalList();
 	      Rental.setLastRentalIndex(rList.getRentals().size());
+	      
+	      lList = DataHandler.readLandmarkList();
+	      Landmark.setLastIndex(lList.getLandmarks().size());
+	      
 	      	      
 	      //initial things to run here
 	      propertyCount.setText(Integer.toString(pList.getProperties().size()));
 	      customerCount.setText(Integer.toString(cList.getCustomers().size()));
 	      rentalCount.setText(Integer.toString(rList.getRentals().size()));
+	      landmarkCount.setText(Integer.toString(lList.getLandmarks().size()));
 	      
 	      //set values for dropbox
 	      for (String option: importOptions) {
@@ -155,6 +161,20 @@ public class DashboardController {
 	      Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	      // Display our window, using the scene graph.
 	      stage.setTitle("Invoices - CSYM025 Lettings"); 
+	      stage.setScene(scene);
+	      stage.show(); 
+    }
+    
+    public void goToLandmarksListener(ActionEvent e) throws IOException {
+    	Parent parent = FXMLLoader.load(getClass().getResource("Landmarks.fxml")); 
+	      
+	      // Build the scene graph.
+	      Scene scene = new Scene(parent); 
+	      scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+	
+	      Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+	      // Display our window, using the scene graph.
+	      stage.setTitle("Landmarks - CSYM025 Lettings"); 
 	      stage.setScene(scene);
 	      stage.show(); 
     }

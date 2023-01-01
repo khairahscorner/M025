@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
@@ -15,14 +14,14 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="scene1" prefHeight="635.0" prefWidth="1002.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignment.CustomersController">
+<AnchorPane fx:id="scene1" prefHeight="586.0" prefWidth="895.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignment.LandmarksController">
    <children>
       <Pane fx:id="headingWrapper" layoutX="101.0" prefHeight="45.0" prefWidth="777.0">
          <children>
-            <Label fx:id="headingLabel" layoutX="353.0" layoutY="14.0" text="All Customers" />
+            <Label fx:id="headingLabel" alignment="CENTER" layoutX="201.0" layoutY="3.0" prefHeight="39.0" prefWidth="362.0" text="Landmarks (Places of Interest)" textAlignment="CENTER" />
          </children>
       </Pane>
-      <Pane fx:id="menu" prefHeight="650.0" prefWidth="101.0">
+      <Pane fx:id="menu" prefHeight="578.0" prefWidth="101.0">
          <children>
             <GridPane fx:id="dashboardItem" layoutY="37.0" prefHeight="275.0" prefWidth="101.0">
               <columnConstraints>
@@ -57,21 +56,19 @@
             </Label>
          </children>
       </Pane>
-      <SplitPane dividerPositions="0.7023391812865497" layoutX="119.0" layoutY="64.0" prefHeight="567.0" prefWidth="857.0">
+      <SplitPane dividerPositions="0.6655759162303665" layoutX="119.0" layoutY="64.0" prefHeight="515.0" prefWidth="766.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="528.0" prefWidth="450.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="522.0" prefWidth="505.0">
                <children>
-                  <ScrollPane prefHeight="569.0" prefWidth="597.0">
+                  <ScrollPane prefHeight="508.0" prefWidth="501.0">
                     <content>
-                      <AnchorPane fx:id="customersWrapper" minHeight="0.0" minWidth="0.0" prefHeight="552.0" prefWidth="589.0">
+                      <AnchorPane fx:id="landmarksWrapper" minHeight="0.0" minWidth="0.0" prefHeight="503.0" prefWidth="484.0">
                            <children>
-                              <GridPane fx:id="allCustomers" gridLinesVisible="true" prefHeight="50.0" prefWidth="581.0">
+                              <GridPane fx:id="allLandmarks" gridLinesVisible="true" prefHeight="50.0" prefWidth="480.0">
                                 <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="141.0256805419922" minWidth="10.0" prefWidth="135.5" />
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="205.5" minWidth="10.0" prefWidth="171.5" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="159.0" minWidth="10.0" prefWidth="115.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="114.5" minWidth="10.0" prefWidth="84.5" />
-                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="114.5" minWidth="10.0" prefWidth="69.5" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="257.23126220703125" minWidth="10.0" prefWidth="254.67462158203125" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="205.5" minWidth="10.0" prefWidth="101.50479125976562" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="205.25994873046875" minWidth="10.0" prefWidth="105.49520874023438" />
                                 </columnConstraints>
                                 <rowConstraints>
                                   <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
@@ -80,7 +77,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
                                  <children>
-                                    <Label fx:id="nameHeader" prefHeight="35.0" prefWidth="126.0" text="Name">
+                                    <Label fx:id="nameHeader" prefHeight="66.0" prefWidth="267.0" text="Name">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -91,28 +88,12 @@
                                           <Insets />
                                        </GridPane.margin>
                                     </Label>
-                                    <Label prefHeight="40.0" prefWidth="55.0" text="Action" GridPane.columnIndex="4">
+                                    <Label prefHeight="40.0" prefWidth="122.0" text="Action" GridPane.columnIndex="2">
                                        <padding>
                                           <Insets left="5.0" right="5.0" />
                                        </padding>
                                     </Label>
-                                    <Label fx:id="emailHeader" prefHeight="35.0" prefWidth="190.0" text="Email" GridPane.columnIndex="1">
-                                       <opaqueInsets>
-                                          <Insets />
-                                       </opaqueInsets>
-                                       <padding>
-                                          <Insets left="5.0" />
-                                       </padding>
-                                    </Label>
-                                    <Label fx:id="phoneHeader" prefHeight="35.0" prefWidth="112.0" text="Phone" GridPane.columnIndex="2">
-                                       <opaqueInsets>
-                                          <Insets />
-                                       </opaqueInsets>
-                                       <padding>
-                                          <Insets left="5.0" />
-                                       </padding>
-                                    </Label>
-                                    <Label fx:id="dobHeader" prefHeight="35.0" prefWidth="105.0" text="BirthDate" GridPane.columnIndex="3">
+                                    <Label fx:id="postcodeHeader" prefHeight="46.0" prefWidth="105.0" text="Postcode" GridPane.columnIndex="1">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -129,32 +110,32 @@
                         </AnchorPane>
                     </content>
                   </ScrollPane>
-                  <Pane fx:id="emptyCustomerList" prefHeight="564.0" prefWidth="597.0">
+                  <Pane fx:id="emptyList" prefHeight="508.0" prefWidth="502.0">
                      <children>
-                        <Label fx:id="emptyListLabel" layoutX="203.0" layoutY="273.0" text="No Customers In The System" />
+                        <Label fx:id="emptyListLabel" layoutX="169.0" layoutY="246.0" text="No Landmarks In The System" />
                      </children>
                   </Pane>
                </children>
             </AnchorPane>
-          <AnchorPane fx:id="customerForm" minHeight="0.0" minWidth="0.0" prefHeight="565.0" prefWidth="253.0">
+          <AnchorPane fx:id="landmarkForm" minHeight="0.0" minWidth="0.0" prefHeight="513.0" prefWidth="280.0">
                <children>
-                  <Label fx:id="formHeading" alignment="CENTER" layoutX="53.0" layoutY="17.0" prefHeight="30.0" prefWidth="170.0" text="Add New Customer" textAlignment="CENTER">
+                  <Label fx:id="formHeading" alignment="CENTER" layoutX="53.0" layoutY="17.0" prefHeight="30.0" prefWidth="170.0" text="Add New Landmark" textAlignment="CENTER">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label layoutX="16.0" layoutY="73.0" prefHeight="14.0" prefWidth="53.0" text="Name:" />
+                  <Label layoutX="16.0" layoutY="73.0" prefHeight="17.0" prefWidth="114.0" text="Name:" />
                   <Line endX="105.0" layoutX="134.0" layoutY="60.0" startX="-125.713134765625" />
-                  <Label layoutX="16.0" layoutY="142.0" prefHeight="14.0" prefWidth="53.0" text="Email:" />
-                  <Label layoutX="15.0" layoutY="210.0" prefHeight="14.0" prefWidth="53.0" text="Phone:" />
-                  <Label layoutX="15.0" layoutY="282.0" prefHeight="17.0" prefWidth="85.0" text="Birth date:" />
-                  <TextField fx:id="name" layoutX="16.0" layoutY="92.0" prefHeight="38.0" prefWidth="217.0" promptText="Jane Doe" />
-                  <TextField fx:id="email" layoutX="16.0" layoutY="161.0" prefHeight="38.0" prefWidth="217.0" promptText="janedoe@gmail.com" />
-                  <TextField fx:id="phone" layoutX="16.0" layoutY="229.0" prefHeight="38.0" prefWidth="217.0" promptText="+44123456789" />
-                  <DatePicker fx:id="dob" layoutX="16.0" layoutY="307.0" prefHeight="38.0" prefWidth="217.0" promptText="01/01/2000" />
-                  <Button fx:id="updateDetails" layoutX="16.0" layoutY="374.0" mnemonicParsing="false" onAction="#updateCustomerBtnListener" prefHeight="38.0" prefWidth="71.0" text="Update" />
-                  <Button fx:id="addNewCustomer" layoutX="16.0" layoutY="374.0" mnemonicParsing="false" onAction="#addNewCustomerBtnListener" prefHeight="38.0" prefWidth="71.0" text="Submit" />
+                  <Label layoutX="16.0" layoutY="142.0" prefHeight="17.0" prefWidth="110.0" text="Postcode:" />
+                  <Label layoutX="15.0" layoutY="210.0" prefHeight="17.0" prefWidth="108.0" text="Longitude:" />
+                  <Label layoutX="15.0" layoutY="282.0" prefHeight="17.0" prefWidth="104.0" text="Latitude:" />
+                  <TextField fx:id="name" layoutX="16.0" layoutY="92.0" prefHeight="38.0" prefWidth="217.0" promptText="Bus Station" />
+                  <TextField fx:id="postcode" layoutX="16.0" layoutY="161.0" prefHeight="38.0" prefWidth="217.0" promptText="NN5 4JW" />
+                  <TextField fx:id="longitude" layoutX="16.0" layoutY="229.0" prefHeight="38.0" prefWidth="217.0" />
+                  <Button fx:id="updateDetails" layoutX="16.0" layoutY="374.0" mnemonicParsing="false" onAction="#updateLandmarkBtnListener" prefHeight="38.0" prefWidth="71.0" text="Update" />
+                  <Button fx:id="addNewLandmark" layoutX="16.0" layoutY="374.0" mnemonicParsing="false" onAction="#addNewLandmarkBtnListener" prefHeight="38.0" prefWidth="71.0" text="Submit" />
                   <Button fx:id="cancelEdit" layoutX="113.0" layoutY="374.0" mnemonicParsing="false" onAction="#cancelEditListener" prefHeight="38.0" prefWidth="85.0" text="Cancel" />
+                  <TextField fx:id="latitude" layoutX="16.0" layoutY="302.0" prefHeight="38.0" prefWidth="217.0" />
                </children>
             </AnchorPane>
         </items>

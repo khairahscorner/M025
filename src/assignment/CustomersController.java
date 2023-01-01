@@ -237,8 +237,6 @@ public class CustomersController extends DashboardController implements DataForm
 				currCustomer.setPhone(phone.getText());
 				currCustomer.setDOB(dob.getValue().format(dateFormatter));
 				
-				System.out.println(currCustomer.getCustId());
-				System.out.println(cList);
 				DataHandler.writeToFile(cList);
 				
 				alert.setAlertType(AlertType.INFORMATION);

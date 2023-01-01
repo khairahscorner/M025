@@ -35,6 +35,7 @@
                 <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Button fx:id="dashboardBtn" mnemonicParsing="false" onAction="#goToDashboardListener" prefHeight="47.0" prefWidth="102.0" text="Dashboard" />
@@ -42,7 +43,8 @@
                   <Button fx:id="customerBtn" mnemonicParsing="false" onAction="#goToCustomersListener" prefHeight="71.0" prefWidth="152.0" text="Customers" GridPane.rowIndex="2" />
                   <Button fx:id="rentalBtn" mnemonicParsing="false" onAction="#goToRentalsListener" prefHeight="71.0" prefWidth="152.0" text="Rentals" GridPane.rowIndex="3" />
                   <Button fx:id="invoiceBtn" mnemonicParsing="false" onAction="#goToInvoicesListener" prefHeight="71.0" prefWidth="152.0" text="Invoices" GridPane.rowIndex="4" />
-                  <Button fx:id="logoutBtn" mnemonicParsing="false" onAction="#goToAppStartListener" prefHeight="71.0" prefWidth="152.0" text="Log Out" GridPane.rowIndex="5" />
+                  <Button fx:id="logoutBtn" mnemonicParsing="false" onAction="#goToAppStartListener" prefHeight="71.0" prefWidth="152.0" text="Log Out" GridPane.rowIndex="6" />
+                  <Button fx:id="landmarksBtn" graphicTextGap="0.0" mnemonicParsing="false" onAction="#goToLandmarksListener" prefHeight="40.0" prefWidth="107.0" text="Landmarks" GridPane.rowIndex="5" />
                </children>
                <padding>
                   <Insets right="2.0" />
