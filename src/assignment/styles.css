@@ -76,7 +76,7 @@
 	-fx-font-size: 14px;
 }
 
-#importBtn, #addNewCustomer, #addNewRental, #generateInvoice, #submitEdit, #updateDetails, #addNewBtn, #submitBtn {
+#loginBtn, #importBtn, #addNew,  #generateInvoice, #submitEdit, #updateDetails, #submitBtn {
 	-fx-background-color: #3fa944;
 	-fx-text-fill: white;
 	-fx-border-color: #3fa944;

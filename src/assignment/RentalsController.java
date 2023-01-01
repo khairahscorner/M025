@@ -23,8 +23,6 @@ public class RentalsController extends DashboardController implements DataFormat
 	private ComboBox<String> availableCustomers;
 	@FXML
 	private DatePicker rentDueDate;
-	@FXML
-	private Button addNewRental;
 	
 	@FXML
 	private Property selectedProperty;

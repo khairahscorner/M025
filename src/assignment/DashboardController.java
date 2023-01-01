@@ -17,9 +17,6 @@ import javafx.stage.Stage;
 
 
 public class DashboardController {
-    
-    @FXML
-    private Button  loginButton;
 
     @FXML
     private Label propertyCount; 
@@ -29,13 +26,9 @@ public class DashboardController {
     private Label customerCount;
     @FXML
     private Label landmarkCount;
-      
-    @FXML
-    private Button selectFile;
+  
 	@FXML
 	private ComboBox<String> selectImportType;
-	@FXML
-    private Button importBtn;
     
     
     private String[] importOptions = {"property", "customer", "landmark"};

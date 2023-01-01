@@ -17,8 +17,6 @@ import javafx.scene.layout.GridPane;
 public class PropertyCreateController  extends DashboardController implements DataFormatter {
 	
 	@FXML
-	private GridPane createForm;	
-	@FXML
 	private Button submitBtn;
 	@FXML
 	private Button cancelBtn;

@@ -16,13 +16,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class AppStartController {
-    
-    @FXML
-    private Button  loginButton;
-    
+
     @FXML
     private TextField usernameField;
-    
     @FXML
     private PasswordField passwordField;
     

@@ -30,7 +30,7 @@ public class CustomersController extends DashboardController implements DataForm
 	@FXML
 	private DatePicker dob;
 	@FXML
-	private Button addNewCustomer;
+	private Button addNew;
 	
 	@FXML
 	private Label emptyListLabel;
@@ -38,8 +38,6 @@ public class CustomersController extends DashboardController implements DataForm
 	private GridPane allCustomers;
 	@FXML
 	private Pane emptyCustomerList;
-	@FXML
-	private AnchorPane customersWrapper;
 	
 	@FXML
 	private Button cancelEdit;
@@ -186,14 +184,14 @@ public class CustomersController extends DashboardController implements DataForm
     	phone.setText(currCustomer.getPhone());
     	dob.setValue(currCustomer.getDOB());
     	
-    	addNewCustomer.setVisible(false);
+    	addNew.setVisible(false);
     	cancelEdit.setVisible(true);
     	updateDetails.setVisible(true);
 	}
 	
 	
 	public void cancelEditListener(ActionEvent e) throws IOException {
-		addNewCustomer.setVisible(true);
+		addNew.setVisible(true);
     	cancelEdit.setVisible(false);
     	updateDetails.setVisible(false);
     	

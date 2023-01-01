@@ -17,9 +17,9 @@
 
 <AnchorPane fx:id="scene1" prefHeight="635.0" prefWidth="1002.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignment.CustomersController">
    <children>
-      <Pane fx:id="headingWrapper" layoutX="101.0" prefHeight="45.0" prefWidth="777.0">
+      <Pane fx:id="headingWrapper" layoutX="101.0" prefHeight="63.0" prefWidth="777.0">
          <children>
-            <Label fx:id="headingLabel" layoutX="353.0" layoutY="14.0" text="All Customers" />
+            <Label fx:id="headingLabel" alignment="CENTER" layoutX="258.0" layoutY="12.0" prefHeight="40.0" prefWidth="261.0" text="All Customers" />
          </children>
       </Pane>
       <Pane fx:id="menu" prefHeight="650.0" prefWidth="101.0">
@@ -153,11 +153,12 @@
                   <TextField fx:id="phone" layoutX="16.0" layoutY="229.0" prefHeight="38.0" prefWidth="217.0" promptText="+44123456789" />
                   <DatePicker fx:id="dob" layoutX="16.0" layoutY="307.0" prefHeight="38.0" prefWidth="217.0" promptText="01/01/2000" />
                   <Button fx:id="updateDetails" layoutX="16.0" layoutY="374.0" mnemonicParsing="false" onAction="#updateCustomerBtnListener" prefHeight="38.0" prefWidth="71.0" text="Update" />
-                  <Button fx:id="addNewCustomer" layoutX="16.0" layoutY="374.0" mnemonicParsing="false" onAction="#addNewCustomerBtnListener" prefHeight="38.0" prefWidth="71.0" text="Submit" />
+                  <Button fx:id="addNew" layoutX="16.0" layoutY="374.0" mnemonicParsing="false" onAction="#addNewCustomerBtnListener" prefHeight="38.0" prefWidth="71.0" text="Submit" />
                   <Button fx:id="cancelEdit" layoutX="113.0" layoutY="374.0" mnemonicParsing="false" onAction="#cancelEditListener" prefHeight="38.0" prefWidth="85.0" text="Cancel" />
                </children>
             </AnchorPane>
         </items>
       </SplitPane>
+      <Button fx:id="exportBtn" layoutX="118.0" layoutY="22.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" text="Export" />
    </children>
 </AnchorPane>

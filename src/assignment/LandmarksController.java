@@ -1,8 +1,6 @@
 package assignment;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import javafx.event.ActionEvent;
@@ -16,8 +14,7 @@ import javafx.scene.text.Text;
 
 
 public class LandmarksController extends DashboardController implements DataFormatter {
-	@FXML
-	private AnchorPane landmarkForm;
+
 	@FXML
 	private Label formHeading;
 
@@ -30,7 +27,7 @@ public class LandmarksController extends DashboardController implements DataForm
 	@FXML
 	private TextField longitude;
 	@FXML
-	private Button addNewLandmark;
+	private Button addNew;
 	
 	@FXML
 	private Label emptyListLabel;
@@ -38,8 +35,6 @@ public class LandmarksController extends DashboardController implements DataForm
 	private GridPane allLandmarks;
 	@FXML
 	private Pane emptyList;
-	@FXML
-	private AnchorPane landmarksWrapper;
 	
 	@FXML
 	private Button cancelEdit;
@@ -179,7 +174,7 @@ public class LandmarksController extends DashboardController implements DataForm
     	latitude.setText(Double.toString(currLandmark.getLatitude()));
     	longitude.setText(Double.toString(currLandmark.getLongitude()));
     	
-    	addNewLandmark.setVisible(false);
+    	addNew.setVisible(false);
     	cancelEdit.setVisible(true);
     	updateDetails.setVisible(true);
 	}
@@ -192,7 +187,7 @@ public class LandmarksController extends DashboardController implements DataForm
     	latitude.setText(null);
     	longitude.setText(null);
     	
-    	addNewLandmark.setVisible(true);
+    	addNew.setVisible(true);
     	cancelEdit.setVisible(false);
     	updateDetails.setVisible(false);
 	}

@@ -23,9 +23,7 @@ public class PropertiesController extends DashboardController implements DataFor
 	@FXML
 	private Pane optionsWrapper;
 	@FXML
-	private GridPane headerWrapper;	
-	@FXML
-	private Button addNewBtn;
+	private GridPane headerWrapper;
 	
 	
 	@FXML

@@ -16,9 +16,10 @@
 
 <AnchorPane fx:id="scene1" prefHeight="586.0" prefWidth="895.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assignment.LandmarksController">
    <children>
-      <Pane fx:id="headingWrapper" layoutX="101.0" prefHeight="45.0" prefWidth="777.0">
+      <Pane fx:id="headingWrapper" layoutX="101.0" prefHeight="62.0" prefWidth="777.0">
          <children>
-            <Label fx:id="headingLabel" alignment="CENTER" layoutX="201.0" layoutY="3.0" prefHeight="39.0" prefWidth="362.0" text="Landmarks (Places of Interest)" textAlignment="CENTER" />
+            <Label fx:id="headingLabel" alignment="CENTER" layoutX="201.0" layoutY="16.0" prefHeight="30.0" prefWidth="362.0" text="Landmarks (Places of Interest)" textAlignment="CENTER" />
+            <Button fx:id="exportBtn" layoutX="20.0" layoutY="18.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" text="Export" />
          </children>
       </Pane>
       <Pane fx:id="menu" prefHeight="578.0" prefWidth="101.0">
@@ -133,7 +134,7 @@
                   <TextField fx:id="postcode" layoutX="16.0" layoutY="161.0" prefHeight="38.0" prefWidth="217.0" promptText="NN5 4JW" />
                   <TextField fx:id="longitude" layoutX="16.0" layoutY="229.0" prefHeight="38.0" prefWidth="217.0" />
                   <Button fx:id="updateDetails" layoutX="16.0" layoutY="374.0" mnemonicParsing="false" onAction="#updateLandmarkBtnListener" prefHeight="38.0" prefWidth="71.0" text="Update" />
-                  <Button fx:id="addNewLandmark" layoutX="16.0" layoutY="374.0" mnemonicParsing="false" onAction="#addNewLandmarkBtnListener" prefHeight="38.0" prefWidth="71.0" text="Submit" />
+                  <Button fx:id="addNew" layoutX="16.0" layoutY="374.0" mnemonicParsing="false" onAction="#addNewLandmarkBtnListener" prefHeight="38.0" prefWidth="71.0" text="Submit" />
                   <Button fx:id="cancelEdit" layoutX="113.0" layoutY="374.0" mnemonicParsing="false" onAction="#cancelEditListener" prefHeight="38.0" prefWidth="85.0" text="Cancel" />
                   <TextField fx:id="latitude" layoutX="16.0" layoutY="302.0" prefHeight="38.0" prefWidth="217.0" />
                </children>
