@@ -7,7 +7,6 @@ import java.util.*;
 public class CustomerList implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
 	private List<Customer> cList;
 
 	public  CustomerList() {
@@ -30,7 +29,7 @@ public class CustomerList implements Serializable {
 	public String toString() {
 		String s = "";
 		for(int i = 0; i < cList.size(); i++) {
-			s += ("customer is: " + cList.get(i) + "\n");
+			s += ("customers on this list are: " + cList.get(i) + "\n");
 		}
 		return s;
 	}

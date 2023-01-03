@@ -32,13 +32,23 @@ public class TenancyInvoiceController extends DashboardController implements Dat
 	
 
 	
-	public void initialize() throws ClassNotFoundException, IOException {
-		rList = DataHandler.readRentalList();		
-		pList = DataHandler.readPropertyList();
-
-		for (String key: rList.getKeys()) {
-			rentalProperties.getItems().add(key);
+	public void initialize() {
+		try {
+			rList = DataHandler.readRentalList();		
+		
+			pList = DataHandler.readPropertyList();
+	
+			for (String key: rList.getKeys()) {
+				rentalProperties.getItems().add(key);
+			}
 		}
+		catch(Exception e) {
+    		Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("An error has occured in the app");
+            alert.show();
+            System.out.println(e.toString());
+    	}
 	}
 	
 

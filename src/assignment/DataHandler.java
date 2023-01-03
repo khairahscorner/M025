@@ -36,15 +36,15 @@ public class DataHandler {
     	Object obj = new Object();
     	File f = new File (inputFile); 
     	if (f.exists()) {
-    	FileInputStream fileToread = new FileInputStream(inputFile);
-        ObjectInputStream objToread = new ObjectInputStream(fileToread);
-    	  if (f.length() > 0) {
-            obj = objToread.readObject();
-            objToread.close();
-    	  }
-    	  else {
-    		  System.out.println("File " + inputFile + " is empty");
-    	  }
+	    	FileInputStream fileToread = new FileInputStream(inputFile);
+	        ObjectInputStream objToread = new ObjectInputStream(fileToread);
+	    	if (f.length() > 0) {
+	    		obj = objToread.readObject();
+	            objToread.close();
+	    	}
+	    	else {
+	    		  System.out.println("File " + inputFile + " is empty");
+	    	}
     	}
     	else {
     		System.out.println("File " + inputFile + " does not exist");
@@ -128,50 +128,10 @@ public class DataHandler {
 		obj =  doDeserialize(usersFileName);
 		if (obj instanceof Admin) {
 			user = (Admin) obj;
-		}
-		
+		}		
 		return user;
 	}
 	
-	
-
-	
-//	//handling strings for a file	
-//	public static void saveKeyToKeyFile(String key, String fileName) throws IOException {
-//	
-//	File file = new File(fileName); 
-//	FileWriter fWriter;
-//	PrintWriter pWriter;
-//	    
-//	if (file.exists()) {
-//		System.out.println("file exists"); 
-//		fWriter = new FileWriter(file, true);
-//		fWriter.append(key + "\n");
-//		fWriter.close();
-//	}
-//	else {
-//		System.out.println("file does not");
-//		pWriter = new PrintWriter(file);
-//		pWriter.println(key);
-//		pWriter.close();
-//	}	
-//}
-//
-//public static void writeToFile(String s) throws IOException {
-//      saveKeyToKeyFile(s, pptyKeysFile);
-//      System.out.println("key " +"were written to "+ pptyKeysFile);	
-//}
-
-//public static void readKeysFromFile(String fileName) throws IOException {  
-//      File file = new File(fileName);
-//      Scanner sc = new Scanner(file);
-//    
-//      while(sc.hasNext()) {
-//        System.out.println(sc.next());
-//        System.out.println();
-//      }
-//      sc.close();
-//}
-
-	
 }
+
+

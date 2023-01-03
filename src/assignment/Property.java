@@ -4,8 +4,15 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * 
+ * @author airah
+ *
+ */
 public class Property implements Serializable, DataFormatter {
-	private static final long serialVersionUID = 1L; //default fix from compiler
+
+	private static final long serialVersionUID = 1L;
+	private static int lastPropertyIndex = 0;
 	
 	private String propertyId;
 	private String type;
@@ -23,9 +30,8 @@ public class Property implements Serializable, DataFormatter {
 	
 	private boolean rentalStatus;
 	
-	private static int lastPropertyIndex = 0;
 	
-	//to use when creating bulk properties via file
+
 	public Property() {
 		rentalStatus = false;
 		propertyId = "p" + lastPropertyIndex;
@@ -44,7 +50,21 @@ public class Property implements Serializable, DataFormatter {
 		rentPerMonth = 0;
 	}
 	
-	
+	/**
+	 * create a new property
+	 * 
+	 * @param t		type
+	 * @param f		furnished status
+	 * @param p		postcode
+	 * @param d		listed date
+	 * @param g		has garden?
+	 * @param s		property size
+	 * @param b		number of bedrooms
+	 * @param c		number of bathrooms
+	 * @param r		rent PCM	
+	 * @param lat	latitude
+	 * @param l		longitude
+	 */
 	public Property(String t, String f, String p, String d, String g, int s, int b, int c, double r, double lat, double l) {	
 		rentalStatus = false;
 		propertyId = "p" + lastPropertyIndex;
@@ -106,7 +126,6 @@ public class Property implements Serializable, DataFormatter {
 		dateListed = s;
 	}
 	
-	
 	public String getGarden() {
 		return garden;
 	}
@@ -142,18 +161,9 @@ public class Property implements Serializable, DataFormatter {
 		rentPerMonth = s;
 	}
 	
-	public double getDeposit() {
-		return Double.parseDouble(dpFormatter.format(rentPerMonth * 6));	
-	}
-	
-	public double getAgentFee() {
-		return Double.parseDouble(dpFormatter.format(0.2 * rentPerMonth));	
-	}
-	
 	public boolean getRentalStatus() {
 		return rentalStatus;
 	}
-	
 	public void setRentalStatus(boolean b) {
 		rentalStatus = b;
 	}
@@ -172,6 +182,19 @@ public class Property implements Serializable, DataFormatter {
 		return lastPropertyIndex;
 	}
 	
+	public double getDeposit() {
+		return Double.parseDouble(dpFormatter.format(rentPerMonth * 6));	
+	}
+	public double getAgentFee() {
+		return Double.parseDouble(dpFormatter.format(0.2 * rentPerMonth));	
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @param currPpty	current property to print details
+	 * @return 
+	 */
 	public static String getPropertyDetails(Property currPpty) {
 		return "Type: " + currPpty.getType() + "\nProperty Code: " + currPpty.getPropertyId() + "\nDate Listed: " + currPpty.getDateListed().format(dateFormatter) + "\nRental Status: " + currPpty.getRentalStatus()
 		+ "\nFurnishing type: " + currPpty.getFurnishedStatus() + "\nPostcode: " + currPpty.getPostcode() + "\nNo. of Bedrooms:" +

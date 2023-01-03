@@ -18,6 +18,11 @@ import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
 
+/**
+ * the class is used to display a list of all properties, filter & sort options, view and edit the details of a specifc proerty
+ * @author airah
+ *
+ */
 public class PropertiesController extends DashboardController implements DataFormatter {
 	
 	@FXML
@@ -93,54 +98,67 @@ public class PropertiesController extends DashboardController implements DataFor
 	private String sortOption = null;
 	  
 
-	
-	public void initialize() throws ClassNotFoundException, IOException {
-		pList = DataHandler.readPropertyList();
-		Property.setLastPropertyIndex(pList.getProperties().size());
-	      
-	    lList = DataHandler.readLandmarkList();
-	    Landmark.setLastIndex(lList.getLandmarks().size());
-	    
-		pptyAvailability.getItems().addAll("Rented", "Available", "All Properties");
-		editFurnishing.getItems().addAll("Unfurnished", "Semi-furnished", "Furnished");
-		
-		pptyPrice.getItems().addAll("Low to High", "High to Low");
-		pptyDate.getItems().addAll("Most Recent", "Earliest");
-		pptyBedrooms.getItems().addAll("1", "2", "3+");
-		pptyBathrooms.getItems().addAll("1", "2", "3+");
-		
-		HashMap<String,String> postcodeMap = new HashMap<String,String>();  
-		for (String key: pList.getKeys()) {
-			String pptyPostcode = pList.getProperties().get(key).getPostcode();
-			postcodeMap.put(pptyPostcode.split(" ")[0], pptyPostcode.split(" ")[0]);
+	/**
+	 * read specified existing files + adds options to comboBoxes
+	 */
+	public void initialize() {
+		try {
+			pList = DataHandler.readPropertyList();
+			Property.setLastPropertyIndex(pList.getProperties().size());
+		      
+		    lList = DataHandler.readLandmarkList();
+		    Landmark.setLastIndex(lList.getLandmarks().size());
+		    
+			pptyAvailability.getItems().addAll("Rented", "Available", "All Properties");
+			editFurnishing.getItems().addAll("Unfurnished", "Semi-furnished", "Furnished");
+			
+			pptyPrice.getItems().addAll("Low to High", "High to Low");
+			pptyDate.getItems().addAll("Most Recent", "Earliest");
+			pptyBedrooms.getItems().addAll("1", "2", "3+");
+			pptyBathrooms.getItems().addAll("1", "2", "3+");
+			
+			HashMap<String,String> postcodeMap = new HashMap<String,String>();  
+			for (String key: pList.getKeys()) {
+				String pptyPostcode = pList.getProperties().get(key).getPostcode();
+				postcodeMap.put(pptyPostcode.split(" ")[0], pptyPostcode.split(" ")[0]);
+			}
+			pptyPostcode.getItems().addAll(postcodeMap.keySet());
+			
+		           
+	    	if(pList.getProperties().size() == 0) {
+	    		emptyPptyList.setVisible(true);
+	    		pptiesWrapper.setVisible(false);
+	    		optionsWrapper.setVisible(false);
+	    		headerWrapper.setVisible(false);
+	    	}
+	    	 else {
+	    		 pptiesWrapper.setVisible(true);
+	    		 emptyPptyList.setVisible(false); 
+	    		 optionsWrapper.setVisible(true);
+	    		 headerWrapper.setVisible(true); 		  
+	    		  
+	    		  //Default listing is sort to most recent
+	    		 pptyDate.setValue(defaultDateSort);
+	    		 populateList(PropertyActions.sortPropertiesByDate(pList, "DESC"));
+	    	  }
+	    	  
+	    	  //ensures the other side showing the details only shows empty on load
+	    	  emptyDetailsPane.setVisible(true);
+	    	  pptyDetailsPane.setVisible(false);
 		}
-		pptyPostcode.getItems().addAll(postcodeMap.keySet());
-		
-	           
-    	  if(pList.getProperties().size() == 0) {
-    		  emptyPptyList.setVisible(true);
-    		  pptiesWrapper.setVisible(false);
-    		  optionsWrapper.setVisible(false);
-    		  headerWrapper.setVisible(false);
-    	  }
-    	  else {
-    		  pptiesWrapper.setVisible(true);
-    		  emptyPptyList.setVisible(false); 
-    		  optionsWrapper.setVisible(true);
-    		  headerWrapper.setVisible(true); 		  
-    		  
-    		  //Default to most recent
-    		  pptyDate.setValue(defaultDateSort);
-    		  populateList(PropertyActions.sortPropertiesByDate(pList, "DESC"));
-//    		  populateList(pList);
-    	  }
-    	  
-    	  //ensures the other side showing the details only shows empty on load
-    	  emptyDetailsPane.setVisible(true);
-    	  pptyDetailsPane.setVisible(false);
-  	    
-  }
+		catch(Exception e) {
+    		Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("An error has occured in the app");
+            alert.show();
+            System.out.println(e.toString());
+    	}
+	}
 	
+	/**
+	 * populates the specified grid pane with all property details read from the file
+	 * called by initialize() method
+	 */
 	private void populateList(PropertyList pList) {
 		tableCount.setText("List count: " + pList.getProperties().size());
 		
@@ -183,6 +201,11 @@ public class PropertiesController extends DashboardController implements DataFor
 		}
 	}
 	
+	/**
+	 * action handler for the button to add new property
+	 * @param e
+	 * @throws IOException
+	 */
 	public void goToAddPropertyListener(ActionEvent e) throws IOException {
 		Parent parent = FXMLLoader.load(getClass().getResource("PropertyCreate.fxml")); 
 	      
@@ -195,7 +218,10 @@ public class PropertiesController extends DashboardController implements DataFor
 	    stage.show(); 
 	}
 	
-	
+	/**
+	 * show all details of the clicked property
+	 * @param currPptyId id of the property to display
+	 */
 	private void viewPropertyDetailsListener(String currPptyId) {
 		emptyDetailsPane.setVisible(false);
 		editPptyDetails.setVisible(false);
@@ -205,7 +231,7 @@ public class PropertiesController extends DashboardController implements DataFor
 		editBtn.setId(currPptyId);
 		
 		Image propertyImage = new Image("file:images/b.jpg");
-		pptyImg = new ImageView(propertyImage);
+		pptyImg.setImage(propertyImage);
 				
 		currPpty = pList.getProperties().get(currPptyId);
 		
@@ -288,6 +314,9 @@ public class PropertiesController extends DashboardController implements DataFor
 		
 	}
 	
+	/**
+	 * filters properties by bathroom values, 3+ is option for 3 and above
+	 */
 	public void selectBathroomsListener() {
 		int num = 0;
 		String option = pptyBathrooms.getValue();
@@ -311,7 +340,9 @@ public class PropertiesController extends DashboardController implements DataFor
 		
 	}
 	
-	
+	/**
+	 * clears existing table in grid pane
+	 */
 	private void clearTable() {
 		//how to still retain the grid lines after replacing with new ppty list????
 
@@ -342,7 +373,8 @@ public class PropertiesController extends DashboardController implements DataFor
 		mainPptyDetails.setVisible(true);
 	}
 	
-	public void updatePptyDetailsListener() throws ClassNotFoundException, IOException {
+
+	public void updatePptyDetailsListener() {
 		Alert alert = new Alert(AlertType.NONE);
 		double rentVal = 0;
 		int bedrooms = 0;
@@ -389,11 +421,9 @@ public class PropertiesController extends DashboardController implements DataFor
 	            //show alert, wait for user to close and then refresh
 	            Optional<ButtonType> result = alert.showAndWait();
 	            
-	            if(result.get() == ButtonType.OK) {
+	            if(result.get() != null) {
 	            	viewPropertyDetailsListener(currPpty.getPropertyId());
-	            } else {
-	            	viewPropertyDetailsListener(currPpty.getPropertyId());
-	            }         	            
+	            }        	            
 
 	            
 			} catch(Exception exception) {

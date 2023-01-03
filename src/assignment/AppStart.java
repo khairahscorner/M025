@@ -11,13 +11,17 @@ import javafx.stage.Stage;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-
+/**
+ * the class is the entry point into the javafx app, handled by the AppStartController class
+ * @author airah
+ *
+ */
 public class AppStart extends Application {
 	//java properties variable
 	private static final Properties properties = new Properties();
 	
 	public static void initialise() throws FileNotFoundException, IOException {
-		properties.load(new FileInputStream("binFiles.properties"));
+		properties.load(new FileInputStream("allFiles.properties"));
 		DataHandler.readProperties(properties);
 		
 	}
@@ -30,20 +34,13 @@ public class AppStart extends Application {
 	
 	@Override
 	public void start(Stage openingStage) throws IOException {
-		// Load the FXML file.
 	      Parent root = FXMLLoader.load(getClass().getResource("AppStart.fxml")); 
-	      
-	      // Build the scene graph.
 	      Scene scene = new Scene(root); 
 	      
 	      // add external stylesheet
-	      
-	      //scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 	      String css = getClass().getResource("styles.css").toExternalForm();
 	      scene.getStylesheets().add(css);
 
-	      
-	      // Display our window, using the scene graph.
 	      openingStage.setTitle("Welcome to CSYM025 Lettings"); 
 	      openingStage.setScene(scene);
 	      openingStage.show();

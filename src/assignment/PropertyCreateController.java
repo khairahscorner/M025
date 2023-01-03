@@ -45,12 +45,22 @@ public class PropertyCreateController  extends DashboardController implements Da
 	
 	private PropertyList pList;
 	
-	public void initialize() throws ClassNotFoundException, IOException {
-		pList = DataHandler.readPropertyList();
-		Property.setLastPropertyIndex(pList.getProperties().size());
-    
-		furnishing.getItems().addAll("Unfurnished", "Semi-furnished", "Furnished");
-		hasGarden.getItems().addAll("Yes", "No");
+	public void initialize() {
+		try {
+			pList = DataHandler.readPropertyList();
+			Property.setLastPropertyIndex(pList.getProperties().size());
+	    
+			furnishing.getItems().addAll("Unfurnished", "Semi-furnished", "Furnished");
+			hasGarden.getItems().addAll("Yes", "No");
+		}
+		catch(Exception e) {
+    		Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("An error has occured in the app");
+            alert.show();
+            System.out.println(e.toString());
+    	}
+		
 	}
 	
 	public void addNewPropertyListener(ActionEvent e) throws IOException {

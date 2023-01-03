@@ -2,11 +2,20 @@ package assignment;
 
 import java.io.Serializable;
 
+/**
+ * This class creates an admin with a username and password to login from the start of the application
+ * @author airah
+ *
+ */
 public class Admin implements Serializable, DataFormatter {
 	private static final long serialVersionUID = 1L;
+	
 	private String username;
 	private String password;
 	
+	/**
+	 * the default constructor is used in DataHandler class to create new empty admin objects to be populated with data read from file
+	 */
 	public Admin()  {
 		username = "";
 		password = "";
@@ -32,7 +41,6 @@ public class Admin implements Serializable, DataFormatter {
 	public void setPassword(String p) {
 		password = p;
 	}
-
 
 	@Override
 	public String toString() {

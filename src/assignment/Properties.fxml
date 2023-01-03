@@ -8,7 +8,6 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -192,11 +191,7 @@
                               <ComboBox fx:id="editFurnishing" layoutX="15.0" layoutY="144.0" prefHeight="34.0" prefWidth="184.0" promptText="Select option" />
                            </children>
                         </Pane>
-                        <ImageView fx:id="pptyImg" fitHeight="122.0" fitWidth="259.0" layoutX="4.0" layoutY="8.0" pickOnBounds="true">
-                           <image>
-                              <Image url="@../../../../Downloads/sunset-in-hong-kong-tolulope-khairahscorner-living-in-the-uk-series.jpg" />
-                           </image>
-                        </ImageView>
+                        <ImageView fx:id="pptyImg" fitHeight="122.0" fitWidth="259.0" layoutX="4.0" layoutY="8.0" pickOnBounds="true" />
                         <Pane fx:id="pptyStatus" layoutX="195.0" layoutY="14.0" prefHeight="28.0" prefWidth="65.0">
                            <children>
                               <Label fx:id="rentedStatus" alignment="CENTER" prefHeight="27.0" prefWidth="65.0" text="Rented" textAlignment="RIGHT" textFill="#653737" visible="false">

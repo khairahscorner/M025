@@ -49,42 +49,59 @@ public class CustomersController extends DashboardController implements DataForm
 	private int gridCount;
 	private int currCustIndex;
 	
-	private String defaultFormHeading = "Add New Customer";
-	private String emailValidate = "^[a-zA-Z0-9_\\-\\.]{2,}+@[A-Za-z0-9\\-]+\\.[a-zA-Z]{2,10}$";
-	private String phoneValidate = "^\\+[0-9]{8,15}$";
+	
+	private final String defaultFormHeading = "Add New Customer";
+	private final String emailValidate = "^[a-zA-Z0-9_\\-\\.]{2,}+@[A-Za-z0-9\\-]+\\.[a-zA-Z]{2,10}$";
+	private final String phoneValidate = "^\\+[0-9]{8,15}$";
 
-	
-	
-	public void initialize() throws ClassNotFoundException, IOException {
-		cList = DataHandler.readCustomerList();
-		Customer.setLastIndex(cList.getCustomers().size());	
-		populateList();
-		
-		cancelEdit.setVisible(false);
-    	updateDetails.setVisible(false);
+	/**
+	 * reads the existing customers + default hides edit buttons	
+	 */
+	public void initialize() {
+		try {
+			cList = DataHandler.readCustomerList();
+			Customer.setLastIndex(cList.getCustomers().size());	
+			populateList();
+			
+			cancelEdit.setVisible(false);
+	    	updateDetails.setVisible(false);
+		}
+		catch(Exception e) {
+    		Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("An error has occured in the app");
+            alert.show();
+            System.out.println(e.toString());
+    	}
 	}
 	
+	/**
+	 * hides the empty list view, and populates the specified grid pane with all customer details read from the file
+	 * called by initialize() method
+	 */
 	private void populateList() {
 		gridCount = 1;
 		if(Customer.getLastIndex() < 1) {
 			emptyCustomerList.setVisible(true);
 			emptyListLabel.setVisible(true);
 			allCustomers.setVisible(false);
-		} else {
+		} 
+		else {
 			allCustomers.setVisible(true);
 			emptyCustomerList.setVisible(false);
 			emptyListLabel.setVisible(false);
 			
 			cList.getCustomers().forEach(cust -> {
 				Text name = new Text();
-				name.setText(cust.getName());
 				Text email = new Text();
 				Text phone = new Text();
 				Text dob = new Text();
 				
+				name.setText(cust.getName());
 				email.setText(cust.getEmail());
 				phone.setText(cust.getPhone());
 				dob.setText(cust.getDOB().format(dateFormatter));
+				
 				Button editBtn = new Button("Edit");
 				editBtn.setId(cust.getCustId());
 				editBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -115,6 +132,11 @@ public class CustomersController extends DashboardController implements DataForm
 		}
 	}
 	
+	/**
+	 * on click of the button, validates user input, creates a new customer and add to customer file
+	 * @param e
+	 * @throws IOException
+	 */
 	public void addNewCustomerBtnListener(ActionEvent e) throws IOException {
 		Alert alert = new Alert(AlertType.NONE);
 		
@@ -149,7 +171,6 @@ public class CustomersController extends DashboardController implements DataForm
 				da.createCustomer(name.getText(), email.getText(), phone.getText(), dob.getValue().format(dateFormatter));
 				DataHandler.writeToFile(da.getAllCustomers());
 				
-				//DataHandler.readCustomerList();
 				alert.setAlertType(AlertType.INFORMATION);
 	            alert.setTitle("Successful");
 	            alert.setContentText("New Customer has been added successfully");
@@ -157,16 +178,11 @@ public class CustomersController extends DashboardController implements DataForm
 	            //show alert, wait for user to close and then refresh
 	            Optional<ButtonType> result = alert.showAndWait();
 	            
-	            if(result.get() == ButtonType.OK) {
-	            	goToCustomersListener(e);
-	            } else {
-	            	//still refresh
+	            if(result.get() != null) {
 	            	goToCustomersListener(e);
 	            }
-	            	            
-
-	            
-			} catch(Exception exception) {
+			}
+			catch(Exception exception) {
 				alert.setAlertType(AlertType.ERROR);
                 alert.setTitle("Error adding Customer");
                 alert.setContentText("An error occured");
@@ -212,17 +228,20 @@ public class CustomersController extends DashboardController implements DataForm
             alert.setTitle("Error updating customer details");
             alert.setContentText("Please fill in all details correctly");
             alert.show();
-		} else if (!email.getText().matches(emailValidate)) {
+		}
+		else if (!email.getText().matches(emailValidate)) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error updating customer details");
             alert.setContentText("Please enter a valid email address");
             alert.show();
-		} else if (!phone.getText().matches(phoneValidate)) {
+		}
+		else if (!phone.getText().matches(phoneValidate)) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error updating customer details");
             alert.setContentText("Please enter a correct phone number:\n- country code starting with + and,\nBetween 8 to 14 digits");
             alert.show();
-		} else if (ChronoUnit.YEARS.between(dob.getValue(), LocalDate.now()) < 18) {
+		}
+		else if (ChronoUnit.YEARS.between(dob.getValue(), LocalDate.now()) < 18) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error updating customer details");
             alert.setContentText("Customer must be at least 18 years old");
@@ -249,11 +268,9 @@ public class CustomersController extends DashboardController implements DataForm
 	            } else {
 	            	//still refresh
 	            	goToCustomersListener(e);
-	            }
-	            	            
-
-	            
-			} catch(Exception exception) {
+	            } 
+			}
+			catch(Exception exception) {
 				alert.setAlertType(AlertType.ERROR);
                 alert.setTitle("Error adding Customer");
                 alert.setContentText("An error occured");
@@ -262,3 +279,5 @@ public class CustomersController extends DashboardController implements DataForm
 		}
 	}
 }
+
+

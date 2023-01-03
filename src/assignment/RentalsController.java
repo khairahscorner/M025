@@ -55,40 +55,47 @@ public class RentalsController extends DashboardController implements DataFormat
 	
 	
 	
-	public void initialize() throws ClassNotFoundException, IOException {
-		rList = DataHandler.readRentalList();
-		
-		System.out.println("lasss:" + Rental.getLastRentalIndex());
-		
-		pList = DataHandler.readPropertyList();
-		filteredProperties = new HashMap<String, Property>();
-		
-		cList = DataHandler.readCustomerList();
-		hashedCustomers = new HashMap<String, Customer>();
-
-		//get all properties that are not rented i.e rentalStatus is false
-		for (String key : pList.getKeys()) {
-		    if(!pList.getProperties().get(key).getRentalStatus()) {
-		    	Property availablePpty = pList.getProperties().get(key);		    	
-		    	filteredProperties.put(key, availablePpty);
-		    	availableProperties.getItems().add(key);
-		    }
+	public void initialize() {
+		try {
+			rList = DataHandler.readRentalList();
+					
+			pList = DataHandler.readPropertyList();
+			filteredProperties = new HashMap<String, Property>();
+			
+			cList = DataHandler.readCustomerList();
+			hashedCustomers = new HashMap<String, Customer>();
+	
+			//get all properties that are not rented i.e rentalStatus is false
+			for (String key : pList.getKeys()) {
+			    if(!pList.getProperties().get(key).getRentalStatus()) {
+			    	Property availablePpty = pList.getProperties().get(key);		    	
+			    	filteredProperties.put(key, availablePpty);
+			    	availableProperties.getItems().add(key);
+			    }
+			}
+			for (Customer cust : cList.getCustomers()) {
+				hashedCustomers.put(cust.getCustId(), cust);
+			    availableCustomers.getItems().add(cust.getCustId());
+			}
+			
+			if(rList.getKeys().size() == 0) {
+				emptyRentalsList.setVisible(true);
+				allRentals.setVisible(false);
+				rentalsWrapper.setVisible(false);
+			} else {
+				allRentals.setVisible(true);
+				rentalsWrapper.setVisible(true);
+				emptyListLabel.setVisible(false);
+				populateList();
+			}
 		}
-		for (Customer cust : cList.getCustomers()) {
-			hashedCustomers.put(cust.getCustId(), cust);
-		    availableCustomers.getItems().add(cust.getCustId());
-		}
-		
-		if(rList.getKeys().size() == 0) {
-			emptyRentalsList.setVisible(true);
-			allRentals.setVisible(false);
-			rentalsWrapper.setVisible(false);
-		} else {
-			allRentals.setVisible(true);
-			rentalsWrapper.setVisible(true);
-			emptyListLabel.setVisible(false);
-			populateList();
-		}
+		catch(Exception e) {
+    		Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("An error has occured in the app");
+            alert.show();
+            System.out.println(e.toString());
+    	}
 		
 	}
 	

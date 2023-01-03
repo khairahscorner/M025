@@ -30,12 +30,6 @@ package assignment;
 
 public class DistanceCalculator {
 
-	public static void main (String[] args) throws java.lang.Exception
-	{
-		System.out.println(getDistance(32.9697, -96.80322, 29.46786, -98.53506, "M") + " Miles\n");
-		System.out.println(getDistance(32.9697, -96.80322, 29.46786, -98.53506, "K") + " Kilometers\n");
-	}
-
 	public static double getDistance(double lat1, double lon1, double lat2, double lon2, String unit) {
 		if ((lat1 == lat2) && (lon1 == lon2)) {
 			return 0;

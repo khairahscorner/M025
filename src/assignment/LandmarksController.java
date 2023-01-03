@@ -50,16 +50,31 @@ public class LandmarksController extends DashboardController implements DataForm
 	private String postcodeValidate = "^[A-Z0-9]{2,4}+ [A-Z0-9]{3}$";
 
 	
-	
-	public void initialize() throws ClassNotFoundException, IOException {
-		lList = DataHandler.readLandmarkList();
-		Customer.setLastIndex(lList.getLandmarks().size());	
-		populateList();
-		
-		cancelEdit.setVisible(false);
-    	updateDetails.setVisible(false);
+	/**
+	 * reads the existing customers + default hides edit buttons
+	 */
+	public void initialize() {
+		try {
+			lList = DataHandler.readLandmarkList();
+			Customer.setLastIndex(lList.getLandmarks().size());	
+			populateList();
+			
+			cancelEdit.setVisible(false);
+	    	updateDetails.setVisible(false);
+		}
+		catch(Exception e) {
+    		Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("An error has occured in the app");
+            alert.show();
+            System.out.println(e.toString());
+      }
 	}
 	
+	/**
+	 * hides the empty list view, and populates the specified grid pane with all landmark details read from the file
+	 * called by initialize() method
+	 */
 	private void populateList() {
 		gridCount = 1;
 		if(Customer.getLastIndex() < 1) {
@@ -104,6 +119,11 @@ public class LandmarksController extends DashboardController implements DataForm
 		}
 	}
 	
+	/**
+	 * formats/validates inputs for creating new landmark, and adds to its corresponding file
+	 * @param e
+	 * @throws IOException
+	 */
 	public void addNewLandmarkBtnListener(ActionEvent e) throws IOException {
 		Alert alert = new Alert(AlertType.NONE);
 		String l1 = "";
@@ -148,13 +168,9 @@ public class LandmarksController extends DashboardController implements DataForm
 	            //show alert, wait for user to close and then refresh
 	            Optional<ButtonType> result = alert.showAndWait();
 	            
-	            if(result.get() == ButtonType.OK) {
-	            	goToLandmarksListener(e);
-	            } else {
-	            	//still refresh
+	            if(result.get() != null) {
 	            	goToLandmarksListener(e);
 	            }
-	         
 	            
 			} catch(Exception exception) {
 				alert.setAlertType(AlertType.ERROR);
@@ -165,6 +181,10 @@ public class LandmarksController extends DashboardController implements DataForm
 		}
     }
 	
+	/**
+	 * prefills the form with the details
+	 * @param index
+	 */
 	private void editLandmarkDetails(int index) {
 		Landmark currLandmark = lList.getLandmarks().get(index);
 		
@@ -238,13 +258,9 @@ public class LandmarksController extends DashboardController implements DataForm
 	            //show alert, wait for user to close and then refresh
 	            Optional<ButtonType> result = alert.showAndWait();
 	            
-	            if(result.get() == ButtonType.OK) {
+	            if(result.get() != null) {
 	            	goToLandmarksListener(e);
-	            } else {
-	            	//still refresh
-	            	goToLandmarksListener(e);
-	            }
-	            	            
+	            }	            
 
 	            
 			} catch(Exception exception) {

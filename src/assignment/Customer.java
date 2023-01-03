@@ -6,13 +6,14 @@ import java.time.LocalDate;
 
 public class Customer implements Serializable, DataFormatter {
 	private static final long serialVersionUID = 1L;
+	private static int lastCustomerIndex = 0;
+
 	private String name;
 	private String email;
 	private String phone;
 	private LocalDate dob;
 	private String custId;
 	
-	private static int lastCustomerIndex = 0;
 	
 	public Customer() {
 		name = "";

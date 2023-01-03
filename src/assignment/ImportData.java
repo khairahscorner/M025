@@ -1,3 +1,5 @@
+
+
 package assignment;
 
 import java.io.*;
@@ -5,21 +7,29 @@ import java.util.Scanner;
 import java.time.LocalDate;
 
 
-
+/**
+ * this class is used to create new objects from parameters or field values from csv files, and adds to their respective lists
+ * 
+ * @author airah
+ *
+ */
 public class ImportData implements DataFormatter {
 	private PropertyList pList;
 	private CustomerList cList;
 	private LandmarkList lList;
 	private RentalList rList;
 
+	private String lineInFile;
+	private int lineCount = 0;
+	private Scanner fileToImport;
 	
-	String lineInFile;
-	int lineCount = 0;
-	Scanner fileToImport;
 	
-	
+	/**
+	 * reads all data from the existing files
+	 *
+	 */
 	public ImportData() throws ClassNotFoundException, IOException {
-		pList = DataHandler.readPropertyList(); // read existing propertiesList from file
+		pList = DataHandler.readPropertyList(); 
 		Property.setLastPropertyIndex(pList.getProperties().size());
 		
 		lList = DataHandler.readLandmarkList();
@@ -29,21 +39,28 @@ public class ImportData implements DataFormatter {
 		Customer.setLastIndex(cList.getCustomers().size());
 		
 		
+		/** rentals can be deleted so if there are existing rentals, the correct last index has to be gotten 
+		 * from the last rental in the file, to avoid creating duplicate keys and overwriting the last rental
+		 */
 		rList = DataHandler.readRentalList();		
-		//because rentals can be deleted, the correct last index has to be gotten from the last rental in the file, 
-		//to avoid creating duplicate keys and overwriting data
-		if(rList.getRentals().size() == 0) {
-			Rental.setLastRentalIndex(rList.getRentals().size());
-		} 
-		else {
+		if(rList.getRentals().size() > 0) {
 			String lastRentalKeyInFile = rList.getKeys().get(rList.getKeys().size() - 1);
 			int lastRentalIdFromFile = Integer.parseInt(lastRentalKeyInFile.split("R")[1]);
 
 			Rental.setLastRentalIndex((lastRentalIdFromFile + 1));
+		} 
+		else {
+			Rental.setLastRentalIndex(rList.getRentals().size());			
 		}
 	}
 
-	
+	/**
+	 * constructor for reading data from csv files
+	 * 
+	 * @param filename	file name to import from
+	 * @param type	the type of data that's to be read from the file i.e. properties, customers, or landmarks
+	 * 
+	 */
 	public ImportData(String filename, String type) throws ClassNotFoundException, IOException {
 		if(type == "landmark") {
 			lList = DataHandler.readLandmarkList();
@@ -62,12 +79,31 @@ public class ImportData implements DataFormatter {
 	    fileToImport = new Scanner(file);
 	}
 	
-	
+	/**
+	 * create a new property and add to the list of existing properties
+	 * 
+	 * @param t	type
+	 * @param f	furnished status
+	 * @param p	postcode
+	 * @param d	date listed
+	 * @param g	garden
+	 * @param s	size
+	 * @param b	bedrooms
+	 * @param c	bathrooms
+	 * @param r	rent PCM
+	 * @param l1	latitude
+	 * @param l2	longitude
+	 */
 	public void createProperty(String t, String f, String p, String d, String g, int s, int b, int c, double r, double l1, double l2) {
 		Property ppty = new Property(t, f, p, d, g, s, b, c, r, l1, l2);
 		pList.addProperty(ppty);
 	}
 	
+	/**
+	 * create a new property using field values from a line read from the csv file, and add to property list
+	 * 
+	 * @param lineInFile	comma_separated fields in the current line
+	 */
 	public void createProperty(String lineInFile) {	       
 	      if(lineCount > 1) {
 
@@ -79,6 +115,7 @@ public class ImportData implements DataFormatter {
 		      //remove quotes around the latLong fields (it split in two because of the comma)
 		      fields[6] = fields[6].replaceAll("\"", "");
 		      fields[7] = fields[7].replaceAll("\"", "");
+		      
 		      for (int i = 0; i < fields.length; i++) {
 		         switch(i) {
 		         case 0: ppty.setDateListed(LocalDate.parse(fields[0], dateFormatter)); break;
@@ -98,37 +135,53 @@ public class ImportData implements DataFormatter {
 	      }
 	   }
 	
+	/**
+	 * reads every line of the csv file and creates properties with each line
+	 * 
+	 */
 	public void importAllProperties() throws IOException {
 		//REFERENCED CODE START
 		while (readNextLine()) {
 			createProperty(lineInFile);
-			}
-	      
-	      fileToImport.close();
-	      System.out.println("No more properties to import");
+		}
+	    
+		fileToImport.close();
+		System.out.println("No more properties to import");
 	}
-
+	
 	public PropertyList getAllProperties() {
 		return pList;
 	}
 	
 	
+	/**
+	 * creates a new place of interest and add to the list of existing ones
+	 * 
+	 * @param n	name
+	 * @param p	postcode
+	 * @param l1	latitude
+	 * @param l2	longitude
+	 */
 	public void createLandmark(String n, String p, double l1, double l2) {
 		Landmark landmark = new Landmark(n, p, l1, l2);
 		lList.addLandmark(landmark);
 	}
 	
+	/**
+	 * create a new place of interest using field values from a line read from the csv file, and add to the list
+	 * 
+	 * @param lineInFile	comma_separated fields in the current line
+	 */
 	public void createLandmark(String lineInFile) {	       
 	      if(lineCount > 1) {
 
 	    	  Landmark landmark = new Landmark();
-
-		      // Tokenize the last line read from the file.
 		      String[] fields = lineInFile.split(",");
 		      
 		      //remove quotes around the latLong fields (it split in two because of the comma)
 		      fields[2] = fields[2].replaceAll("\"", "");
 		      fields[3] = fields[3].replaceAll("\"", "");
+		      
 		      for (int i = 0; i < fields.length; i++) {
 		         switch(i) {
 		         case 0: landmark.setName(fields[0]); break;
@@ -141,6 +194,10 @@ public class ImportData implements DataFormatter {
 	      }
 	   }
 	
+	/**
+	 * reads every line of the csv file and creates place of interest with each line
+	 * 
+	 */
 	public void importAllLandmarks() throws IOException {
 		//REFERENCED CODE START
 		while (readNextLine()) {
@@ -156,12 +213,24 @@ public class ImportData implements DataFormatter {
 	}
 	
 	
+	/**
+	 * creates new customer and add to the list of existing ones
+	 * 
+	 * @param n		name
+	 * @param e		email
+	 * @param p		phone
+	 * @param d		date of birth
+	 */
 	public void createCustomer(String n, String e, String p, String d) {
 		Customer customer = new Customer(n, e, p, d);
 		cList.addCustomer(customer);
 	}
 	
-	//can extend and create customers from file too - assuming fields are labeled as [name, email, phone, date of birth]
+	/**
+	 * create a new customer using field values from a line read from the csv file, and add to the list
+	 * 
+	 * @param lineInFile	comma_separated fields in the current line
+	 */
 	public void createCustomer(String lineInFile) {	       
 	      if(lineCount > 1) {
 
@@ -182,6 +251,10 @@ public class ImportData implements DataFormatter {
 	      }
 	   }
 	
+	/**
+	 * reads every line of the csv file and creates place of interest with each line
+	 * 
+	 */
 	public void importAllCustomers() throws IOException {
 		//REFERENCED CODE START
 		while (readNextLine()) {
@@ -196,7 +269,13 @@ public class ImportData implements DataFormatter {
 	}
 	
 	
-	
+	/**
+	 * 
+	 * @param p		Property object
+	 * @param c		Customer object
+	 * @param r		rental date
+	 * @param d		due date
+	 */
 	public void createRental(Property p, Customer c, LocalDate r, LocalDate d) {
 		Rental rentalPpty  = new Rental(p, c, r, d);
 		rList.addRentals(rentalPpty);
@@ -204,17 +283,20 @@ public class ImportData implements DataFormatter {
 	
 	//can extend and create from file too
 	
-
+	
 	public RentalList getAllRentals() {
 		return rList;
 	}
 	
 	
-	
+	/**
+	 * reads each line from the file and save to string
+	 * @return
+	 * @throws IOException
+	 */
 	//Referenced code START	
 	 public boolean readNextLine() throws IOException {
-	    boolean lineRead; // Flag variable
-	  
+	    boolean lineRead;
 	    // Determine whether there is more to read.
 	    lineRead = fileToImport.hasNext();
 	
@@ -223,7 +305,6 @@ public class ImportData implements DataFormatter {
 	    	lineInFile = fileToImport.nextLine();
 	    	lineCount++;
 	    }
-	     
 	    return lineRead;
 	 }
 	 //STOP
