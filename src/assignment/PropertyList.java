@@ -3,11 +3,16 @@ package assignment;
 import java.util.*;
 import java.io.Serializable;
 
-
+/**
+ * this class is used to create a new list object consisting of multiple property objects from the Property class
+ * @author Airat Yusuff 22831467
+ *
+ */
 public class PropertyList implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	//hash the list and create a property keys list for ease of use in other classes
 	private Map<String, Property> pptyList;
 	private List<String> pptyKeys;
 

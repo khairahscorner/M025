@@ -3,7 +3,11 @@ package assignment;
 import java.util.*;
 import java.io.Serializable;
 
-
+/**
+ * this class is used to create a new list object consisting of multiple landmark objects from the Landmark class
+ * @author Airat YUsuff 22831467
+ *
+ */
 public class LandmarkList implements Serializable {
 
 	private static final long serialVersionUID = 1L;

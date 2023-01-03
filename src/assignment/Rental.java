@@ -3,7 +3,11 @@ package assignment;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-
+/**
+ * This class is used to create a new Rental object that can be serialised and stored in a file
+ * @author Airat Yusuff 22831467
+ *
+ */
 public class Rental implements Serializable, DataFormatter {
 	private static final long serialVersionUID = 1L;
 	
@@ -15,6 +19,9 @@ public class Rental implements Serializable, DataFormatter {
 	
 	private static int lastRentalIndex = 0;
 	
+	/*
+	 * constructor to create a new Rental object
+	 */
 	public Rental(Property p, Customer c, LocalDate r, LocalDate d) {
 		ppty = p;
 		cust = c;
@@ -73,5 +80,5 @@ public class Rental implements Serializable, DataFormatter {
 		return rentalId + " name: " + ppty.getPropertyId();
 	}
 	
-	
 }
+

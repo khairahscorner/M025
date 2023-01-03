@@ -9,7 +9,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.*;
 
-
+/**
+ * class handles all actions in the invoiceView scenes - select rental property to release
+ * @author Airat Yusuff 22831467
+ *
+ */
 public class TenancyInvoiceController extends DashboardController implements DataFormatter {
 
 	@FXML
@@ -18,20 +22,19 @@ public class TenancyInvoiceController extends DashboardController implements Dat
 	private TextField deductions;
 	@FXML
 	private Button generateInvoice;
-		
-	
+			
 	@FXML
 	private TextArea displayInvoice;
-	
 	
 	private RentalList rList;
 	private String selectedRentalId;
 
 	private PropertyList pList;
 
-	
 
-	
+	/**
+	 * read specified existing files into lists + adds options to comboBoxes
+	 */
 	public void initialize() {
 		try {
 			rList = DataHandler.readRentalList();		
@@ -52,12 +55,19 @@ public class TenancyInvoiceController extends DashboardController implements Dat
 	}
 	
 
+	/**
+	 * select rental property to release
+	 */
 	public void selectRentalPptyListener() {
 		selectedRentalId = rentalProperties.getValue();
-		System.out.println(selectedRentalId);
 	}
 	
-	
+	/**
+	 * validates inputs, sets rental status of the property in the properties list back to true, remove the rental property objects,
+	 * and writes the updates to corresponding files. Also, it shows generated invoice
+	 * @param e
+	 * @throws IOException
+	 */
 	public void generateInvoiceListener(ActionEvent e) throws IOException {
 		double convertedDeduction = 0;
 		Alert alert = new Alert(AlertType.NONE);
@@ -111,10 +121,7 @@ public class TenancyInvoiceController extends DashboardController implements Dat
 	            //show alert, wait for user to close and then refresh
 	            Optional<ButtonType> result = alert.showAndWait();
 	            
-	            if(result.get() == ButtonType.OK) {
-	            	showFinalInvoice(currRental, convertedDeduction);
-	            	resetForm();
-	            } else {
+	            if(result.get() != null) {
 	            	showFinalInvoice(currRental, convertedDeduction);
 	            	resetForm();
 	            }
@@ -127,8 +134,13 @@ public class TenancyInvoiceController extends DashboardController implements Dat
                 alert.show();
 			}
 		}
-}
+	}
 	
+	/**
+	 * generate the invoice, display invoice and the property and customer details
+	 * @param r	Rental object
+	 * @param deduction	amount deduction
+	 */
 	private void showFinalInvoice(Rental r, double deduction) {
 		TenancyEndInvoice eotInvoice = new TenancyEndInvoice(r, deduction);
 		
@@ -140,6 +152,10 @@ public class TenancyInvoiceController extends DashboardController implements Dat
 		displayInvoice.appendText("\n----- Customer Details ------\n" + r.getRentalCustomer().toString());	
 	}
 	
+	/**
+	 * clear selection option and fields in the form
+	 * called by selectRentalPptyListener() method
+	 */
 	private void resetForm() {
 		selectedRentalId = null;
 		rentalProperties.getItems().clear();
@@ -151,3 +167,5 @@ public class TenancyInvoiceController extends DashboardController implements Dat
 		}
 	}
 }
+
+

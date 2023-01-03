@@ -2,8 +2,13 @@ package assignment;
 
 import java.io.Serializable;
 
+/**
+ * The class is used to create a Landmark(place of interest) object that can be serialised and stored in a file
+ * @author Airat YUsuff 22831467
+ *
+ */
 public class Landmark implements Serializable {
-	private static final long serialVersionUID = 1L; //default fix from compiler
+	private static final long serialVersionUID = 1L;
 	
 	private String landmarkId;
 	private String name;
@@ -14,7 +19,9 @@ public class Landmark implements Serializable {
 	private static int lastIndex = 0;
 		
 	
-	
+	/**
+	 * constructor to create a default/empty Landmark object
+	 */
 	public Landmark() {	
 		landmarkId = "l" + lastIndex;
 		name = "";
@@ -24,6 +31,13 @@ public class Landmark implements Serializable {
 		lastIndex++;
 	}
 
+	/**
+	 * constructor to create a Landmark object with the provided parameters
+	 * @param n	name
+	 * @param p	postcode
+	 * @param lat	latitude
+	 * @param l	lontitude
+	 */
 	public Landmark(String n, String p, double lat, double l) {	
 		landmarkId = "l" + lastIndex;
 		name = n;

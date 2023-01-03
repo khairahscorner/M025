@@ -5,9 +5,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * 
- * @author airah
- *
+ * the class is used to create a property object that can be serialised and stored in a file
+ * @author Airat Yusuff 22831467
  */
 public class Property implements Serializable, DataFormatter {
 
@@ -29,8 +28,7 @@ public class Property implements Serializable, DataFormatter {
 	private double rentPerMonth;
 	
 	private boolean rentalStatus;
-	
-	
+		
 
 	public Property() {
 		rentalStatus = false;
@@ -52,16 +50,15 @@ public class Property implements Serializable, DataFormatter {
 	
 	/**
 	 * create a new property
-	 * 
-	 * @param t		type
-	 * @param f		furnished status
-	 * @param p		postcode
-	 * @param d		listed date
-	 * @param g		has garden?
-	 * @param s		property size
-	 * @param b		number of bedrooms
-	 * @param c		number of bathrooms
-	 * @param r		rent PCM	
+	 * @param t	type
+	 * @param f	furnished status
+	 * @param p	postcode
+	 * @param d	listed date
+	 * @param g	has garden?
+	 * @param s	property size
+	 * @param b	number of bedrooms
+	 * @param c	number of bathrooms
+	 * @param r	rent PCM	
 	 * @param lat	latitude
 	 * @param l		longitude
 	 */
@@ -182,18 +179,26 @@ public class Property implements Serializable, DataFormatter {
 		return lastPropertyIndex;
 	}
 	
+	/**
+	 * calculate deposit - 6 times the rent
+	 * @return deposit amount
+	 */
 	public double getDeposit() {
 		return Double.parseDouble(dpFormatter.format(rentPerMonth * 6));	
 	}
+	
+	/**
+	 * calculate agent fee: 20% rent
+	 * @return agent fee
+	 */
 	public double getAgentFee() {
 		return Double.parseDouble(dpFormatter.format(0.2 * rentPerMonth));	
 	}
 	
 	/**
-	 * 
-	 * 
+	 * format all the attributes of a class object to a string
 	 * @param currPpty	current property to print details
-	 * @return 
+	 * @return string containing all property details
 	 */
 	public static String getPropertyDetails(Property currPpty) {
 		return "Type: " + currPpty.getType() + "\nProperty Code: " + currPpty.getPropertyId() + "\nDate Listed: " + currPpty.getDateListed().format(dateFormatter) + "\nRental Status: " + currPpty.getRentalStatus()
@@ -204,6 +209,12 @@ public class Property implements Serializable, DataFormatter {
 		
 	}
 	
+	/**
+	 * filters for landmarks with postcode corresponding to property postcode, and formats to a string
+	 * @param currPpty	current property
+	 * @param allLandmarks	landmarks 
+	 * @return string with details of all matched 
+	 */
 	public static String getLandmarksProximity(Property currPpty, List<Landmark> allLandmarks) {
 		String pptyPostCode = currPpty.getPostcode().split(" ")[0];
 		String str = "\n\n ---- Proximity to Landmarks in " + pptyPostCode + " ----\n";
@@ -213,8 +224,7 @@ public class Property implements Serializable, DataFormatter {
 			if(pptyPostCode.equals(landmarkCode)) {
 				str += allLandmarks.get(i).getName() + ": " + dpFormatter.format(
 						DistanceCalculator.getDistance(currPpty.getLatitude(), currPpty.getLongitude(), allLandmarks.get(i).getLatitude(), 
-								allLandmarks.get(i).getLongitude(), "K")) + "km\n";
-				
+								allLandmarks.get(i).getLongitude(), "K")) + "km\n";			
 			};
 		}
 		return str;		

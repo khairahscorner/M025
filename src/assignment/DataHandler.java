@@ -3,7 +3,11 @@ package assignment;
 import java.io.*;
 import java.util.*;
 
-
+/**
+ * the class processses object serialisation and deserialisation for class objects of different types
+ * @author Airat YUsuff 22831467
+ *
+ */
 public class DataHandler {
 	private static String propertyListFileName;
 	private static String customerListFileName;
@@ -11,19 +15,25 @@ public class DataHandler {
 	private static String landmarksFileName;
 	private static String usersFileName;
 	
-	
-	public static void readProperties(Properties config) {
-		propertyListFileName = config.getProperty("properties.file");
-		customerListFileName = config.getProperty("customers.file");
-		rentalListFileName = config.getProperty("rentals.file");
-		landmarksFileName = config.getProperty("landmarks.file");
-		usersFileName = config.getProperty("users.file");	
+	/**
+	 * reads values of each property stored in the specified Properties object
+	 * @param ppties	Java Properties object
+	 */
+	public static void readProperties(Properties ppties) {
+		propertyListFileName = ppties.getProperty("properties.file");
+		customerListFileName = ppties.getProperty("customers.file");
+		rentalListFileName = ppties.getProperty("rentals.file");
+		landmarksFileName = ppties.getProperty("landmarks.file");
+		usersFileName = ppties.getProperty("users.file");	
 	}
 	
-	
-	
+	/**
+	 * serialise object to a file
+	 * @param obj	object to serialise
+	 * @param outputFile	file to serailise object to
+	 * @throws IOException
+	 */
 	//referenced code - START
-	// Serialise the object to a file
 	public static void doSerialize(Object obj, String outputFile) throws IOException {
         FileOutputStream fileTowrite = new FileOutputStream(outputFile);
         ObjectOutputStream objTowrite = new ObjectOutputStream(fileTowrite);
@@ -31,7 +41,13 @@ public class DataHandler {
         fileTowrite.close();
     }
 
-    // Deserialise the Java object from a given file
+    /**
+     * Deserialise the Java object from a given file
+     * @param inputFile	file to read objects from
+     * @return	the deserialised object
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public static Object doDeserialize(String inputFile) throws IOException, ClassNotFoundException {
     	Object obj = new Object();
     	File f = new File (inputFile); 
@@ -51,15 +67,25 @@ public class DataHandler {
     	}
     	
         return obj;
-    }
-    
+    }  
     //referenced code - STOP
     
     
+    /**
+     * overwrites the existing object in the file with new object
+     * @param cList	customerList object
+     * @throws IOException
+     */
 	public static void writeToFile(CustomerList cList) throws IOException {
 	      doSerialize(cList, customerListFileName);
 	}
     
+	/**
+	 * reads the customersList object stored in a file
+	 * @return	the deserialised object
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public static CustomerList readCustomerList() throws IOException, ClassNotFoundException {
 		CustomerList cList = new CustomerList();
 		Object obj;

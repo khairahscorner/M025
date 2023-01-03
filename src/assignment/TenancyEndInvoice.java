@@ -1,11 +1,22 @@
 package assignment;
 
+/**
+ * This class is used to generate an invoice for a rental property at the end of the tenancy
+ * @author Airat Yusuff 22831467
+ *
+ */
 public class TenancyEndInvoice implements Invoice, DataFormatter {
 	
 	private double deductions;
 	private Rental rentalDetails;
 	private String invoiceId;
 	
+
+	/**
+	 * constructor to save the referenced rental object and calculate values for the attributes
+	 * @param r	Rental object
+	 * @param d	damage deductions
+	 */
 	public TenancyEndInvoice(Rental r, double d) {
 		rentalDetails = r;
 		deductions = d;
@@ -24,7 +35,9 @@ public class TenancyEndInvoice implements Invoice, DataFormatter {
 		return invoiceId;
 	}
 	
-	
+	/**
+	 * interface method
+	 */
 	public String generateInvoice() {
 		Property rentalPpty = rentalDetails.getRentalPpty();
 		String str = "";
@@ -50,5 +63,6 @@ public class TenancyEndInvoice implements Invoice, DataFormatter {
 			
 		return str;
 	}
-	
 }
+
+

@@ -12,7 +12,10 @@ import javafx.scene.control.Alert.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
-
+/**
+ * the class handles all actions in the landmarksView scenes - view, add and edit details
+ * @author Airat YUsuff 22831467
+ */
 public class LandmarksController extends DashboardController implements DataFormatter {
 
 	@FXML
@@ -46,12 +49,12 @@ public class LandmarksController extends DashboardController implements DataForm
 	private int gridCount;
 	private int currLandmarkIndex;
 	
-	private String defaultFormHeading = "Add New Landmark";
-	private String postcodeValidate = "^[A-Z0-9]{2,4}+ [A-Z0-9]{3}$";
+	private final String DEFAULT_FORM_HEADING = "Add New Landmark";
+	private final String POSTCODE_VALIDATE = "^[A-Z0-9]{2,4}+ [A-Z0-9]{3}$";
 
 	
 	/**
-	 * reads the existing customers + default hides edit buttons
+	 * reads the existing customers to a list + default hides edit buttons
 	 */
 	public void initialize() {
 		try {
@@ -102,8 +105,7 @@ public class LandmarksController extends DashboardController implements DataForm
 				    	editLandmarkDetails(currLandmarkIndex);			    	
 				    }
 				});	
-				
-				
+								
 				allLandmarks.getRowConstraints().add(new RowConstraints(40));
 				allLandmarks.add(name, 0, gridCount);
 				allLandmarks.add(postcode, 1, gridCount);
@@ -120,12 +122,14 @@ public class LandmarksController extends DashboardController implements DataForm
 	}
 	
 	/**
-	 * formats/validates inputs for creating new landmark, and adds to its corresponding file
+	 * formats/validates inputs for creating new landmark, adds it to the list, and rewrites the list to its corresponding file
 	 * @param e
 	 * @throws IOException
 	 */
 	public void addNewLandmarkBtnListener(ActionEvent e) throws IOException {
 		Alert alert = new Alert(AlertType.NONE);
+		
+		//strings to format the parsed double values first, before parsing again as double parameters for the landmark
 		String l1 = "";
 		String l2 = "";
 		
@@ -148,7 +152,7 @@ public class LandmarksController extends DashboardController implements DataForm
             alert.setContentText("Please fill in all details correctly");
             alert.show();
 		} 
-		else if (!postcode.getText().matches(postcodeValidate)) {
+		else if (!postcode.getText().matches(POSTCODE_VALIDATE)) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error adding new landmark");
             alert.setContentText("Please enter a valid postcode");
@@ -182,7 +186,7 @@ public class LandmarksController extends DashboardController implements DataForm
     }
 	
 	/**
-	 * prefills the form with the details
+	 * prefills the form with the details on click of the edit button 
 	 * @param index
 	 */
 	private void editLandmarkDetails(int index) {
@@ -199,9 +203,11 @@ public class LandmarksController extends DashboardController implements DataForm
     	updateDetails.setVisible(true);
 	}
 	
-	
-	public void cancelEditListener(ActionEvent e) throws IOException {	
-    	formHeading.setText(defaultFormHeading);
+	/**
+	 * resets the form fields when cancelling an edit
+	 */
+	public void cancelEditListener() {	
+    	formHeading.setText(DEFAULT_FORM_HEADING);
     	name.setText(null);
     	postcode.setText(null);
     	latitude.setText(null);
@@ -212,10 +218,17 @@ public class LandmarksController extends DashboardController implements DataForm
     	updateDetails.setVisible(false);
 	}
 	
+	/**
+	 * validates user input, updates the landmark details with the new values and writes the updated list to file, 
+	 * overwriting the previously stored list
+	 * @param e
+	 * @throws IOException
+	 */
 	public void updateLandmarkBtnListener(ActionEvent e) throws IOException {
 		Alert alert = new Alert(AlertType.NONE);
 		Landmark currLandmark = lList.getLandmarks().get(currLandmarkIndex);
 		
+		//strings to format the parsed double values first, before parsing again as double parameters for the landmark
 		String l1 = "";
 		String l2 = "";
 		
@@ -236,7 +249,7 @@ public class LandmarksController extends DashboardController implements DataForm
             alert.setTitle("Error updating landmark details");
             alert.setContentText("Please fill in all details correctly");
             alert.show();
-		} else if (!postcode.getText().matches(postcodeValidate)) {
+		} else if (!postcode.getText().matches(POSTCODE_VALIDATE)) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error updating landmark details");
             alert.setContentText("Please enter a valid postcode");

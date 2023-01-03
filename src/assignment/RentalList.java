@@ -3,10 +3,16 @@ package assignment;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * This class is used to create a new list object consisting of multiple rental objects from the Rental class
+ * @author Airat Yusuff 22831467
+ *
+ */
 public class RentalList implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	//hash the list and create a rental keys list for ease of use in other classes
 	private Map<String, Rental> rList;
 	private List<String> rentalKeys;
 

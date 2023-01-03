@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 
 /**
  * the class populates the dashboard with count values and handles importing data from files
- * @author airah
+ * @author Airat YUsuff 22831467
  *
  */
 public class DashboardController {
@@ -81,12 +81,19 @@ public class DashboardController {
 	      }
     }
     
-
+    /**
+     * click action handler for comboBox for choosing import type 
+     */
     public void selectImportTypeListener() {
     	selectedFileTypeToImport = selectImportType.getValue();
 	}
     
-    public void filePickerListener(ActionEvent e) throws IOException {
+    /**
+     * action handler for selecting the file to import
+     * @param e
+     * @throws Exception
+     */
+    public void filePickerListener(ActionEvent e) throws Exception {
     	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	    FileChooser fileChooser = new FileChooser();
 	    File selectedFile = fileChooser.showOpenDialog(stage);

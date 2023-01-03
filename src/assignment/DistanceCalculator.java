@@ -1,3 +1,4 @@
+// REFERENCED CODE - START
 
 /*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
 /*::                                                                         :*/
@@ -49,4 +50,6 @@ public class DistanceCalculator {
 		}
 	}
 }
+//REFERENCED CODE - STOP
+
 

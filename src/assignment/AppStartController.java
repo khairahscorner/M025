@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 
 /**
  * the class controls the home page of the application where the user logs in. Includes user input validation
- * @author airah
+ * @author Airat YUsuff 22831467
  *
  */
 public class AppStartController {

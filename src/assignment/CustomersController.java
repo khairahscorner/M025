@@ -9,12 +9,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
-import javafx.scene.control.Alert.*;
-import javafx.scene.layout.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 
 
+/**
+ * the class handles all actions in the customersView scenes - view, add and update customer details
+ * @author Airat Yusuff 22831467
+ */
 public class CustomersController extends DashboardController implements DataFormatter {
 	@FXML
 	private AnchorPane customerForm;
@@ -50,9 +54,9 @@ public class CustomersController extends DashboardController implements DataForm
 	private int currCustIndex;
 	
 	
-	private final String defaultFormHeading = "Add New Customer";
-	private final String emailValidate = "^[a-zA-Z0-9_\\-\\.]{2,}+@[A-Za-z0-9\\-]+\\.[a-zA-Z]{2,10}$";
-	private final String phoneValidate = "^\\+[0-9]{8,15}$";
+	private final String DEFAULT_FORM_HEADING = "Add New Customer";
+	private final String EMAIL_VALIDATE = "^[a-zA-Z0-9_\\-\\.]{2,}+@[A-Za-z0-9\\-]+\\.[a-zA-Z\\.]{2,10}$";
+	private final String PHONE_VALIDATE = "^\\+[0-9]{8,15}$";
 
 	/**
 	 * reads the existing customers + default hides edit buttons	
@@ -104,6 +108,7 @@ public class CustomersController extends DashboardController implements DataForm
 				
 				Button editBtn = new Button("Edit");
 				editBtn.setId(cust.getCustId());
+				System.out.println(cust);
 				editBtn.setOnAction(new EventHandler<ActionEvent>() {
 				    @Override
 				    public void handle(ActionEvent event) {
@@ -146,16 +151,16 @@ public class CustomersController extends DashboardController implements DataForm
             alert.setContentText("Please fill in all details correctly");
             alert.show();
 		} 
-		else if (!email.getText().matches(emailValidate)) {
+		else if (!email.getText().matches(EMAIL_VALIDATE)) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error adding Customer");
             alert.setContentText("Please enter a valid email address");
             alert.show();
 		}
-		else if (!phone.getText().matches(phoneValidate)) {
+		else if (!phone.getText().matches(PHONE_VALIDATE)) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error adding Customer");
-            alert.setContentText("Please enter a correct phone number:\\n- country code starting with + and,\\nBetween 8 to 14 digits");
+            alert.setContentText("Please enter a correct phone number: country code starting with + and, between 8 to 14 digits");
             alert.show();
 		}
 		else if (ChronoUnit.YEARS.between(dob.getValue(), LocalDate.now()) < 18) {
@@ -191,6 +196,10 @@ public class CustomersController extends DashboardController implements DataForm
 		}
     }
 	
+	/**
+	 * populates the form fields with customer details to be edited
+	 * @param custIndex	index of the customer in the list of customers
+	 */
 	private void editCustomerDetails(int custIndex) {
 		Customer currCustomer = cList.getCustomers().get(custIndex);
 		
@@ -205,19 +214,26 @@ public class CustomersController extends DashboardController implements DataForm
     	updateDetails.setVisible(true);
 	}
 	
-	
-	public void cancelEditListener(ActionEvent e) throws IOException {
+	/**
+	 * cancel edit button action handler
+	 */
+	public void cancelEditListener() {
 		addNew.setVisible(true);
     	cancelEdit.setVisible(false);
     	updateDetails.setVisible(false);
     	
-    	formHeading.setText(defaultFormHeading);
+    	formHeading.setText(DEFAULT_FORM_HEADING);
     	name.setText(null);
     	email.setText(null);
     	phone.setText(null);
     	dob.setValue(null);
 	}
 	
+	/**
+	 * validates user input in the form fields and updates the attribute values for the customer currently being updated
+	 * @param e
+	 * @throws IOException
+	 */
 	public void updateCustomerBtnListener(ActionEvent e) throws IOException {
 		Alert alert = new Alert(AlertType.NONE);
 		Customer currCustomer = cList.getCustomers().get(currCustIndex);
@@ -229,13 +245,13 @@ public class CustomersController extends DashboardController implements DataForm
             alert.setContentText("Please fill in all details correctly");
             alert.show();
 		}
-		else if (!email.getText().matches(emailValidate)) {
+		else if (!email.getText().matches(EMAIL_VALIDATE)) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error updating customer details");
             alert.setContentText("Please enter a valid email address");
             alert.show();
 		}
-		else if (!phone.getText().matches(phoneValidate)) {
+		else if (!phone.getText().matches(PHONE_VALIDATE)) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error updating customer details");
             alert.setContentText("Please enter a correct phone number:\n- country code starting with + and,\nBetween 8 to 14 digits");
@@ -263,10 +279,7 @@ public class CustomersController extends DashboardController implements DataForm
 	            //show alert, wait for user to close and then refresh
 	            Optional<ButtonType> result = alert.showAndWait();
 	            
-	            if(result.get() == ButtonType.OK) {
-	            	goToCustomersListener(e);
-	            } else {
-	            	//still refresh
+	            if(result.get() != null) {
 	            	goToCustomersListener(e);
 	            } 
 			}

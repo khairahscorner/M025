@@ -3,7 +3,11 @@ package assignment;
 import java.io.Serializable;
 import java.util.*;
 
-
+/**
+ * This class is used to create a new list object consisting of multiple customer objects from the Customer class
+ * @author Airat YUsuff 22831467
+ *
+ */
 public class CustomerList implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -34,3 +38,4 @@ public class CustomerList implements Serializable {
 		return s;
 	}
 }
+

@@ -14,7 +14,11 @@ import javafx.scene.control.Alert.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
-
+/**
+ * The class handles all actions in the rentalsView scenes - rent property, view rentals
+ * @author Airat Yusuff 22831467
+ *
+ */
 public class RentalsController extends DashboardController implements DataFormatter {
 
 	@FXML
@@ -54,7 +58,9 @@ public class RentalsController extends DashboardController implements DataFormat
 	private HashMap<String, Customer> hashedCustomers;	
 	
 	
-	
+	/**
+	 * read specified existing files into lists + adds options to comboBoxes
+	 */
 	public void initialize() {
 		try {
 			rList = DataHandler.readRentalList();
@@ -99,6 +105,10 @@ public class RentalsController extends DashboardController implements DataFormat
 		
 	}
 	
+	/**
+	 * populates the specified grid pane with the rental details read from the file
+	 * called by initialize() method
+	 */
 	private void populateList() {
 		for(int i = 0; i < rList.getRentals().size(); i++) {
 			String key = rList.getKeys().get(i);
@@ -141,7 +151,9 @@ public class RentalsController extends DashboardController implements DataFormat
 		}
 	}
 	
-	
+	/**
+	 * select property to rent
+	 */
 	public void selectPropertyToRentListener() {
 		String selectedPptyId = availableProperties.getValue();
 		System.out.println(selectedPptyId);
@@ -149,6 +161,9 @@ public class RentalsController extends DashboardController implements DataFormat
 	    System.out.println(selectedProperty);
 	}
 	
+	/**
+	 * select customer to rent to
+	 */
 	public void selectCustomerListener() {
 		String selectedCustId = availableCustomers.getValue();
 		System.out.println(selectedCustId);
@@ -157,6 +172,12 @@ public class RentalsController extends DashboardController implements DataFormat
 	}
 	
 	
+	/**
+	 * validate user input, create a rental property object, append to existing list and rewrite the list to the corresponding file
+	 * also, change the availability status of the property and 
+	 * @param e
+	 * @throws IOException
+	 */
 	public void rentPropertyListener(ActionEvent e) throws IOException {
 		
 		Alert alert = new Alert(AlertType.NONE);
@@ -185,7 +206,6 @@ public class RentalsController extends DashboardController implements DataFormat
 				
 				da.createRental(selectedProperty, selectedCustomer, LocalDate.now(), rentDueDate.getValue());
 				
-				//ensure the property object in the rental(which references the ppty object in the list) has the rental status set to true
 				selectedProperty.setRentalStatus(true);
 				
 				DataHandler.writeToFile(da.getAllRentals());
@@ -199,14 +219,10 @@ public class RentalsController extends DashboardController implements DataFormat
 	            //show alert, wait for user to close and then refresh
 	            Optional<ButtonType> result = alert.showAndWait();
 	            
-	            if(result.get() == ButtonType.OK) {
+	            if(result.get() != null) {
 	            	goToRentalsListener(e);
-	            } else {
-	            	//still refresh
-	            	goToRentalsListener(e);
-	            }         	            
-
-	            
+	            }        	            
+        
 			} catch(Exception exception) {
 				alert.setAlertType(AlertType.ERROR);
                 alert.setTitle("Error renting property");
@@ -216,12 +232,16 @@ public class RentalsController extends DashboardController implements DataFormat
 		}
 }
 
-	
+	/**
+	 * display details of the rental property including the invoice, property and customer details
+	 * @param p	Property object
+	 * @param c	Customer object
+	 * @param key	key of the current Rental object
+	 */
 	private void showRentalPropertyDetails(Property p, Customer c, String key) {
 		Rental r = rList.getRentals().get(key);
 		RentalInvoice newInvoice = new RentalInvoice(r);
-		
-		
+			
     	rentalInvoice.setText(newInvoice.generateInvoice() + "\n");
     	
     	rentalPptyDetails.setText("-- Property Details at Rental --\n");

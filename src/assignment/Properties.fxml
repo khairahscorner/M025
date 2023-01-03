@@ -65,11 +65,6 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="560.0" prefWidth="691.0">
                <children>
-                  <Pane fx:id="emptyPptyList" prefHeight="619.0" prefWidth="651.0">
-                     <children>
-                        <Label fx:id="emptyListLabel" layoutX="198.0" layoutY="272.0" text="No Properties In The System" />
-                     </children>
-                  </Pane>
                   <ScrollPane prefHeight="620.0" prefWidth="664.0">
                      <content>
                         <AnchorPane prefHeight="606.0" prefWidth="647.0">
@@ -157,6 +152,11 @@
                         </AnchorPane>
                      </content>
                   </ScrollPane>
+                  <Pane fx:id="emptyPptyList" prefHeight="619.0" prefWidth="651.0">
+                     <children>
+                        <Label fx:id="emptyListLabel" layoutX="198.0" layoutY="272.0" text="No Properties In The System" />
+                     </children>
+                  </Pane>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="622.0" prefWidth="277.0">

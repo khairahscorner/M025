@@ -3,8 +3,8 @@ package assignment;
 import java.io.Serializable;
 
 /**
- * This class creates an admin with a username and password to login from the start of the application
- * @author airah
+ * This class is used to create an admin with a username and password to login from the start of the application
+ * @author Airat Yusuff 22831467
  *
  */
 public class Admin implements Serializable, DataFormatter {

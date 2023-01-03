@@ -13,24 +13,32 @@ import javafx.scene.Scene;
 
 /**
  * the class is the entry point into the javafx app, handled by the AppStartController class
- * @author airah
+ * @author Airat Yusuff 22831467
  *
  */
 public class AppStart extends Application {
 	//java properties variable
 	private static final Properties properties = new Properties();
 	
-	public static void initialise() throws FileNotFoundException, IOException {
-		properties.load(new FileInputStream("allFiles.properties"));
-		DataHandler.readProperties(properties);
-		
-	}
-	
-	public static void main(String[] args) throws FileNotFoundException, IOException {
-		initialise();
-		launch(args);
+	public static void main(String[] args) {
+		try {
+			initialise();
+			launch(args);
+		}
+		catch(Exception e) {
+			System.out.println(e.toString());
+		}
 	}
 
+	/**
+	 * reads a properties list from the file stream
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	public static void initialise() throws FileNotFoundException, IOException {
+		properties.load(new FileInputStream("allFiles.properties"));
+		DataHandler.readProperties(properties);		
+	}
 	
 	@Override
 	public void start(Stage openingStage) throws IOException {

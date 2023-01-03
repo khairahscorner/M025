@@ -1,5 +1,3 @@
-
-
 package assignment;
 
 import java.io.*;
@@ -9,8 +7,7 @@ import java.time.LocalDate;
 
 /**
  * this class is used to create new objects from parameters or field values from csv files, and adds to their respective lists
- * 
- * @author airah
+ * @author Airat YUsuff 22831467
  *
  */
 public class ImportData implements DataFormatter {
@@ -20,13 +17,14 @@ public class ImportData implements DataFormatter {
 	private RentalList rList;
 
 	private String lineInFile;
-	private int lineCount = 0;
 	private Scanner fileToImport;
+	private int lineCount = 0;
 	
 	
 	/**
 	 * reads all data from the existing files
-	 *
+	 * @throws ClassNotFoundException
+	 * @throws IOException
 	 */
 	public ImportData() throws ClassNotFoundException, IOException {
 		pList = DataHandler.readPropertyList(); 
@@ -56,10 +54,8 @@ public class ImportData implements DataFormatter {
 
 	/**
 	 * constructor for reading data from csv files
-	 * 
 	 * @param filename	file name to import from
 	 * @param type	the type of data that's to be read from the file i.e. properties, customers, or landmarks
-	 * 
 	 */
 	public ImportData(String filename, String type) throws ClassNotFoundException, IOException {
 		if(type == "landmark") {
@@ -80,8 +76,7 @@ public class ImportData implements DataFormatter {
 	}
 	
 	/**
-	 * create a new property and add to the list of existing properties
-	 * 
+	 * create a new property and add to the list of existing properties 
 	 * @param t	type
 	 * @param f	furnished status
 	 * @param p	postcode
@@ -101,7 +96,6 @@ public class ImportData implements DataFormatter {
 	
 	/**
 	 * create a new property using field values from a line read from the csv file, and add to property list
-	 * 
 	 * @param lineInFile	comma_separated fields in the current line
 	 */
 	public void createProperty(String lineInFile) {	       
@@ -137,7 +131,7 @@ public class ImportData implements DataFormatter {
 	
 	/**
 	 * reads every line of the csv file and creates properties with each line
-	 * 
+	 * @throws IOException
 	 */
 	public void importAllProperties() throws IOException {
 		//REFERENCED CODE START
@@ -156,7 +150,6 @@ public class ImportData implements DataFormatter {
 	
 	/**
 	 * creates a new place of interest and add to the list of existing ones
-	 * 
 	 * @param n	name
 	 * @param p	postcode
 	 * @param l1	latitude
@@ -169,7 +162,6 @@ public class ImportData implements DataFormatter {
 	
 	/**
 	 * create a new place of interest using field values from a line read from the csv file, and add to the list
-	 * 
 	 * @param lineInFile	comma_separated fields in the current line
 	 */
 	public void createLandmark(String lineInFile) {	       
@@ -196,7 +188,7 @@ public class ImportData implements DataFormatter {
 	
 	/**
 	 * reads every line of the csv file and creates place of interest with each line
-	 * 
+	 * @throws IOException
 	 */
 	public void importAllLandmarks() throws IOException {
 		//REFERENCED CODE START
@@ -215,7 +207,6 @@ public class ImportData implements DataFormatter {
 	
 	/**
 	 * creates new customer and add to the list of existing ones
-	 * 
 	 * @param n		name
 	 * @param e		email
 	 * @param p		phone
@@ -228,15 +219,12 @@ public class ImportData implements DataFormatter {
 	
 	/**
 	 * create a new customer using field values from a line read from the csv file, and add to the list
-	 * 
 	 * @param lineInFile	comma_separated fields in the current line
 	 */
 	public void createCustomer(String lineInFile) {	       
 	      if(lineCount > 1) {
 
 	    	  Customer cust = new Customer();
-
-		      // Tokenize the last line read from the file.
 		      String[] fields = lineInFile.split(",");
 		      
 		      for (int i = 0; i < fields.length; i++) {
@@ -252,8 +240,8 @@ public class ImportData implements DataFormatter {
 	   }
 	
 	/**
-	 * reads every line of the csv file and creates place of interest with each line
-	 * 
+	 * reads every line of the csv file and creates customers with each line
+	 * @throws IOException
 	 */
 	public void importAllCustomers() throws IOException {
 		//REFERENCED CODE START
@@ -270,7 +258,7 @@ public class ImportData implements DataFormatter {
 	
 	
 	/**
-	 * 
+	 * create a new rental property with the parameters and add to the list
 	 * @param p		Property object
 	 * @param c		Customer object
 	 * @param r		rental date
@@ -279,10 +267,7 @@ public class ImportData implements DataFormatter {
 	public void createRental(Property p, Customer c, LocalDate r, LocalDate d) {
 		Rental rentalPpty  = new Rental(p, c, r, d);
 		rList.addRentals(rentalPpty);
-	}
-	
-	//can extend and create from file too
-	
+	}	
 	
 	public RentalList getAllRentals() {
 		return rList;
@@ -291,23 +276,21 @@ public class ImportData implements DataFormatter {
 	
 	/**
 	 * reads each line from the file and save to string
-	 * @return
+	 * @return	whether there is a next line available to read
 	 * @throws IOException
 	 */
-	//Referenced code START	
+	//REFERENCED CODE - START	
 	 public boolean readNextLine() throws IOException {
 	    boolean lineRead;
-	    // Determine whether there is more to read.
 	    lineRead = fileToImport.hasNext();
 	
-	    // If so, read the next line. 
 	    if (lineRead) {
 	    	lineInFile = fileToImport.nextLine();
 	    	lineCount++;
 	    }
 	    return lineRead;
 	 }
-	 //STOP
+	 //REFERENCED CODE - STOP
 
 }
 

@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 
+/**
+ * the class is used to create a new customer object that can be serialised and stored in a file
+ * @author Airat YUsuff 22831467
+ *
+ */
 public class Customer implements Serializable, DataFormatter {
 	private static final long serialVersionUID = 1L;
 	private static int lastCustomerIndex = 0;
@@ -14,15 +19,25 @@ public class Customer implements Serializable, DataFormatter {
 	private LocalDate dob;
 	private String custId;
 	
-	
+	/**
+	 * constructor to create a default/empty customer object
+	 */
 	public Customer() {
 		name = "";
 		email = "";
 		phone = "";
 		dob = null;
-		custId = "";
+		custId = "c" + lastCustomerIndex;
+		lastCustomerIndex++;
 	}
 	
+	/**
+	 * constructor to create a Customer object with the provided parameters
+	 * @param n	name
+	 * @param e	email
+	 * @param p	phone number
+	 * @param d	date of birth
+	 */
 	public Customer(String n, String e, String p, String d)  {
 		name = n;
 		email = e;

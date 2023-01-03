@@ -19,8 +19,8 @@ import javafx.scene.text.*;
 import javafx.stage.Stage;
 
 /**
- * the class is used to display a list of all properties, filter & sort options, view and edit the details of a specifc proerty
- * @author airah
+ * the class is used to display a list of all properties, filter & sort options, view and edit the details of a specifc property
+ * @author Airat YUsuff 22831467
  *
  */
 public class PropertiesController extends DashboardController implements DataFormatter {
@@ -28,8 +28,7 @@ public class PropertiesController extends DashboardController implements DataFor
 	@FXML
 	private Pane optionsWrapper;
 	@FXML
-	private GridPane headerWrapper;
-	
+	private GridPane headerWrapper;	
 	
 	@FXML
 	private ImageView pptyImg;
@@ -85,13 +84,11 @@ public class PropertiesController extends DashboardController implements DataFor
 	private TextField editBedrooms;
 	@FXML
 	private TextField editBathrooms;
-	
-	
+		
 	
 	private LandmarkList lList;
 	private PropertyList pList;
 	private Property currPpty;
-	
 	private String selectedPptyAvailability;
 	
 	private String defaultDateSort = "Most Recent";
@@ -99,7 +96,7 @@ public class PropertiesController extends DashboardController implements DataFor
 	  
 
 	/**
-	 * read specified existing files + adds options to comboBoxes
+	 * read specified existing files into lists + adds options to comboBoxes
 	 */
 	public void initialize() {
 		try {
@@ -117,6 +114,10 @@ public class PropertiesController extends DashboardController implements DataFor
 			pptyBedrooms.getItems().addAll("1", "2", "3+");
 			pptyBathrooms.getItems().addAll("1", "2", "3+");
 			
+			/**
+			 * get the first half of all postcodes and save the unique keys as values for the "filter by postcode" option; 
+			 * this will return more matched results as opposed to specific postcodes
+			 */
 			HashMap<String,String> postcodeMap = new HashMap<String,String>();  
 			for (String key: pList.getKeys()) {
 				String pptyPostcode = pList.getProperties().get(key).getPostcode();
@@ -252,27 +253,20 @@ public class PropertiesController extends DashboardController implements DataFor
 		pptyDetailsArea.setEditable(false);		
     }
 	
-	
+	/**
+	 * filter properties list based on property availability (rentalStatus)
+	 */
 	public void selectAvailabilityListener() {
 		selectedPptyAvailability = pptyAvailability.getValue();
 		
 		clearTable();
 		
 		populateList(PropertyActions.filterPropertiesByRentalStatus(pList, selectedPptyAvailability)); 
-		
-		
-		//reset other options
-//		pptyAvailability.setValue(null);
-//		pptyAvailability.setPromptText("All Properties");
-//		pptyBedrooms.setValue("0");
-//		pptyBedrooms.setPromptText("Bedrooms");
-//		pptyBathrooms.setValue("0");
-//		pptyBathrooms.setPromptText("Bathrooms");
-//		pptyPrice.setValue(null);
-//		pptyDate.setPromptText("");
-//		pptyPostcode.setPromptText("");
 	}
 	
+	/**
+	 * sort properties list based on price (low to high/high to low)
+	 */
 	public void selectPriceListener() {
 		String option = pptyPrice.getValue();
 		if(option == "Low to High") {
@@ -286,6 +280,9 @@ public class PropertiesController extends DashboardController implements DataFor
 		
 	}
 	
+	/**
+	 * sort properties list based on date listed (most recent/earliest)
+	 */
 	public void selectDateListedListener() {
 		String option = pptyDate.getValue();
 		if(option == "Earliest") {
@@ -299,6 +296,9 @@ public class PropertiesController extends DashboardController implements DataFor
 		
 	}
 	
+	/**
+	 * filter properties list based on number of bedrooms (3+ for 3 or more bedrooms)
+	 */
 	public void selectBedroomsListener() {
 
 		int num = 0;
@@ -315,7 +315,7 @@ public class PropertiesController extends DashboardController implements DataFor
 	}
 	
 	/**
-	 * filters properties by bathroom values, 3+ is option for 3 and above
+	 * filter properties list based on number of bathrooms (3+ for 3 or more bathrooms)
 	 */
 	public void selectBathroomsListener() {
 		int num = 0;
@@ -331,6 +331,9 @@ public class PropertiesController extends DashboardController implements DataFor
 		
 	}
 	
+	/**
+	 * filter properties list based on postcode area
+	 */
 	public void selectPostcodeListener() {
 		String postcode = pptyPostcode.getValue();
 
@@ -344,19 +347,16 @@ public class PropertiesController extends DashboardController implements DataFor
 	 * clears existing table in grid pane
 	 */
 	private void clearTable() {
-		//how to still retain the grid lines after replacing with new ppty list????
-
-		// REFERENCED CODE -START
 		pptiesWrapper.getChildren().clear();
 		while(pptiesWrapper.getRowConstraints().size() > 0){
 			pptiesWrapper.getRowConstraints().remove(0);
 		}
-		// STOP
 	}
 	
-	
-	
-	public void openEditViewListener() throws ClassNotFoundException, IOException {
+	/**
+	 * switches the details view to edit property and populates the form fields with the property values
+	 */
+	public void openEditViewListener() {
 		editPptyDetails.setVisible(true);
 		mainPptyDetails.setVisible(false);
 		emptyDetailsPane.setVisible(false);
@@ -367,14 +367,19 @@ public class PropertiesController extends DashboardController implements DataFor
 		editBathrooms.setText(Integer.toString(currPpty.getBathrooms()));
 	}
 	
-	
-	public void goBackToDetailsViewListener() throws ClassNotFoundException, IOException {
+	/**
+	 * cancels property edit and resets form values
+	 */
+	public void goBackToDetailsViewListener() {
 		editPptyDetails.setVisible(false);
 		mainPptyDetails.setVisible(true);
 	}
 	
-
-	public void updatePptyDetailsListener() {
+	/**
+	 * validates input, updates property details in list and rewrites the list to its corresponding file
+	 * @throws IOException
+	 */
+	public void updatePptyDetailsListener() throws IOException {
 		Alert alert = new Alert(AlertType.NONE);
 		double rentVal = 0;
 		int bedrooms = 0;
@@ -411,7 +416,6 @@ public class PropertiesController extends DashboardController implements DataFor
 				currPpty.setBedrooms(bedrooms);
 				currPpty.setBathrooms(bathrooms);
 				
-				
 				DataHandler.writeToFile(pList);
 
 				alert.setAlertType(AlertType.INFORMATION);
@@ -423,8 +427,7 @@ public class PropertiesController extends DashboardController implements DataFor
 	            
 	            if(result.get() != null) {
 	            	viewPropertyDetailsListener(currPpty.getPropertyId());
-	            }        	            
-
+	            }
 	            
 			} catch(Exception exception) {
 				alert.setAlertType(AlertType.ERROR);

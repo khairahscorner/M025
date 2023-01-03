@@ -7,7 +7,7 @@ import java.util.Properties;
 
 /**
  * The main class to run for creating a new admin. the admin file is loaded to write the newly created admin
- * @author airah
+ * @author Airat Yusuff 22831467
  *
  */
 public class AdminCreate {

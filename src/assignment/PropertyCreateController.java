@@ -14,6 +14,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.GridPane;
 
+/**
+ * This class controls the property creation scene for manually creating a new property in the application
+ * @author Airat YUsuff 22831467
+ */
 public class PropertyCreateController  extends DashboardController implements DataFormatter {
 	
 	@FXML
@@ -45,6 +49,9 @@ public class PropertyCreateController  extends DashboardController implements Da
 	
 	private PropertyList pList;
 	
+	/**
+	 * reads the existing properties to a list + sets values for combo boxes
+	 */
 	public void initialize() {
 		try {
 			pList = DataHandler.readPropertyList();
@@ -63,6 +70,12 @@ public class PropertyCreateController  extends DashboardController implements Da
 		
 	}
 	
+	/**
+	 * validates user input, creates & appends  new property to the list and writes the updated list to file, 
+	 * overwriting the previously stored list
+	 * @param e
+	 * @throws IOException
+	 */
 	public void addNewPropertyListener(ActionEvent e) throws IOException {
 		Alert alert = new Alert(AlertType.NONE);
 		double rentVal = 0;
@@ -70,7 +83,7 @@ public class PropertyCreateController  extends DashboardController implements Da
 		int noOfBaths = 0;
 		int pptySize = 0;
 		
-		//strings so i can first format the location values to 5 d.p.
+		//strings to format the parsed double values first, before parsing again as double parameters for the property
 		String l1 = "";
 		String l2 = "";
 		
@@ -88,8 +101,8 @@ public class PropertyCreateController  extends DashboardController implements Da
             return;
 		}
 		try {
-			l1 = locationFormatter.format(Double.parseDouble(longitude.getText()));
-			l2 = locationFormatter.format(Double.parseDouble(latitude.getText()));
+			l1 = locationFormatter.format(Double.parseDouble(latitude.getText()));
+			l2 = locationFormatter.format(Double.parseDouble(longitude.getText()));
 		}
 		catch(Exception ex) {
 			alert.setAlertType(AlertType.ERROR);
@@ -120,22 +133,16 @@ public class PropertyCreateController  extends DashboardController implements Da
 						
 				DataHandler.writeToFile(da.getAllProperties());
 				
-				//DataHandler.readCustomerList();
 				alert.setAlertType(AlertType.INFORMATION);
 	            alert.setTitle("Successful");
 	            alert.setContentText("New Property has been added successfully");
 
-	            //show alert, wait for user to close and then refresh
 	            Optional<ButtonType> result = alert.showAndWait();
 	            
-	            if(result.get() == ButtonType.OK) {
-	            	goToPropertiesListener(e);
-	            } else {
-	            	//still refresh
+	            if(result.get() != null) {
 	            	goToPropertiesListener(e);
 	            }
-	            
-	            
+	                      
 			} catch(Exception exception) {
 				alert.setAlertType(AlertType.ERROR);
                 alert.setTitle("Error adding new Property");
