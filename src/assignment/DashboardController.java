@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -29,9 +30,13 @@ public class DashboardController {
     private Label customerCount;
     @FXML
     private Label landmarkCount;
+    @FXML
+    private Text fileError;
   
 	@FXML
 	private ComboBox<String> selectImportType;
+	@FXML
+	private Button selectFile;
     
     
     private PropertyList pList;
@@ -93,12 +98,24 @@ public class DashboardController {
      * @param e
      * @throws Exception
      */
-    public void filePickerListener(ActionEvent e) throws Exception {
+    public void filePickerListener(ActionEvent e) throws Exception {		
     	Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	    FileChooser fileChooser = new FileChooser();
 	    File selectedFile = fileChooser.showOpenDialog(stage);
-	      
-	    selectedFilePathToImport = selectedFile.getPath();
+	    
+	    if(selectedFile == null) {
+	    	fileError.setVisible(true);
+	    	fileError.setText("Please pick a file");
+	    }
+	    else if(!selectedFile.getName().endsWith(".csv")) {
+	    	fileError.setVisible(true);
+	    	fileError.setText("Please pick the correct file in .csv format");	
+		}
+	    else {
+	    	selectedFilePathToImport = selectedFile.getPath();
+	    	selectFile.setText(selectedFile.getName());
+	    	fileError.setVisible(false);
+	    };
 	}
     
     /**
@@ -147,7 +164,9 @@ public class DashboardController {
 			catch(Exception exception) {
 				alert.setAlertType(AlertType.ERROR);
                 alert.setTitle("ERROR IMPORTING DATA");
-                alert.setContentText("An error occured");
+                
+                //to accomodate the different messages that can be thrown by the import methods in the switch statement
+                alert.setContentText(exception.getMessage() != null ? exception.getMessage() : "An error occurred");
                 alert.show();
 			}
 		}

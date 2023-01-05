@@ -2,6 +2,7 @@ package assignment;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
@@ -57,6 +58,7 @@ public class CustomersController extends DashboardController implements DataForm
 	private final String DEFAULT_FORM_HEADING = "Add New Customer";
 	private final String EMAIL_VALIDATE = "^[a-zA-Z0-9_\\-\\.]{2,}+@[A-Za-z0-9\\-]+\\.[a-zA-Z\\.]{2,10}$";
 	private final String PHONE_VALIDATE = "^\\+[0-9]{8,15}$";
+	private final String DOB_VALIDATE = "[0-9]{2}+/[0-9]{2}/[0-9]{4}";
 
 	/**
 	 * reads the existing customers + default hides edit buttons	
@@ -137,6 +139,7 @@ public class CustomersController extends DashboardController implements DataForm
 		}
 	}
 	
+
 	/**
 	 * on click of the button, validates user input, creates a new customer and add to customer file
 	 * @param e
@@ -161,6 +164,12 @@ public class CustomersController extends DashboardController implements DataForm
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error adding Customer");
             alert.setContentText("Please enter a correct phone number: country code starting with + and, between 8 to 14 digits");
+            alert.show();
+		}
+		else if(!dob.getValue().format(dateFormatter).matches(DOB_VALIDATE)) {
+			alert.setAlertType(AlertType.ERROR);
+            alert.setTitle("Error adding Customer");
+            alert.setContentText("Please enter a valid DOB format: DD/MM/YYYY");
             alert.show();
 		}
 		else if (ChronoUnit.YEARS.between(dob.getValue(), LocalDate.now()) < 18) {
@@ -237,8 +246,17 @@ public class CustomersController extends DashboardController implements DataForm
 	public void updateCustomerBtnListener(ActionEvent e) throws IOException {
 		Alert alert = new Alert(AlertType.NONE);
 		Customer currCustomer = cList.getCustomers().get(currCustIndex);
-
-
+			
+		try {
+			dob.getValue().format(dateFormatter);
+		}
+		catch(DateTimeParseException err) {
+			alert.setAlertType(AlertType.ERROR);
+            alert.setTitle("Error adding Customer");
+            alert.setContentText("Please enter a valid DOB format: DD/MM/YYYY");
+            alert.show();
+		}
+		
 		if(name.getText() == "" || email.getText() == "" || phone.getText() == "" || dob == null) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error updating customer details");
@@ -255,6 +273,12 @@ public class CustomersController extends DashboardController implements DataForm
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error updating customer details");
             alert.setContentText("Please enter a correct phone number:\n- country code starting with + and,\nBetween 8 to 14 digits");
+            alert.show();
+		}
+		else if(!dob.getValue().format(dateFormatter).matches(DOB_VALIDATE)) {
+			alert.setAlertType(AlertType.ERROR);
+            alert.setTitle("Error adding Customer");
+            alert.setContentText("Please enter a valid DOB format: DD/MM/YYYY");
             alert.show();
 		}
 		else if (ChronoUnit.YEARS.between(dob.getValue(), LocalDate.now()) < 18) {

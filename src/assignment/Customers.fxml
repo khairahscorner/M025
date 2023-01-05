@@ -151,7 +151,7 @@
                   <TextField fx:id="name" layoutX="16.0" layoutY="92.0" prefHeight="38.0" prefWidth="217.0" promptText="Jane Doe" />
                   <TextField fx:id="email" layoutX="16.0" layoutY="161.0" prefHeight="38.0" prefWidth="217.0" promptText="janedoe@gmail.com" />
                   <TextField fx:id="phone" layoutX="16.0" layoutY="229.0" prefHeight="38.0" prefWidth="217.0" promptText="+44123456789" />
-                  <DatePicker fx:id="dob" layoutX="16.0" layoutY="307.0" prefHeight="38.0" prefWidth="217.0" promptText="01/01/2000" />
+                  <DatePicker fx:id="dob" editable="false" layoutX="16.0" layoutY="307.0" prefHeight="38.0" prefWidth="217.0" promptText="01/01/2000" />
                   <Button fx:id="updateDetails" layoutX="16.0" layoutY="374.0" mnemonicParsing="false" onAction="#updateCustomerBtnListener" prefHeight="38.0" prefWidth="71.0" text="Update" />
                   <Button fx:id="addNew" layoutX="16.0" layoutY="374.0" mnemonicParsing="false" onAction="#addNewCustomerBtnListener" prefHeight="38.0" prefWidth="71.0" text="Submit" />
                   <Button fx:id="cancelEdit" layoutX="113.0" layoutY="374.0" mnemonicParsing="false" onAction="#cancelEditListener" prefHeight="38.0" prefWidth="85.0" text="Cancel" />

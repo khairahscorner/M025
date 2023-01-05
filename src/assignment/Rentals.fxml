@@ -148,7 +148,7 @@
                   <Line endX="96.2379150390625" endY="7.62939453125E-6" layoutX="134.0" layoutY="60.0" startX="-125.713134765625" />
                   <Label layoutX="16.0" layoutY="142.0" prefHeight="17.0" prefWidth="116.0" text="Select Customer: " />
                   <Label layoutX="15.0" layoutY="212.0" prefHeight="17.0" prefWidth="85.0" text="Rent Until:" />
-                  <DatePicker fx:id="rentDueDate" layoutX="16.0" layoutY="236.0" prefHeight="38.0" prefWidth="218.0" promptText="01/01/2023" />
+                  <DatePicker fx:id="rentDueDate" editable="false" layoutX="16.0" layoutY="236.0" prefHeight="38.0" prefWidth="218.0" promptText="01/01/2023" />
                   <Button fx:id="addNew" layoutX="16.0" layoutY="291.0" mnemonicParsing="false" onAction="#rentPropertyListener" prefHeight="38.0" prefWidth="71.0" text="Submit" />
                   <ComboBox fx:id="availableProperties" layoutX="17.0" layoutY="97.0" onAction="#selectPropertyToRentListener" prefHeight="37.0" prefWidth="215.0" promptText="Select Property Code:" />
                   <ComboBox fx:id="availableCustomers" layoutX="17.0" layoutY="165.0" onAction="#selectCustomerListener" prefHeight="37.0" prefWidth="215.0" promptText="Select Customer:" />

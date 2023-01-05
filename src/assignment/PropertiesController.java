@@ -361,7 +361,7 @@ public class PropertiesController extends DashboardController implements DataFor
 		mainPptyDetails.setVisible(false);
 		emptyDetailsPane.setVisible(false);
 
-		editRent.setText(Integer.toString((int) currPpty.getRentPerMonth()));
+		editRent.setText(dpFormatter.format(currPpty.getRentPerMonth()));
 		editFurnishing.setValue(currPpty.getFurnishedStatus());
 		editBedrooms.setText(Integer.toString(currPpty.getBedrooms()));
 		editBathrooms.setText(Integer.toString(currPpty.getBathrooms()));
@@ -397,10 +397,10 @@ public class PropertiesController extends DashboardController implements DataFor
             alert.show();
             return;
 		}
-		if(rentVal < 0 || bedrooms < 1 || bathrooms < 1) {
+		if(rentVal < 200 || bedrooms < 1 || bathrooms < 1 || bedrooms > 5 || bathrooms > 5) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error updating property");
-            alert.setContentText("Please enter values greater than 0 for rent, bedrooms and bathrooms");
+            alert.setContentText("Please enter values within the valid range: 0 - 5 for bedrooms and bathrooms and at least £200 for monthly rent");
             alert.show();
 		}
 		else if(editFurnishing.getValue() == null) {

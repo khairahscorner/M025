@@ -12,7 +12,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.GridPane;
 
 /**
  * This class controls the property creation scene for manually creating a new property in the application
@@ -117,10 +116,10 @@ public class PropertyCreateController  extends DashboardController implements Da
             alert.setTitle("Error creating new property");
             alert.setContentText("Please fill in all details correctly");
             alert.show();
-		} else if(rentVal < 0 || pptySize < 0 || noOfBeds < 1 || noOfBaths < 1) {
+		} else if(rentVal < 200 || pptySize < 0 || noOfBeds < 1 || noOfBaths < 1 || noOfBeds > 5 || noOfBaths > 5) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error creating new property");
-            alert.setContentText("Please enter values greater than 0 for rent, size, bedrooms and bathrooms");
+            alert.setContentText("Please enter values within the valid range: 0 - 5 for bedrooms and bathrooms and at least £200 for monthly rent");
             alert.show();
 		}
 		else {

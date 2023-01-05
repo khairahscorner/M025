@@ -97,43 +97,48 @@ public class ImportData implements DataFormatter {
 	/**
 	 * create a new property using field values from a line read from the csv file, and add to property list
 	 * @param lineInFile	comma_separated fields in the current line
+	 * @throws Exception 
 	 */
-	public void createProperty(String lineInFile) {	       
+	public void createProperty(String lineInFile) throws Exception {	       
 	      if(lineCount > 1) {
-
-			   Property ppty = new Property();
-
-		      // Tokenize the last line read from the file.
+	    	  Property ppty = new Property();
 		      String[] fields = lineInFile.split(",");
 		      
-		      //remove quotes around the latLong fields (it split in two because of the comma)
-		      fields[6] = fields[6].replaceAll("\"", "");
-		      fields[7] = fields[7].replaceAll("\"", "");
-		      
-		      for (int i = 0; i < fields.length; i++) {
-		         switch(i) {
-		         case 0: ppty.setDateListed(LocalDate.parse(fields[0], dateFormatter)); break;
-		         case 1: ppty.setBedrooms(Integer.parseInt(fields[1])); break;
-		         case 2: ppty.setBathrooms(Integer.parseInt(fields[2])); break;
-		         case 3: ppty.setRentPerMonth(Double.parseDouble(fields[3])); break;
-		         case 4: ppty.setSize(Integer.parseInt(fields[4])); break;
-		         case 5: ppty.setPostcode(fields[5]); break;
-		         case 6: ppty.setLatitude(Double.parseDouble(fields[6])); break;
-		         case 7: ppty.setLongitude(Double.parseDouble(fields[7])); break;
-		         case 8: ppty.setFurnishedStatus(fields[8]); break;
-		         case 9: ppty.setType(fields[9]); break;
-		         case 10: ppty.setGarden(fields[10]); break;
-		         }
+		      //attempt to validate the fields in the csv file
+		      if(fields.length != 11) {
+		    	  throw new Exception("The fields do not match the required number of fields and/or type. Please confirm that the file is correct");
 		      }
-		      pList.addProperty(ppty);
+		      else {
+			      //remove quotes around the latLong fields (it split in two because of the comma)
+			      fields[6] = fields[6].replaceAll("\"", "");
+			      fields[7] = fields[7].replaceAll("\"", "");
+			      
+			      for (int i = 0; i < fields.length; i++) {
+			         switch(i) {
+			         case 0: ppty.setDateListed(LocalDate.parse(fields[0], dateFormatter)); break;
+			         case 1: ppty.setBedrooms(Integer.parseInt(fields[1])); break;
+			         case 2: ppty.setBathrooms(Integer.parseInt(fields[2])); break;
+			         case 3: ppty.setRentPerMonth(Double.parseDouble(fields[3])); break;
+			         case 4: ppty.setSize(Integer.parseInt(fields[4])); break;
+			         case 5: ppty.setPostcode(fields[5]); break;
+			         case 6: ppty.setLatitude(Double.parseDouble(fields[6])); break;
+			         case 7: ppty.setLongitude(Double.parseDouble(fields[7])); break;
+			         case 8: ppty.setFurnishedStatus(fields[8]); break;
+			         case 9: ppty.setType(fields[9]); break;
+			         case 10: ppty.setGarden(fields[10]); break;
+			         }
+			      }
+			      pList.addProperty(ppty);
+		      }
 	      }
 	   }
 	
 	/**
 	 * reads every line of the csv file and creates properties with each line
 	 * @throws IOException
+	 * @throws Exception
 	 */
-	public void importAllProperties() throws IOException {
+	public void importAllProperties() throws IOException, Exception {
 		//REFERENCED CODE START
 		while (readNextLine()) {
 			createProperty(lineInFile);
@@ -163,41 +168,48 @@ public class ImportData implements DataFormatter {
 	/**
 	 * create a new place of interest using field values from a line read from the csv file, and add to the list
 	 * @param lineInFile	comma_separated fields in the current line
+	 * @throws Exception 
 	 */
-	public void createLandmark(String lineInFile) {	       
+	public void createLandmark(String lineInFile) throws Exception {	       
 	      if(lineCount > 1) {
 
 	    	  Landmark landmark = new Landmark();
 		      String[] fields = lineInFile.split(",");
 		      
-		      //remove quotes around the latLong fields (it split in two because of the comma)
-		      fields[2] = fields[2].replaceAll("\"", "");
-		      fields[3] = fields[3].replaceAll("\"", "");
-		      
-		      for (int i = 0; i < fields.length; i++) {
-		         switch(i) {
-		         case 0: landmark.setName(fields[0]); break;
-		         case 1: landmark.setPostcode(fields[1]); break;
-		         case 2: landmark.setLatitude(Double.parseDouble(fields[2])); break;
-		         case 3: landmark.setLongitude(Double.parseDouble(fields[3])); break;
-		         }
+		      //attempt to validate the fields in the csv file
+		      if(fields.length != 4) {
+		    	  throw new Exception("The fields do not match the required number of fields and/or type. Please confirm that the file is correct");
 		      }
-		      lList.addLandmark(landmark);
+		      else {
+			      //remove quotes around the latLong fields (it split in two because of the comma)
+			      fields[2] = fields[2].replaceAll("\"", "");
+			      fields[3] = fields[3].replaceAll("\"", "");
+			      
+			      for (int i = 0; i < fields.length; i++) {
+			         switch(i) {
+			         case 0: landmark.setName(fields[0]); break;
+			         case 1: landmark.setPostcode(fields[1]); break;
+			         case 2: landmark.setLatitude(Double.parseDouble(fields[2])); break;
+			         case 3: landmark.setLongitude(Double.parseDouble(fields[3])); break;
+			         }
+			      }
+			      lList.addLandmark(landmark);
+		      }
 	      }
 	   }
 	
 	/**
 	 * reads every line of the csv file and creates place of interest with each line
 	 * @throws IOException
+	 * @throws Exception
 	 */
-	public void importAllLandmarks() throws IOException {
+	public void importAllLandmarks() throws IOException, Exception {
 		//REFERENCED CODE START
-		while (readNextLine()) {
+		while (readNextLine()) { 
 			createLandmark(lineInFile);
-			}
-	      
-	      fileToImport.close();
-	      System.out.println("No more landmark to import");
+		}
+	    fileToImport.close();
+	    System.out.println("No more landmark to import");
 	}
 
 	public LandmarkList getAllLandmarks() {
@@ -220,12 +232,18 @@ public class ImportData implements DataFormatter {
 	/**
 	 * create a new customer using field values from a line read from the csv file, and add to the list
 	 * @param lineInFile	comma_separated fields in the current line
+	 * @throws Exception 
 	 */
-	public void createCustomer(String lineInFile) {	       
+	public void createCustomer(String lineInFile) throws Exception {
 	      if(lineCount > 1) {
 
 	    	  Customer cust = new Customer();
 		      String[] fields = lineInFile.split(",");
+		      
+		      //attempt to validate the fields in the csv file
+		      if(fields.length != 4) {
+		    	  throw new Exception("The fields do not match the required number of fields and/or type. Please confirm that the file is correct");
+		      }
 		      
 		      for (int i = 0; i < fields.length; i++) {
 		         switch(i) {
@@ -242,8 +260,9 @@ public class ImportData implements DataFormatter {
 	/**
 	 * reads every line of the csv file and creates customers with each line
 	 * @throws IOException
+	 * @throws Exception
 	 */
-	public void importAllCustomers() throws IOException {
+	public void importAllCustomers() throws IOException, Exception {
 		//REFERENCED CODE START
 		while (readNextLine()) {
 			createCustomer(lineInFile);
