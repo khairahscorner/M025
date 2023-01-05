@@ -348,9 +348,11 @@ public class PropertiesController extends DashboardController implements DataFor
 	 */
 	private void clearTable() {
 		pptiesWrapper.getChildren().clear();
+		//<-***** Waligóra(2017) [3] - START
 		while(pptiesWrapper.getRowConstraints().size() > 0){
 			pptiesWrapper.getRowConstraints().remove(0);
 		}
+		//->***** Waligóra(2017) [3] - END
 	}
 	
 	/**
@@ -439,6 +441,9 @@ public class PropertiesController extends DashboardController implements DataFor
 	}
 
 }
+
+//REFERENCES
+//1. Waligóra, J. (2017) How do I delete a row or column in Gridpane. Stack Overflow [online]. Available from: https://stackoverflow.com/questions/23002532/javafx-2-how-do-i-delete-a-row-or-column-in-gridpane#:~:text=works [Accessed 28/12/22].
 
 
 

@@ -126,14 +126,17 @@ public class PropertyActions {
         ArrayList<Property> propertiesToSort = new ArrayList<Property>(pList.getProperties().values());
         
         // method reference operator(::) is equivalent to lambda expression
-        //<-***** BenchResources.Net (2021) [1] - START
+        //<-***** Kevy(2021) [1] - START
         if(order.equals("ASC")) {
     		propertiesToSort.sort(Comparator.comparingDouble(Property::getRentPerMonth));        	
         }
+        //<-***** Kevy(2021) [1] - END
+
+        //<-***** BenchResources.Net (2021) [2] - START
         else {
         	propertiesToSort.sort(Comparator.comparing(Property::getRentPerMonth, (r1, r2) -> r2.compareTo(r1)));
         }
-        //->***** BenchResources.Net (2021) [1] - END
+        //->***** BenchResources.Net (2021) [2] - END
         
 
 		PropertyList pptyListToShow = new PropertyList();
@@ -156,10 +159,13 @@ public class PropertyActions {
 	public static PropertyList sortPropertiesByDate(PropertyList pList, String order) {
         ArrayList<Property> propertiesToSort = new ArrayList<Property>(pList.getProperties().values());
                 
-    	//<-***** BenchResources.Net (2021) [2] - START
+        //<-***** Kevy(2021) [1] - START
         if(order.equals("ASC")) {
     		propertiesToSort.sort(Comparator.comparing(Property::getDateListed));        	
         }
+        //<-***** Kevy(2021) [1] - END
+
+        //<-***** BenchResources.Net (2021) [2] - START
         else {
         	propertiesToSort.sort(Comparator.comparing(Property::getDateListed, (r1, r2) -> r2.compareTo(r1)));
         }
@@ -177,7 +183,8 @@ public class PropertyActions {
 }
 
 // REFERENCES
-//1. BenchResources.Net (2021) Comparator.comparing() method for custom/reverse sorting. BenchResources.Net [online]. Available from: https://www.benchresources.net/java-8-comparator-comparing-method-for-custom-reverse-sorting/ [Accessed 28/12/22].
+//1. Kevy, F. (2021) How to sort List of objects by some property. Stack Overflow [online]. Available from: https://stackoverflow.com/questions/5805602/how-to-sort-list-of-objects-by-some-property#:~:text=Comparator.comparing() [Accessed 28/12/22].
+//2. BenchResources.Net (2021) Comparator.comparing() method for custom/reverse sorting. BenchResources.Net [online]. Available from: https://www.benchresources.net/java-8-comparator-comparing-method-for-custom-reverse-sorting/ [Accessed 28/12/22].
 
 
 

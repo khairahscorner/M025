@@ -1,7 +1,10 @@
 1) clear gridpane thingy (propertiescontroller) - https://stackoverflow.com/questions/23002532/javafx-2-how-do-i-delete-a-row-or-column-in-gridpane#:~:text=works
 
 
-//sorting objects low to high: https://stackoverflow.com/questions/5805602/how-to-sort-list-of-objects-by-some-property
+//sorting objects in ASC: https://stackoverflow.com/questions/5805602/how-to-sort-list-of-objects-by-some-property#:~:text=Comparator.comparing()
 //Reverse sorting objects: https://www.benchresources.net/java-8-comparator-comparing-method-for-custom-reverse-sorting/
 
 NILE files codes
+
+// distancecalculator code?
+// doSerialise and doDeserialise in DataHandler
