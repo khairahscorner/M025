@@ -134,7 +134,7 @@ public class DashboardController {
 		}
 		else {
 			try {				
-				ImportData da = new ImportData(selectedFilePathToImport, selectedFileTypeToImport);
+				CreateAndImportData da = new CreateAndImportData(selectedFilePathToImport, selectedFileTypeToImport);
 				
 				switch(selectedFileTypeToImport) {
 					case "property":
@@ -164,7 +164,6 @@ public class DashboardController {
 			catch(Exception exception) {
 				alert.setAlertType(AlertType.ERROR);
                 alert.setTitle("ERROR IMPORTING DATA");
-                
                 //to accomodate the different messages that can be thrown by the import methods in the switch statement
                 alert.setContentText(exception.getMessage() != null ? exception.getMessage() : "An error occurred");
                 alert.show();

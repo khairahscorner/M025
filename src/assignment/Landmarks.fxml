@@ -61,11 +61,11 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="522.0" prefWidth="505.0">
                <children>
-                  <ScrollPane prefHeight="508.0" prefWidth="501.0">
+                  <ScrollPane prefHeight="513.0" prefWidth="502.0">
                     <content>
-                      <AnchorPane fx:id="landmarksWrapper" minHeight="0.0" minWidth="0.0" prefHeight="503.0" prefWidth="484.0">
+                      <AnchorPane fx:id="landmarksWrapper" minHeight="0.0" minWidth="0.0" prefHeight="503.0" prefWidth="492.0">
                            <children>
-                              <GridPane fx:id="allLandmarks" gridLinesVisible="true" prefHeight="50.0" prefWidth="480.0">
+                              <GridPane fx:id="allLandmarks" gridLinesVisible="true" prefHeight="65.0" prefWidth="488.0">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="257.23126220703125" minWidth="10.0" prefWidth="254.67462158203125" />
                                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="205.5" minWidth="10.0" prefWidth="101.50479125976562" />
@@ -75,7 +75,7 @@
                                   <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                    <Insets bottom="15.0" left="5.0" right="10.0" top="5.0" />
                                  </padding>
                                  <children>
                                     <Label fx:id="nameHeader" prefHeight="66.0" prefWidth="267.0" text="Name">

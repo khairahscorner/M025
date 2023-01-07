@@ -90,7 +90,7 @@
 	-fx-font-size: 12px;
 }
 
-#tableCount {
+#tableCount, #dashboardNote {
 	-fx-font-weight: 700;
 	-fx-font-style: italic;
 }

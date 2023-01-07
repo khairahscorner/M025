@@ -128,15 +128,10 @@ public class LandmarksController extends DashboardController implements DataForm
 	 */
 	public void addNewLandmarkBtnListener(ActionEvent e) throws IOException {
 		Alert alert = new Alert(AlertType.NONE);
-		
-		//strings to format the parsed double values first, before parsing again as double parameters for the landmark
-		String l1 = "";
-		String l2 = "";
-		
-		
+
 		try {
-			l1 = locationFormatter.format(Double.parseDouble(latitude.getText()));
-			l2 = locationFormatter.format(Double.parseDouble(longitude.getText()));
+			Double.parseDouble(latitude.getText());
+			Double.parseDouble(longitude.getText());
 		}
 		catch(Exception ex) {
 			alert.setAlertType(AlertType.ERROR);
@@ -154,15 +149,15 @@ public class LandmarksController extends DashboardController implements DataForm
 		} 
 		else if (!postcode.getText().matches(POSTCODE_VALIDATE)) {
 			alert.setAlertType(AlertType.ERROR);
-            alert.setTitle("Error adding new landmark");
+            alert.setTitle("Error creating new landmark");
             alert.setContentText("Please enter a valid postcode");
             alert.show();
 		}
 		else {
 			try {
-				ImportData da = new ImportData();
+				CreateAndImportData da = new CreateAndImportData();
 				
-				da.createLandmark(name.getText(), postcode.getText(), Double.parseDouble(l1), Double.parseDouble(l2));
+				da.createLandmark(name.getText(), postcode.getText(), Double.parseDouble(latitude.getText()), Double.parseDouble(longitude.getText()));
 				DataHandler.writeToFile(da.getAllLandmarks());
 				
 				alert.setAlertType(AlertType.INFORMATION);
@@ -174,11 +169,17 @@ public class LandmarksController extends DashboardController implements DataForm
 	            
 	            if(result.get() != null) {
 	            	goToLandmarksListener(e);
-	            }
-	            
-			} catch(Exception exception) {
+	            }            
+			}
+			catch(CustomException cex) {
 				alert.setAlertType(AlertType.ERROR);
-                alert.setTitle("Error adding new landmark");
+                alert.setTitle("Error creating new landmark");
+                alert.setContentText(cex.getMessage());
+                alert.show();
+			}
+			catch(Exception exception) {
+				alert.setAlertType(AlertType.ERROR);
+                alert.setTitle("Error creating new landmark");
                 alert.setContentText("An error occured");
                 alert.show();
 			}
@@ -228,17 +229,16 @@ public class LandmarksController extends DashboardController implements DataForm
 		Alert alert = new Alert(AlertType.NONE);
 		Landmark currLandmark = lList.getLandmarks().get(currLandmarkIndex);
 		
-		//strings to format the parsed double values first, before parsing again as double parameters for the landmark
-		String l1 = "";
-		String l2 = "";
+		double lat = 0;
+		double longi = 0;
 		
 		try {
-			l1 = locationFormatter.format(Double.parseDouble(latitude.getText()));
-			l2 = locationFormatter.format(Double.parseDouble(longitude.getText()));
+			lat = Double.parseDouble(latitude.getText());
+			longi = Double.parseDouble(longitude.getText());
 		}
 		catch(Exception ex) {
 			alert.setAlertType(AlertType.ERROR);
-            alert.setTitle("Error updating landmark details");
+            alert.setTitle("Error updating landmark");
             alert.setContentText("Please enter correct longitide and latitiude values");
             alert.show();
             return;
@@ -246,39 +246,54 @@ public class LandmarksController extends DashboardController implements DataForm
 
 		if(name.getText() == "" || postcode.getText() == "" || latitude.getText() == "" || longitude.getText() == "") {
 			alert.setAlertType(AlertType.ERROR);
-            alert.setTitle("Error updating landmark details");
+            alert.setTitle("Error updating landmark");
             alert.setContentText("Please fill in all details correctly");
             alert.show();
 		} else if (!postcode.getText().matches(POSTCODE_VALIDATE)) {
 			alert.setAlertType(AlertType.ERROR);
-            alert.setTitle("Error updating landmark details");
+            alert.setTitle("Error updating landmark");
             alert.setContentText("Please enter a valid postcode");
             alert.show();
 		}
 		else {
 			try {
-				currLandmark.setName(name.getText());
-				currLandmark.setPostcode(postcode.getText());
-				currLandmark.setLatitude(Double.parseDouble(l1));
-				currLandmark.setLongitude(Double.parseDouble(l2));
-				
-				DataHandler.writeToFile(lList);
-				
-				alert.setAlertType(AlertType.INFORMATION);
-	            alert.setTitle("Successful");
-	            alert.setContentText("Landmark details have been updated successfully");
+				// check if updates match existing landmark
+				boolean landmarkExists = false;
+				for (Landmark l : lList.getLandmarks()) {
+					if (l.getName().equals(name.getText()) && l.getPostcode().equals(postcode.getText())
+							&& l.getLatitude() == lat && l.getLongitude() == longi) {
+						landmarkExists = true;
+						break;
+					}
+				}
+				if (!landmarkExists) {				
+					currLandmark.setName(name.getText());
+					currLandmark.setPostcode(postcode.getText());
+					currLandmark.setLatitude(lat);
+					currLandmark.setLongitude(longi);
+					
+					DataHandler.writeToFile(lList);
+					
+					alert.setAlertType(AlertType.INFORMATION);
+		            alert.setTitle("Successful");
+		            alert.setContentText("Landmark details have been updated successfully");
 
-	            //show alert, wait for user to close and then refresh
-	            Optional<ButtonType> result = alert.showAndWait();
-	            
-	            if(result.get() != null) {
-	            	goToLandmarksListener(e);
-	            }	            
-
-	            
-			} catch(Exception exception) {
+		            //show alert, wait for user to close and then refresh
+		            Optional<ButtonType> result = alert.showAndWait();
+		            
+		            if(result.get() != null) {
+		            	goToLandmarksListener(e);
+		            } 
+				} else {
+					alert.setAlertType(AlertType.ERROR);
+					alert.setTitle("Error updating landmark");
+					alert.setContentText("Cannot update landmark as another landmark already exists with these details");
+					alert.show();
+				}         
+			}
+			catch(Exception exception) {
 				alert.setAlertType(AlertType.ERROR);
-                alert.setTitle("Error adding Customer");
+                alert.setTitle("Error updating landmark");
                 alert.setContentText("An error occured");
                 alert.show();
 			}

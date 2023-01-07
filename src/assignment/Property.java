@@ -2,7 +2,6 @@ package assignment;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  * the class is used to create a property object that can be serialised and stored in a file
@@ -196,40 +195,15 @@ public class Property implements Serializable, DataFormatter {
 	}
 	
 	/**
-	 * format all the attributes of a class object to a string
-	 * @param currPpty	current property to print details
+	 * format all the attributes to a string
 	 * @return string containing all property details
 	 */
-	public static String getPropertyDetails(Property currPpty) {
-		return "Type: " + currPpty.getType() + "\nProperty Code: " + currPpty.getPropertyId() + "\nDate Listed: " + currPpty.getDateListed().format(dateFormatter) + "\nRental Status: " + currPpty.getRentalStatus()
-		+ "\nFurnishing type: " + currPpty.getFurnishedStatus() + "\nPostcode: " + currPpty.getPostcode() + "\nNo. of Bedrooms:" +
-		currPpty.getBedrooms() + "\nNo. of Bathrooms: " + currPpty.getBathrooms() + "\nGarden?: " + currPpty.getGarden().toUpperCase()
-		+ "\nMonthly Rent: £" + dpFormatter.format(currPpty.getRentPerMonth()) + "\nDeposit: £" + currPpty.getDeposit()
-		+ "\nAgent fee: £" + currPpty.getAgentFee();
+	public String getPropertyDetails() {
+		return "Type: " + type + "\nProperty Code: " + propertyId + "\nDate Listed: " + dateListed.format(dateFormatter) + "\nRental Status: " 
+				+ rentalStatus + "\nFurnishing type: " + furnishedStatus + "\nPostcode: " + postcode + "\nNo. of Bedrooms:" + bedrooms + "\nNo. of Bathrooms: " + bathrooms + "\nGarden?: " + garden.toUpperCase()
+				+ "\nMonthly Rent: £" + dpFormatter.format(rentPerMonth) + "\nDeposit: £" + getDeposit() + "\nAgent fee: £" + getAgentFee();
 		
 	}
-	
-	/**
-	 * gets landmarks with postcode corresponding to property postcode, and formats to a string
-	 * @param currPpty	current property
-	 * @param allLandmarks	landmarks 
-	 * @return string with details of all matched 
-	 */
-	public static String getClosestLandmarksDistance(Property currPpty, List<Landmark> allLandmarks) {
-		String pptyPostCode = currPpty.getPostcode().split(" ")[0];
-		String str = "\n\nClosest Landmarks (" + pptyPostCode + ") \n\n";
-		
-		for(int i = 0; i < Landmark.getLastIndex(); i++) {
-			String landmarkCode = allLandmarks.get(i).getPostcode().split(" ")[0];
-			if(pptyPostCode.equals(landmarkCode)) {
-				str += allLandmarks.get(i).getName() + ": " + dpFormatter.format(
-						DistanceCalculator.getDistance(currPpty.getLatitude(), currPpty.getLongitude(), allLandmarks.get(i).getLatitude(), 
-								allLandmarks.get(i).getLongitude(), "K")) + "km\n";			
-			};
-		}
-		return str;		
-	}
-	
 	
 	@Override
 	public String toString() {

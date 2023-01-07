@@ -147,7 +147,7 @@ public class TenancyInvoiceController extends DashboardController implements Dat
 		displayInvoice.setText(eotInvoice.generateInvoice() + "\n");
 		
 		displayInvoice.appendText("----- Property Details ------\n");
-		displayInvoice.appendText(Property.getPropertyDetails(r.getRentalPpty()) + "\n");
+		displayInvoice.appendText(r.getRentalPpty().getPropertyDetails() + "\n");
     	
 		displayInvoice.appendText("\n----- Customer Details ------\n" + r.getRentalCustomer().toString());	
 	}

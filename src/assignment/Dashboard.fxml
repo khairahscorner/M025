@@ -111,6 +111,7 @@
                </opaqueInsets>
             </GridPane>
             <Text fx:id="fileError" fill="#dd2d2d" layoutX="464.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="266.21630859375" />
+            <Label fx:id="dashboardNote" alignment="CENTER" layoutX="246.0" layoutY="211.0" prefHeight="17.0" prefWidth="283.0" text="NOTE: Duplicate data will be skipped" />
          </children>
       </Pane>
    </children>
