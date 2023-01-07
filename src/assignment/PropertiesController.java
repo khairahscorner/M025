@@ -50,12 +50,18 @@ public class PropertiesController extends DashboardController implements DataFor
 	private Pane mainPptyDetails;
 	@FXML
 	private GridPane pptiesWrapper;
-	
-	
+		
 	@FXML
 	private Label pptyTitle;
 	@FXML
 	private TextArea pptyDetailsArea;
+	
+	@FXML
+	private Label landmarkTitle;
+	@FXML
+	private Text distance;
+	@FXML
+	private ComboBox<String> landmarkOptions;
 	
 	@FXML
 	private ComboBox<String> pptyAvailability;
@@ -107,7 +113,7 @@ public class PropertiesController extends DashboardController implements DataFor
 	private PropertyList pList;
 	private Property currPpty;
 	private String selectedPptyAvailability;
-	
+		
 //	private String defaultDateSort = "Most Recent";
 	private String sortOption = null;
 	private final String POSTCODE_VALIDATE = "^[A-Z0-9]{2,4}+ [A-Z0-9]{3}$";
@@ -120,10 +126,7 @@ public class PropertiesController extends DashboardController implements DataFor
 		try {
 			pList = DataHandler.readPropertyList();
 			Property.setLastPropertyIndex(pList.getProperties().size());
-		      
-		    lList = DataHandler.readLandmarkList();
-		    Landmark.setLastIndex(lList.getLandmarks().size());
-		    
+		    		    
 			pptyAvailability.getItems().addAll("Rented", "Available", "All Properties");
 			editFurnishing.getItems().addAll("Unfurnished", "Semi-Furnished", "Furnished");
 			editGarden.getItems().addAll("Yes", "No");
@@ -144,6 +147,13 @@ public class PropertiesController extends DashboardController implements DataFor
 			}
 			pptyPostcode.getItems().addAll(postcodeMap.keySet());
 			
+
+			//populate the dropdown with landmark names
+		    lList = DataHandler.readLandmarkList();
+		    
+			for (Landmark l: lList.getLandmarks()) {
+				landmarkOptions.getItems().add(l.getName());
+			}
 		           
 	    	if(pList.getProperties().size() == 0) {
 	    		emptyPptyList.setVisible(true);
@@ -266,13 +276,28 @@ public class PropertiesController extends DashboardController implements DataFor
 		pptyTitle.setText(currPpty.getFurnishedStatus() + " " + currPpty.getType());
 		pptyDetailsArea.setText(Property.getPropertyDetails(currPpty));
 		
+		//display closest places of interest 
 		List<Landmark> allLandmarks = lList.getLandmarks();
-		pptyDetailsArea.appendText(Property.getLandmarksProximity(currPpty, allLandmarks));
+		pptyDetailsArea.appendText(Property.getClosestLandmarksDistance(currPpty, allLandmarks));
 		
-		pptyDetailsArea.setEditable(false);		
+		pptyDetailsArea.setEditable(false);
+		
+		//hide the distance field for places of interest selected from dropdown
+		distance.setVisible(false);
     }
 	
 	
+	public void getDistanceListener() {
+		String selectedLandmarkName = landmarkOptions.getValue();
+		Landmark currLandmark = new Landmark();
+		for(Landmark l : lList.getLandmarks()) {
+			if(l.getName().equals(selectedLandmarkName)) {
+				currLandmark = l;
+				distance.setText(PropertyActions.getDistanceToLandmark(currPpty, currLandmark));
+				distance.setVisible(true);
+			}
+		};
+	}
 	/**
 	 * filter properties list based on search value
 	 */

@@ -210,14 +210,14 @@ public class Property implements Serializable, DataFormatter {
 	}
 	
 	/**
-	 * filters for landmarks with postcode corresponding to property postcode, and formats to a string
+	 * gets landmarks with postcode corresponding to property postcode, and formats to a string
 	 * @param currPpty	current property
 	 * @param allLandmarks	landmarks 
 	 * @return string with details of all matched 
 	 */
-	public static String getLandmarksProximity(Property currPpty, List<Landmark> allLandmarks) {
+	public static String getClosestLandmarksDistance(Property currPpty, List<Landmark> allLandmarks) {
 		String pptyPostCode = currPpty.getPostcode().split(" ")[0];
-		String str = "\n\n ---- Proximity to Landmarks in " + pptyPostCode + " ----\n";
+		String str = "\n\nClosest Landmarks (" + pptyPostCode + ") \n\n";
 		
 		for(int i = 0; i < Landmark.getLastIndex(); i++) {
 			String landmarkCode = allLandmarks.get(i).getPostcode().split(" ")[0];

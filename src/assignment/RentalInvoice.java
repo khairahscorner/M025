@@ -38,10 +38,8 @@ public class RentalInvoice implements Invoice, DataFormatter {
 		str += "Rental Id: "+ rentalDetails.getRentalId() + "\n";
 		
 		str += "Rent Date: " + rentalDetails.getRentDate().format(dateFormatter) +"\n";
-		str += "Due Date: " + rentalDetails.getDueDate().format(dateFormatter) +"\n";
-		
-	    str += "Rent Duration: "+ rentMonths + " months\n";
-	    
+		str += "Due Date: " + rentalDetails.getDueDate().format(dateFormatter) +"\n";		
+//	    str += "Rent Duration: "+ rentMonths + " months\n";    
 	    str += "Amount Paid for Rent: £"+ totalRent + "\n";
 	    str += "Deposit: £"+ rentalPpty.getDeposit() + "\n";
 	    str += "Agent Fee: £"+ rentalPpty.getAgentFee() + "\n";

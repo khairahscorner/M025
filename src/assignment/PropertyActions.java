@@ -7,7 +7,18 @@ import java.util.Comparator;
  * The class contains static methods for filtering and sorting properties in a PropertyList object
  * @author Airat YUsuff 22831467
  */
-public class PropertyActions {
+public class PropertyActions implements DataFormatter {
+	
+	/**
+	 * get distance between the property and landmark, and formats to a string
+	 * @param currPpty	current property
+	 * @param selectedLandmark	landmaselected landmark 
+	 * @return distance
+	 */
+	public static String getDistanceToLandmark(Property currPpty, Landmark selectedLandmark) {
+		return selectedLandmark.getName() + ": " + dpFormatter.format(DistanceCalculator.getDistance(currPpty.getLatitude(), 
+				currPpty.getLongitude(), selectedLandmark.getLatitude(), selectedLandmark.getLongitude(), "K")) + "km\n";			
+	}
 
 	/**
 	 * filter the properties list for all properties that match the availability in the parameter

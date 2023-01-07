@@ -21,9 +21,7 @@
    <children>
       <Pane fx:id="headingWrapper" layoutX="101.0" prefHeight="45.0" prefWidth="985.0">
          <children>
-            <Label fx:id="headingLabel" alignment="CENTER" layoutX="460.0" layoutY="3.0" prefHeight="39.0" prefWidth="253.0" text="All Properties" />
-            <Button fx:id="addNew" layoutX="20.0" layoutY="13.0" mnemonicParsing="false" onAction="#goToAddPropertyListener" prefHeight="25.0" prefWidth="73.0" text="Add New" />
-            <Button fx:id="exportBtn" layoutX="108.0" layoutY="12.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" text="Export" />
+            <Label fx:id="headingLabel" alignment="CENTER" layoutX="366.0" layoutY="3.0" prefHeight="39.0" prefWidth="253.0" text="All Properties" />
          </children>
       </Pane>
       <Pane fx:id="menu" prefHeight="705.0" prefWidth="101.0">
@@ -187,16 +185,19 @@
                               </Label>
                            </children>
                         </Pane>
-                        <Pane fx:id="mainPptyDetails" layoutX="-1.0" layoutY="129.0" prefHeight="493.0" prefWidth="269.0" visible="false">
+                        <Pane fx:id="mainPptyDetails" layoutX="-1.0" layoutY="129.0" prefHeight="493.0" prefWidth="269.0">
                            <children>
                               <Label fx:id="pptyTitle" alignment="CENTER" layoutY="5.0" prefHeight="36.0" prefWidth="266.0" text="Label" textAlignment="CENTER" wrapText="true" />
-                              <TextArea fx:id="pptyDetailsArea" layoutX="2.0" layoutY="48.0" prefHeight="383.0" prefWidth="266.0" style="-fx-font-weight: 600;" stylesheets="@styles.css" text="Details here" wrapText="true" />
-                              <Button fx:id="editBtn" layoutX="89.0" layoutY="447.0" mnemonicParsing="false" onAction="#openEditViewListener" prefHeight="28.0" prefWidth="81.0" text="Edit" textFill="#653737" />
+                              <TextArea fx:id="pptyDetailsArea" layoutX="2.0" layoutY="81.0" prefHeight="276.0" prefWidth="266.0" style="-fx-font-weight: 600;" stylesheets="@styles.css" text="Details here" wrapText="true" />
+                              <Button fx:id="editBtn" layoutX="93.0" layoutY="44.0" mnemonicParsing="false" onAction="#openEditViewListener" prefHeight="28.0" prefWidth="81.0" text="Edit" textFill="#653737" />
+                              <Label fx:id="landmarkTitle" layoutX="12.0" layoutY="357.0" prefHeight="36.0" prefWidth="256.0" text="Explore The Area: " textAlignment="CENTER" wrapText="true" />
+                              <ComboBox fx:id="landmarkOptions" layoutX="12.0" layoutY="399.0" onAction="#getDistanceListener" prefHeight="26.0" prefWidth="183.0" promptText="Select landmark..." />
+                              <Text fx:id="distance" layoutX="11.0" layoutY="451.0" strokeType="OUTSIDE" strokeWidth="0.0" text="distance shows here" wrappingWidth="253.0975341796875" />
                            </children>
                         </Pane>
                      </children>
                   </Pane>
-                  <Pane fx:id="editPptyDetails" prefHeight="622.0" prefWidth="269.0">
+                  <Pane fx:id="editPptyDetails" prefHeight="622.0" prefWidth="269.0" visible="false">
                      <children>
                         <Label fx:id="editLabel" alignment="CENTER" layoutX="64.0" layoutY="3.0" prefHeight="34.0" prefWidth="142.0" text="Edit Property" textAlignment="CENTER">
                            <font>
@@ -231,8 +232,10 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <TextField fx:id="searchField" layoutX="209.0" layoutY="53.0" prefHeight="39.0" prefWidth="191.0" promptText="search by type..." />
+      <TextField fx:id="searchField" layoutX="211.0" layoutY="56.0" prefHeight="33.0" prefWidth="191.0" promptText="search by type, furnishing..." />
       <Text layoutX="124.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search:" wrappingWidth="85.53905911049947" />
-      <Button fx:id="searchBtn" layoutX="397.0" layoutY="53.0" mnemonicParsing="false" onAction="#searchPropertiesListener" prefHeight="39.0" prefWidth="54.0" text="Go" />
+      <Button fx:id="searchBtn" layoutX="393.0" layoutY="56.0" mnemonicParsing="false" onAction="#searchPropertiesListener" prefHeight="32.0" prefWidth="54.0" text="Go" />
+      <Button fx:id="addNew" layoutX="709.0" layoutY="57.0" mnemonicParsing="false" onAction="#goToAddPropertyListener" prefHeight="31.0" prefWidth="73.0" text="Add New" />
+      <Button fx:id="exportBtn" layoutX="619.0" layoutY="57.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="73.0" text="Export" />
    </children>
 </AnchorPane>

@@ -188,12 +188,18 @@ public class RentalsController extends DashboardController implements DataFormat
             alert.setContentText("Please fill in all details correctly");
             alert.show();
 		}
-		else if (ChronoUnit.MONTHS.between(LocalDate.now(), rentDueDate.getValue()) < 1) {
+		else if (rentDueDate.getValue().isBefore(LocalDate.now())) {
 			alert.setAlertType(AlertType.ERROR);
-            alert.setTitle("Error renting property");
-            alert.setContentText("Please select a date at least 1 month after " + LocalDate.now().format(dateFormatter));
-            alert.show();
+          alert.setTitle("Error renting property");
+          alert.setContentText("Please select a date after " + LocalDate.now().format(dateFormatter));
+          alert.show();
 		}
+//		else if (ChronoUnit.MONTHS.between(LocalDate.now(), rentDueDate.getValue()) < 1) {
+//			alert.setAlertType(AlertType.ERROR);
+//            alert.setTitle("Error renting property");
+//            alert.setContentText("Please select a date at least 1 month after " + LocalDate.now().format(dateFormatter));
+//            alert.show();
+//		}
 		else {
 			try {
 				ImportData da = new ImportData();
