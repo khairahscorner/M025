@@ -1,3 +1,4 @@
+.DS_Store
 .classpath
 .git
 .project
@@ -6,6 +7,5 @@
 build.fxbuild
 
 *.dat
-.DS_Store
 Bin/
 /bin/

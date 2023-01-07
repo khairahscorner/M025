@@ -89,7 +89,7 @@ public class ImportData implements DataFormatter {
 	 * @param l1	latitude
 	 * @param l2	longitude
 	 */
-	public void createProperty(String t, String f, String p, String d, String g, int s, int b, int c, double r, double l1, double l2) {
+	public void createProperty(String t, String f, String p, String d, String g, double s, int b, int c, double r, double l1, double l2) {
 		Property ppty = new Property(t, f, p, d, g, s, b, c, r, l1, l2);
 		pList.addProperty(ppty);
 	}
@@ -119,7 +119,7 @@ public class ImportData implements DataFormatter {
 			         case 1: ppty.setBedrooms(Integer.parseInt(fields[1])); break;
 			         case 2: ppty.setBathrooms(Integer.parseInt(fields[2])); break;
 			         case 3: ppty.setRentPerMonth(Double.parseDouble(fields[3])); break;
-			         case 4: ppty.setSize(Integer.parseInt(fields[4])); break;
+			         case 4: ppty.setSize(Double.parseDouble(fields[4])); break;
 			         case 5: ppty.setPostcode(fields[5]); break;
 			         case 6: ppty.setLatitude(Double.parseDouble(fields[6])); break;
 			         case 7: ppty.setLongitude(Double.parseDouble(fields[7])); break;

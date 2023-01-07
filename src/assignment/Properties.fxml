@@ -21,7 +21,7 @@
    <children>
       <Pane fx:id="headingWrapper" layoutX="101.0" prefHeight="45.0" prefWidth="985.0">
          <children>
-            <Label fx:id="headingLabel" alignment="CENTER" layoutX="366.0" layoutY="3.0" prefHeight="39.0" prefWidth="253.0" text="All Properties" />
+            <Label fx:id="headingLabel" alignment="CENTER" layoutX="460.0" layoutY="3.0" prefHeight="39.0" prefWidth="253.0" text="All Properties" />
             <Button fx:id="addNew" layoutX="20.0" layoutY="13.0" mnemonicParsing="false" onAction="#goToAddPropertyListener" prefHeight="25.0" prefWidth="73.0" text="Add New" />
             <Button fx:id="exportBtn" layoutX="108.0" layoutY="12.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" text="Export" />
          </children>
@@ -61,7 +61,7 @@
             </Label>
          </children>
       </Pane>
-      <SplitPane dividerPositions="0.7095588235294118" layoutX="119.0" layoutY="64.0" prefHeight="624.0" prefWidth="954.0">
+      <SplitPane dividerPositions="0.7095588235294118" layoutX="119.0" layoutY="103.0" prefHeight="618.0" prefWidth="954.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="560.0" prefWidth="691.0">
                <children>
@@ -172,25 +172,6 @@
                   </Pane>
                   <Pane fx:id="pptyDetailsPane" layoutX="-1.0" prefHeight="622.0" prefWidth="270.0">
                      <children>
-                        <Pane fx:id="editPptyDetails" layoutX="1.0" layoutY="130.0" prefHeight="493.0" prefWidth="269.0">
-                           <children>
-                              <Label fx:id="editLabel" alignment="CENTER" layoutX="64.0" layoutY="3.0" prefHeight="34.0" prefWidth="142.0" text="Edit Property" textAlignment="CENTER">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <TextField fx:id="editRent" layoutX="16.0" layoutY="71.0" prefHeight="34.0" prefWidth="184.0" />
-                              <Label layoutX="16.0" layoutY="46.0" prefHeight="20.0" prefWidth="74.0" text="Rent PCM:" />
-                              <Label layoutX="16.0" layoutY="119.0" prefHeight="20.0" prefWidth="119.0" text="Furnishing Type:" />
-                              <Label layoutX="16.0" layoutY="192.0" prefHeight="20.0" prefWidth="119.0" text="No. of Bedrooms:" />
-                              <TextField fx:id="editBedrooms" layoutX="16.0" layoutY="218.0" prefHeight="34.0" prefWidth="184.0" />
-                              <Label layoutX="16.0" layoutY="263.0" prefHeight="20.0" prefWidth="119.0" text="No. of Bathrooms:" />
-                              <TextField fx:id="editBathrooms" layoutX="16.0" layoutY="286.0" prefHeight="34.0" prefWidth="184.0" />
-                              <Button fx:id="submitEdit" layoutX="14.0" layoutY="348.0" mnemonicParsing="false" onAction="#updatePptyDetailsListener" prefHeight="34.0" prefWidth="74.0" text="Update" />
-                              <Button fx:id="cancelEdit" layoutX="108.0" layoutY="348.0" mnemonicParsing="false" onAction="#goBackToDetailsViewListener" prefHeight="34.0" prefWidth="74.0" text="Cancel" />
-                              <ComboBox fx:id="editFurnishing" layoutX="15.0" layoutY="144.0" prefHeight="34.0" prefWidth="184.0" promptText="Select option" />
-                           </children>
-                        </Pane>
                         <ImageView fx:id="pptyImg" fitHeight="122.0" fitWidth="259.0" layoutX="4.0" layoutY="8.0" pickOnBounds="true" />
                         <Pane fx:id="pptyStatus" layoutX="195.0" layoutY="14.0" prefHeight="28.0" prefWidth="65.0">
                            <children>
@@ -215,9 +196,43 @@
                         </Pane>
                      </children>
                   </Pane>
+                  <Pane fx:id="editPptyDetails" prefHeight="622.0" prefWidth="269.0">
+                     <children>
+                        <Label fx:id="editLabel" alignment="CENTER" layoutX="64.0" layoutY="3.0" prefHeight="34.0" prefWidth="142.0" text="Edit Property" textAlignment="CENTER">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="editRent" layoutX="118.0" layoutY="230.0" prefHeight="34.0" prefWidth="142.0" />
+                        <Label layoutX="6.0" layoutY="237.0" prefHeight="20.0" prefWidth="74.0" text="Rent PCM:" />
+                        <Label layoutX="7.0" layoutY="111.0" prefHeight="20.0" prefWidth="112.0" text="Furnishing:" />
+                        <Label layoutX="5.0" layoutY="323.0" prefHeight="20.0" prefWidth="119.0" text="No. of Bedrooms:" />
+                        <TextField fx:id="editBedrooms" layoutX="118.0" layoutY="316.0" prefHeight="34.0" prefWidth="142.0" />
+                        <Label layoutX="4.0" layoutY="366.0" prefHeight="20.0" prefWidth="119.0" text="No. of Bathrooms:" />
+                        <TextField fx:id="editBathrooms" layoutX="118.0" layoutY="359.0" prefHeight="34.0" prefWidth="142.0" />
+                        <Button fx:id="submitEdit" layoutX="98.0" layoutY="510.0" mnemonicParsing="false" onAction="#updatePptyDetailsListener" prefHeight="34.0" prefWidth="74.0" text="Update" />
+                        <Button fx:id="cancelEdit" layoutX="187.0" layoutY="510.0" mnemonicParsing="false" onAction="#goBackToDetailsViewListener" prefHeight="34.0" prefWidth="74.0" text="Cancel" />
+                        <ComboBox fx:id="editFurnishing" layoutX="118.0" layoutY="104.0" prefHeight="34.0" prefWidth="142.0" promptText="Select option" />
+                        <Label layoutX="6.0" layoutY="68.0" prefHeight="20.0" prefWidth="74.0" text="Type:" />
+                        <TextField fx:id="editType" layoutX="118.0" layoutY="61.0" prefHeight="34.0" prefWidth="142.0" />
+                        <TextField fx:id="editPostcode" layoutX="118.0" layoutY="146.0" prefHeight="34.0" prefWidth="142.0" />
+                        <Label layoutX="6.0" layoutY="153.0" prefHeight="20.0" prefWidth="74.0" text="Postcode:" />
+                        <TextField fx:id="editSize" layoutX="118.0" layoutY="188.0" prefHeight="34.0" prefWidth="142.0" />
+                        <Label layoutX="6.0" layoutY="195.0" prefHeight="20.0" prefWidth="74.0" text="Size:" />
+                        <ComboBox fx:id="editGarden" layoutX="118.0" layoutY="273.0" prefHeight="34.0" prefWidth="142.0" promptText="Select option" />
+                        <Label layoutX="4.0" layoutY="280.0" prefHeight="20.0" prefWidth="99.0" text="Has Garden?:" />
+                        <TextField fx:id="editLongitude" layoutX="118.0" layoutY="402.0" prefHeight="34.0" prefWidth="142.0" />
+                        <TextField fx:id="editLatitude" layoutX="118.0" layoutY="445.0" prefHeight="34.0" prefWidth="142.0" />
+                        <Label layoutX="4.0" layoutY="409.0" prefHeight="20.0" prefWidth="119.0" text="Longitude:" />
+                        <Label layoutX="4.0" layoutY="452.0" prefHeight="20.0" prefWidth="119.0" text="Latitude::" />
+                     </children>
+                  </Pane>
                </children>
             </AnchorPane>
         </items>
       </SplitPane>
+      <TextField fx:id="searchField" layoutX="209.0" layoutY="53.0" prefHeight="39.0" prefWidth="191.0" promptText="search by type..." />
+      <Text layoutX="124.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search:" wrappingWidth="85.53905911049947" />
+      <Button fx:id="searchBtn" layoutX="397.0" layoutY="53.0" mnemonicParsing="false" onAction="#searchPropertiesListener" prefHeight="39.0" prefWidth="54.0" text="Go" />
    </children>
 </AnchorPane>

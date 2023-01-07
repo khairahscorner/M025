@@ -98,6 +98,28 @@ public class PropertyActions {
 	}
 	
 	/**
+	 * filter the properties list for all properties that their type or furnishing status matches the string in the parameter
+	 * @param pList properties list
+	 * @param searchStr	search parameter
+	 * @return	filtered list
+	 */
+	public static PropertyList filterPropertiesBySearch(PropertyList pList, String searchStr) {
+		PropertyList pListToShow = new PropertyList();
+		
+		pList.getKeys().forEach(key -> {
+			//get lowercase of both strings for comparison
+			if(pList.getProperties().get(key).getType().toLowerCase().contains(searchStr.toLowerCase()) || 
+					pList.getProperties().get(key).getFurnishedStatus().toLowerCase().contains(searchStr.toLowerCase()))
+			{
+		    	Property availablePpty = pList.getProperties().get(key);		    	
+		    	pListToShow.addProperty(availablePpty);
+		    }
+		});
+		  
+		return pListToShow;
+	}
+	
+	/**
 	 * filter the properties list for all properties that the first half of their postcode matches the string in the parameter
 	 * @param pList properties list
 	 * @param code	postcode string

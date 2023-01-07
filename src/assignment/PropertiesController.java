@@ -29,6 +29,7 @@ public class PropertiesController extends DashboardController implements DataFor
 	private Pane optionsWrapper;
 	@FXML
 	private GridPane headerWrapper;	
+
 	
 	@FXML
 	private ImageView pptyImg;
@@ -71,19 +72,35 @@ public class PropertiesController extends DashboardController implements DataFor
 	@FXML
 	private Text tableCount;
 	
+	@FXML
+	private Button searchBtn;
+	@FXML
+	private TextField searchField;
 	
 	@FXML
 	private Pane editPptyDetails;
 	@FXML
 	private Button editBtn;
 	@FXML
+	private TextField editType;
+	@FXML
+	private TextField editPostcode;
+	@FXML
+	private TextField editSize;
+	@FXML
 	private TextField editRent;
 	@FXML
 	private ComboBox<String> editFurnishing;
 	@FXML
+	private ComboBox<String> editGarden;
+	@FXML
 	private TextField editBedrooms;
 	@FXML
 	private TextField editBathrooms;
+	@FXML
+	private TextField editLongitude;
+	@FXML
+	private TextField editLatitude;
 		
 	
 	private LandmarkList lList;
@@ -91,8 +108,9 @@ public class PropertiesController extends DashboardController implements DataFor
 	private Property currPpty;
 	private String selectedPptyAvailability;
 	
-	private String defaultDateSort = "Most Recent";
+//	private String defaultDateSort = "Most Recent";
 	private String sortOption = null;
+	private final String POSTCODE_VALIDATE = "^[A-Z0-9]{2,4}+ [A-Z0-9]{3}$";
 	  
 
 	/**
@@ -107,7 +125,8 @@ public class PropertiesController extends DashboardController implements DataFor
 		    Landmark.setLastIndex(lList.getLandmarks().size());
 		    
 			pptyAvailability.getItems().addAll("Rented", "Available", "All Properties");
-			editFurnishing.getItems().addAll("Unfurnished", "Semi-furnished", "Furnished");
+			editFurnishing.getItems().addAll("Unfurnished", "Semi-Furnished", "Furnished");
+			editGarden.getItems().addAll("Yes", "No");
 			
 			pptyPrice.getItems().addAll("Low to High", "High to Low");
 			pptyDate.getItems().addAll("Most Recent", "Earliest");
@@ -133,19 +152,19 @@ public class PropertiesController extends DashboardController implements DataFor
 	    		headerWrapper.setVisible(false);
 	    	}
 	    	 else {
-	    		 pptiesWrapper.setVisible(true);
 	    		 emptyPptyList.setVisible(false); 
+	    		 pptiesWrapper.setVisible(true);
 	    		 optionsWrapper.setVisible(true);
 	    		 headerWrapper.setVisible(true); 		  
-	    		  
-	    		  //Default listing is sort to most recent
-	    		 pptyDate.setValue(defaultDateSort);
-	    		 populateList(PropertyActions.sortPropertiesByDate(pList, "DESC"));
+
+	    		 populateList(pList);
 	    	  }
 	    	  
 	    	  //ensures the other side showing the details only shows empty on load
 	    	  emptyDetailsPane.setVisible(true);
 	    	  pptyDetailsPane.setVisible(false);
+	    	  editPptyDetails.setVisible(false);
+
 		}
 		catch(Exception e) {
     		Alert alert = new Alert(AlertType.ERROR);
@@ -228,9 +247,9 @@ public class PropertiesController extends DashboardController implements DataFor
 		editPptyDetails.setVisible(false);
 		pptyDetailsPane.setVisible(true);
 		mainPptyDetails.setVisible(true);
+
 		
 		editBtn.setId(currPptyId);
-		
 		Image propertyImage = new Image("file:images/b.jpg");
 		pptyImg.setImage(propertyImage);
 				
@@ -252,6 +271,16 @@ public class PropertiesController extends DashboardController implements DataFor
 		
 		pptyDetailsArea.setEditable(false);		
     }
+	
+	
+	/**
+	 * filter properties list based on search value
+	 */
+	public void searchPropertiesListener() {
+		clearTable();
+		
+		populateList(PropertyActions.filterPropertiesBySearch(pList, searchField.getText()));
+	}
 	
 	/**
 	 * filter properties list based on property availability (rentalStatus)
@@ -360,13 +389,25 @@ public class PropertiesController extends DashboardController implements DataFor
 	 */
 	public void openEditViewListener() {
 		editPptyDetails.setVisible(true);
+		pptyDetailsPane.setVisible(false);
 		mainPptyDetails.setVisible(false);
 		emptyDetailsPane.setVisible(false);
 
+		editType.setText(currPpty.getType());
+		editPostcode.setText(currPpty.getPostcode());
+		editSize.setText(dpFormatter.format(currPpty.getSize()));
 		editRent.setText(dpFormatter.format(currPpty.getRentPerMonth()));
+		if(currPpty.getGarden().equals("y")) {
+			editGarden.setValue("Yes");
+		}
+		else {
+			editGarden.setValue("No");
+		}
 		editFurnishing.setValue(currPpty.getFurnishedStatus());
 		editBedrooms.setText(Integer.toString(currPpty.getBedrooms()));
 		editBathrooms.setText(Integer.toString(currPpty.getBathrooms()));
+		editLongitude.setText(Double.toString(currPpty.getLongitude()));
+		editLatitude.setText(Double.toString(currPpty.getLatitude()));
 	}
 	
 	/**
@@ -375,6 +416,7 @@ public class PropertiesController extends DashboardController implements DataFor
 	public void goBackToDetailsViewListener() {
 		editPptyDetails.setVisible(false);
 		mainPptyDetails.setVisible(true);
+		pptyDetailsPane.setVisible(true);
 	}
 	
 	/**
@@ -384,39 +426,71 @@ public class PropertiesController extends DashboardController implements DataFor
 	public void updatePptyDetailsListener() throws IOException {
 		Alert alert = new Alert(AlertType.NONE);
 		double rentVal = 0;
+		double pptySize = 0;
 		int bedrooms = 0;
 		int bathrooms = 0;
 		
+		//strings to format the parsed double values first, before parsing again as double parameters for the property
+		double latitude = 0;
+		double longitude = 0;
+		
 		try {
-			rentVal = Double.parseDouble(editRent.getText());
 			bedrooms = Integer.parseInt(editBedrooms.getText());
 			bathrooms = Integer.parseInt(editBathrooms.getText());
+			rentVal = Double.parseDouble(editRent.getText());
+			pptySize = Double.parseDouble(editSize.getText());
+			latitude = Double.parseDouble(editLatitude.getText());
+			longitude = Double.parseDouble(editLongitude.getText());
 		}
 		catch(Exception e) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error updating property");
-            alert.setContentText("Please enter valid values for rent, bedrooms and bathrooms");
+            alert.setContentText("Please enter valid values for longitude, latitude, rent, bedrooms and/or bathrooms");
             alert.show();
             return;
 		}
-		if(rentVal < 200 || bedrooms < 1 || bathrooms < 1 || bedrooms > 5 || bathrooms > 5) {
+		
+		try {
+			
+		}
+		catch(Exception ex) {
+			alert.setAlertType(AlertType.ERROR);
+            alert.setTitle("Error creating new property");
+            alert.setContentText("Please enter correct longitide and latitiude values");
+            alert.show();
+            return;
+		}
+
+		if(editType.getText() == "" || editPostcode.getText() == "" || editFurnishing.getValue() == null || editGarden.getValue() == null) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error updating property");
-            alert.setContentText("Please enter values within the valid range: 0 - 5 for bedrooms and bathrooms and at least £200 for monthly rent");
+            alert.setContentText("Please fill in all details correctly");
             alert.show();
 		}
-		else if(editFurnishing.getValue() == null) {
+		else if (!editPostcode.getText().matches(POSTCODE_VALIDATE)) {
+			alert.setAlertType(AlertType.ERROR);
+            alert.setTitle("Error creating new property");
+            alert.setContentText("Please enter a valid postcode");
+            alert.show();
+		}
+		else if(rentVal < 200 || pptySize < 0 || bedrooms < 1 || bathrooms < 1 || bedrooms > 5 || bathrooms > 5) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error updating property");
-            alert.setContentText("Please enter a furnishing type");
+            alert.setContentText("Please enter values within the valid range: 0 - 5 for bedrooms and bathrooms, greater than 0 for size and at least £200 for monthly rent");
             alert.show();
 		}
 		else {
-			try {				
+			try {
+				currPpty.setType(editType.getText());
+				currPpty.setPostcode(editPostcode.getText());
 				currPpty.setFurnishedStatus(editFurnishing.getValue());
+				currPpty.setGarden(editGarden.getValue());
+				currPpty.setSize(pptySize);
 				currPpty.setRentPerMonth(rentVal);
 				currPpty.setBedrooms(bedrooms);
 				currPpty.setBathrooms(bathrooms);
+				currPpty.setLatitude(latitude);
+				currPpty.setLongitude(longitude);
 				
 				DataHandler.writeToFile(pList);
 

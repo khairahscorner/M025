@@ -48,6 +48,8 @@ public class PropertyCreateController  extends DashboardController implements Da
 	
 	private PropertyList pList;
 	
+	private final String POSTCODE_VALIDATE = "^[A-Z0-9]{2,4}+ [A-Z0-9]{3}$";
+	
 	/**
 	 * reads the existing properties to a list + sets values for combo boxes
 	 */
@@ -56,7 +58,7 @@ public class PropertyCreateController  extends DashboardController implements Da
 			pList = DataHandler.readPropertyList();
 			Property.setLastPropertyIndex(pList.getProperties().size());
 	    
-			furnishing.getItems().addAll("Unfurnished", "Semi-furnished", "Furnished");
+			furnishing.getItems().addAll("Unfurnished", "Semi-Furnished", "Furnished");
 			hasGarden.getItems().addAll("Yes", "No");
 		}
 		catch(Exception e) {
@@ -80,33 +82,23 @@ public class PropertyCreateController  extends DashboardController implements Da
 		double rentVal = 0;
 		int noOfBeds = 0;
 		int noOfBaths = 0;
-		int pptySize = 0;
+		double pptySize = 0;
+		double longi = 0;
+		double lat = 0;
 		
-		//strings to format the parsed double values first, before parsing again as double parameters for the property
-		String l1 = "";
-		String l2 = "";
 		
 		try {
 			rentVal = Double.parseDouble(rent.getText());
-			pptySize = Integer.parseInt(size.getText());
+			pptySize = Double.parseDouble(size.getText());
+			lat = Double.parseDouble(latitude.getText());
+			longi = Double.parseDouble(longitude.getText());
 			noOfBeds = Integer.parseInt(bedrooms.getText());
 			noOfBaths = Integer.parseInt(bathrooms.getText());
 		}
 		catch(Exception ex) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error creating new property");
-            alert.setContentText("Please enter valid values for rent, size, bedrooms and bathrooms");
-            alert.show();
-            return;
-		}
-		try {
-			l1 = locationFormatter.format(Double.parseDouble(latitude.getText()));
-			l2 = locationFormatter.format(Double.parseDouble(longitude.getText()));
-		}
-		catch(Exception ex) {
-			alert.setAlertType(AlertType.ERROR);
-            alert.setTitle("Error creating new property");
-            alert.setContentText("Please enter correct longitide and latitiude values");
+            alert.setContentText("Please enter valid values for rent, size, longitude, latitude, bedrooms and bathrooms");
             alert.show();
             return;
 		}
@@ -116,7 +108,14 @@ public class PropertyCreateController  extends DashboardController implements Da
             alert.setTitle("Error creating new property");
             alert.setContentText("Please fill in all details correctly");
             alert.show();
-		} else if(rentVal < 200 || pptySize < 0 || noOfBeds < 1 || noOfBaths < 1 || noOfBeds > 5 || noOfBaths > 5) {
+		}
+		else if (!postcode.getText().matches(POSTCODE_VALIDATE)) {
+			alert.setAlertType(AlertType.ERROR);
+            alert.setTitle("Error creating new property");
+            alert.setContentText("Please enter a valid postcode");
+            alert.show();
+		}
+		else if(rentVal < 200 || pptySize < 0 || noOfBeds < 1 || noOfBaths < 1 || noOfBeds > 5 || noOfBaths > 5) {
 			alert.setAlertType(AlertType.ERROR);
             alert.setTitle("Error creating new property");
             alert.setContentText("Please enter values within the valid range: 0 - 5 for bedrooms and bathrooms and at least £200 for monthly rent");
@@ -128,7 +127,7 @@ public class PropertyCreateController  extends DashboardController implements Da
 				ImportData da = new ImportData();
 				
 				da.createProperty(type.getText(), furnishing.getValue(), postcode.getText(), LocalDate.now().format(dateFormatter), 
-						hasGarden.getValue(), pptySize, noOfBeds, noOfBaths, rentVal, Double.parseDouble(l1), Double.parseDouble(l2));
+						hasGarden.getValue(), pptySize, noOfBeds, noOfBaths, rentVal, lat, longi);
 						
 				DataHandler.writeToFile(da.getAllProperties());
 				

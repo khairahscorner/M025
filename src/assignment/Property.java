@@ -22,7 +22,7 @@ public class Property implements Serializable, DataFormatter {
 	private LocalDate dateListed;
 	private String garden;
 	
-	private int size;
+	private double size;
 	private int bedrooms;
 	private int bathrooms;
 	private double rentPerMonth;
@@ -62,7 +62,7 @@ public class Property implements Serializable, DataFormatter {
 	 * @param lat	latitude
 	 * @param l		longitude
 	 */
-	public Property(String t, String f, String p, String d, String g, int s, int b, int c, double r, double lat, double l) {	
+	public Property(String t, String f, String p, String d, String g, double s, int b, int c, double r, double lat, double l) {	
 		rentalStatus = false;
 		propertyId = "p" + lastPropertyIndex;
 		lastPropertyIndex++;
@@ -130,10 +130,10 @@ public class Property implements Serializable, DataFormatter {
 		garden = s;
 	}
 	
-	public int getSize() {
+	public double getSize() {
 		return size;
 	}
-	public void setSize(int s) {
+	public void setSize(double s) {
 		size = s;
 	}
 	

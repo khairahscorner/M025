@@ -2,6 +2,7 @@ package assignment;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -22,6 +23,18 @@ public class Sample implements DataFormatter {
 	
 	public static void main(String[] args) throws ClassNotFoundException, IOException {
 		try {
+			FileWriter fwriter = new FileWriter("sample.txt");
+			String[] asd = {"Airah", "airah@gmail.com", "CSYM025"};
+			for(int i = 0; i < asd.length; i++) {
+				fwriter.write(asd[i] + ",");
+			}
+			fwriter.write("\n");
+			
+			fwriter.close();
+			
+			System.out.println("does it get here?");
+			
+			
 //			initialise();
 		
 			//Properties
