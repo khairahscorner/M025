@@ -18,7 +18,7 @@ public class Sample implements DataFormatter {
 
 	public static void initialise() throws FileNotFoundException, IOException {
 		fileNames.load(new FileInputStream("binFiles.properties"));
-		DataHandler.readProperties(fileNames);
+		FileDataHandler.readProperties(fileNames);
 	}
 	
 	public static void main(String[] args) throws ClassNotFoundException, IOException {

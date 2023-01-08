@@ -1,8 +1,8 @@
 package assignment;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
@@ -58,13 +58,14 @@ public class CustomersController extends DashboardController implements DataForm
 	private final String EMAIL_VALIDATE = "^[a-zA-Z0-9_\\-\\.]{2,}+@[A-Za-z0-9\\-]+\\.[a-zA-Z\\.]{2,10}$";
 	private final String PHONE_VALIDATE = "^\\+[0-9]{8,15}$";
 	private final String DOB_VALIDATE = "[0-9]{1,2}+/[0-9]{2}/[0-9]{4}";
+	private final String EXPORT_FILENAME = "customerList.csv";
 
 	/**
 	 * reads the existing customers + default hides edit buttons
 	 */
 	public void initialize() {
 		try {
-			cList = DataHandler.readCustomerList();
+			cList = FileDataHandler.readCustomerList();
 			Customer.setLastIndex(cList.getCustomers().size());
 			populateList();
 
@@ -107,7 +108,6 @@ public class CustomersController extends DashboardController implements DataForm
 
 				Button editBtn = new Button("Edit");
 				editBtn.setId(cust.getCustId());
-				System.out.println(cust);
 				editBtn.setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
@@ -177,7 +177,7 @@ public class CustomersController extends DashboardController implements DataForm
 
 				da.createCustomer(name.getText(), email.getText(), phone.getText(),
 						dob.getValue().format(dateFormatter));
-				DataHandler.writeToFile(da.getAllCustomers());
+				FileDataHandler.writeToFile(da.getAllCustomers());
 
 				alert.setAlertType(AlertType.INFORMATION);
 				alert.setTitle("Successful");
@@ -292,7 +292,7 @@ public class CustomersController extends DashboardController implements DataForm
 					currCustomer.setPhone(phone.getText());
 					currCustomer.setDOB(dob.getValue().format(dateFormatter));
 
-					DataHandler.writeToFile(cList);
+					FileDataHandler.writeToFile(cList);
 
 					alert.setAlertType(AlertType.INFORMATION);
 					alert.setTitle("Successful");
@@ -319,4 +319,21 @@ public class CustomersController extends DashboardController implements DataForm
 			}
 		}
 	}
+
+	public void exportAsCSV() throws IOException {
+		FileWriter fwriter = new FileWriter(EXPORT_FILENAME);
+		
+		//headers
+		fwriter.write("name,email,phone,dob\n");
+		
+		for(Customer cust : cList.getCustomers()) {
+			fwriter.write(cust.getName() + "," + cust.getEmail() + "," + cust.getPhone() + "," + cust.getDOB().format(dateFormatter) + "\n");
+		}	
+		fwriter.close();
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Export List");
+		alert.setContentText("The current list has been exported successfully");
+		alert.show();
+	}
+	
 }

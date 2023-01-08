@@ -159,6 +159,6 @@
             </AnchorPane>
         </items>
       </SplitPane>
-      <Button fx:id="exportBtn" layoutX="118.0" layoutY="22.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" text="Export" />
+      <Button fx:id="exportBtn" layoutX="118.0" layoutY="22.0" mnemonicParsing="false" onAction="#exportAsCSV" prefHeight="25.0" prefWidth="73.0" text="Export" />
    </children>
 </AnchorPane>

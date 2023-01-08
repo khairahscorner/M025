@@ -15,7 +15,6 @@ public class CreateAndImportData implements DataFormatter {
 	private PropertyList pList;
 	private CustomerList cList;
 	private LandmarkList lList;
-	private RentalList rList;
 
 	private String lineInFile;
 	private Scanner fileToImport;
@@ -28,29 +27,19 @@ public class CreateAndImportData implements DataFormatter {
 	 * @throws IOException
 	 */
 	public CreateAndImportData() throws ClassNotFoundException, IOException {
-		pList = DataHandler.readPropertyList();
-		Property.setLastPropertyIndex(pList.getProperties().size());
+		/**
+		 * properties can be deleted so the correct last index has to be gotten from the
+		 * last property in the file, to avoid creating duplicate ids and overwriting
+		 * existing data
+		 */
+		pList = FileDataHandler.readPropertyList();
+		Property.setLastPropertyIndex(FileDataHandler.getLastPropertyIndexFromFile());
 
-		lList = DataHandler.readLandmarkList();
+		lList = FileDataHandler.readLandmarkList();
 		Landmark.setLastIndex(lList.getLandmarks().size());
 
-		cList = DataHandler.readCustomerList();
+		cList = FileDataHandler.readCustomerList();
 		Customer.setLastIndex(cList.getCustomers().size());
-
-		/**
-		 * rentals can be deleted so if there are existing rentals, the correct last
-		 * index has to be gotten from the last rental in the file, to avoid creating
-		 * duplicate keys and overwriting the last rental
-		 */
-		rList = DataHandler.readRentalList();
-		if (rList.getRentals().size() > 0) {
-			String lastRentalKeyInFile = rList.getKeys().get(rList.getKeys().size() - 1);
-			int lastRentalIdFromFile = Integer.parseInt(lastRentalKeyInFile.split("R")[1]);
-
-			Rental.setLastRentalIndex((lastRentalIdFromFile + 1));
-		} else {
-			Rental.setLastRentalIndex(rList.getRentals().size());
-		}
 	}
 
 	/**
@@ -62,13 +51,13 @@ public class CreateAndImportData implements DataFormatter {
 	 */
 	public CreateAndImportData(String filename, String type) throws ClassNotFoundException, IOException {
 		if (type == "landmark") {
-			lList = DataHandler.readLandmarkList();
+			lList = FileDataHandler.readLandmarkList();
 			Landmark.setLastIndex(lList.getLandmarks().size());
 		} else if (type == "property") {
-			pList = DataHandler.readPropertyList();
-			Property.setLastPropertyIndex(pList.getProperties().size());
+			pList = FileDataHandler.readPropertyList();
+			Property.setLastPropertyIndex(FileDataHandler.getLastPropertyIndexFromFile());
 		} else if (type == "customer") {
-			cList = DataHandler.readCustomerList();
+			cList = FileDataHandler.readCustomerList();
 			Customer.setLastIndex(cList.getCustomers().size());
 		}
 
@@ -105,6 +94,7 @@ public class CreateAndImportData implements DataFormatter {
 		}
 		fileToImport.close();
 	}
+	
 
 	/**
 	 * create a new property using field values from a line read from the csv file,
@@ -115,71 +105,39 @@ public class CreateAndImportData implements DataFormatter {
 	 */
 	public void createProperty(String lineInFile) throws Exception {
 		if (lineCount > 1) {
-			Property ppty = new Property();
 			String[] fields = lineInFile.split(",");
 
 			// attempt to validate the fields in the csv file
 			if (fields.length != 11) {
 				throw new Exception(
-						"The fields do not match the required number of fields and/or type. Please confirm that the file is correct");
+						"The fields do not match the required number of fields. Please confirm that the file is correct");
 			} else {
 				// remove quotes around the latLong fields (it split in two because of the comma)
 				fields[6] = fields[6].replaceAll("\"", "");
 				fields[7] = fields[7].replaceAll("\"", "");
-
-				for (int i = 0; i < fields.length; i++) {
-					switch (i) {
-					case 0:
-						ppty.setDateListed(LocalDate.parse(fields[0], dateFormatter));
-						break;
-					case 1:
-						ppty.setBedrooms(Integer.parseInt(fields[1]));
-						break;
-					case 2:
-						ppty.setBathrooms(Integer.parseInt(fields[2]));
-						break;
-					case 3:
-						ppty.setRentPerMonth(Double.parseDouble(fields[3]));
-						break;
-					case 4:
-						ppty.setSize(Double.parseDouble(fields[4]));
-						break;
-					case 5:
-						ppty.setPostcode(fields[5]);
-						break;
-					case 6:
-						ppty.setLatitude(Double.parseDouble(fields[6]));
-						break;
-					case 7:
-						ppty.setLongitude(Double.parseDouble(fields[7]));
-						break;
-					case 8:
-						ppty.setFurnishedStatus(fields[8]);
-						break;
-					case 9:
-						ppty.setType(fields[9]);
-						break;
-					case 10:
-						ppty.setGarden(fields[10]);
-						break;
-					}
-				}
-
+				
 				/**
-				 * check if property exists in the current propertyList, return a boolean and
-				 * use the boolean to determine whether to add the property or not
+				 * check if the field values exists in the current propertyList, return a boolean and
+				 * use the boolean to determine whether to create new property or not
 				 **/
 				boolean pptyExists = false;
 				for (Property p : pList.getProperties().values()) {
-					if (p.getType().equals(ppty.getType()) && p.getPostcode().equals(ppty.getPostcode())
-							&& p.getFurnishedStatus().equals(ppty.getFurnishedStatus()) && p.getLatitude() == ppty.getLatitude()
-							&& p.getLongitude() == ppty.getLongitude() && p.getSize() == ppty.getSize()
-							&& p.getBedrooms() == ppty.getBedrooms() && p.getBathrooms() == ppty.getBathrooms()) {
+					if (p.getBedrooms() == Integer.parseInt(fields[1])
+							&& p.getBathrooms() == Integer.parseInt(fields[2])
+							&& p.getRentPerMonth() == Double.parseDouble(fields[3])
+							&& p.getSize() == Double.parseDouble(fields[4]) && p.getPostcode().equals(fields[5])
+							&& p.getLatitude() == Double.parseDouble(fields[6])
+							&& p.getLongitude() == Double.parseDouble(fields[7])
+							&& p.getFurnishedStatus().equals(fields[8]) && p.getType().equals(fields[9])) {
 						pptyExists = true;
 						break;
 					}
 				}
 				if (!pptyExists) {
+					Property ppty = new Property(fields[9], fields[8], fields[5], fields[0], fields[10],
+							Double.parseDouble(fields[4]), Integer.parseInt(fields[1]), Integer.parseInt(fields[2]),
+							Double.parseDouble(fields[3]), Double.parseDouble(fields[6]),
+							Double.parseDouble(fields[7]));
 					pList.addProperty(ppty);
 				}
 
@@ -205,20 +163,19 @@ public class CreateAndImportData implements DataFormatter {
 	 */
 	public void createProperty(String t, String f, String postcode, String d, String g, double s, int b, int c,
 			double r, double l1, double l2) throws CustomException {
-		Property ppty = new Property(t, f, postcode, d, g, s, b, c, r, l1, l2);
 
 		// check if property already exists
 		boolean propertyExists = false;
 		for (Property p : pList.getProperties().values()) {
-			if (p.getType().equals(ppty.getType()) && p.getPostcode().equals(ppty.getPostcode())
-					&& p.getFurnishedStatus().equals(ppty.getFurnishedStatus()) && p.getLatitude() == ppty.getLatitude()
-					&& p.getLongitude() == ppty.getLongitude() && p.getSize() == ppty.getSize()
-					&& p.getBedrooms() == ppty.getBedrooms() && p.getBathrooms() == ppty.getBathrooms()) {
+			if (p.getType().equals(t) && p.getPostcode().equals(postcode) && p.getFurnishedStatus().equals(f)
+					&& p.getLatitude() == l1 && p.getLongitude() == l2 && p.getSize() == s && p.getBedrooms() == b
+					&& p.getBathrooms() == c) {
 				propertyExists = true;
 				break;
 			}
 		}
 		if (!propertyExists) {
+			Property ppty = new Property(t, f, postcode, d, g, s, b, c, r, l1, l2);
 			pList.addProperty(ppty);
 		} else {
 			throw new CustomException("Property already exists");
@@ -251,51 +208,33 @@ public class CreateAndImportData implements DataFormatter {
 	 */
 	public void createLandmark(String lineInFile) throws Exception {
 		if (lineCount > 1) {
-
-			Landmark landmark = new Landmark();
 			String[] fields = lineInFile.split(",");
 
 			// attempt to validate the fields in the csv file
 			if (fields.length != 4) {
 				throw new Exception(
-						"The fields do not match the required number of fields and/or type. Please confirm that the file is correct");
+						"The fields do not match the required number of fields. Please confirm that the file is correct");
 			} else {
 				// remove quotes around the latLong fields (it split in two because of the comma)
 				fields[2] = fields[2].replaceAll("\"", "");
 				fields[3] = fields[3].replaceAll("\"", "");
-
-				for (int i = 0; i < fields.length; i++) {
-					switch (i) {
-					case 0:
-						landmark.setName(fields[0]);
-						break;
-					case 1:
-						landmark.setPostcode(fields[1]);
-						break;
-					case 2:
-						landmark.setLatitude(Double.parseDouble(fields[2]));
-						break;
-					case 3:
-						landmark.setLongitude(Double.parseDouble(fields[3]));
-						break;
-					}
-				}
-
+				
 				/**
-				 * check if landmark exists in the current list, return a boolean and use the
-				 * boolean to determine whether to add it or not
+				 * check if the field values exist in the current list, return a boolean and use the
+				 * boolean to determine whether to create new landmark or not
 				 **/
 				boolean landmarkExists = false;
 
 				for (Landmark l : lList.getLandmarks()) {
-					if (l.getName().equals(landmark.getName()) && l.getPostcode().equals(landmark.getPostcode())
-							&& l.getLatitude() == landmark.getLatitude()
-							&& l.getLongitude() == landmark.getLongitude()) {
+					if (l.getName().equals(fields[0]) && l.getPostcode().equals(fields[1])
+							&& l.getLatitude() == Double.parseDouble(fields[2])
+							&& l.getLongitude() == Double.parseDouble(fields[3])) {
 						landmarkExists = true;
 						break;
 					}
 				}
 				if (!landmarkExists) {
+					Landmark landmark = new Landmark(fields[0], fields[1], Double.parseDouble(fields[2]), Double.parseDouble(fields[3]));
 					lList.addLandmark(landmark);
 				}
 
@@ -313,18 +252,16 @@ public class CreateAndImportData implements DataFormatter {
 	 * @throws CustomException
 	 */
 	public void createLandmark(String n, String p, double l1, double l2) throws CustomException {
-		Landmark landmark = new Landmark(n, p, l1, l2);
-
 		// check if landmark already exists
 		boolean landmarkExists = false;
 		for (Landmark l : lList.getLandmarks()) {
-			if (l.getName().equals(landmark.getName()) && l.getPostcode().equals(landmark.getPostcode())
-					&& l.getLatitude() == landmark.getLatitude() && l.getLongitude() == landmark.getLongitude()) {
+			if (l.getName().equals(n) && l.getPostcode().equals(p) && l.getLatitude() == l1 && l.getLongitude() == l2) {
 				landmarkExists = true;
 				break;
 			}
 		}
 		if (!landmarkExists) {
+			Landmark landmark = new Landmark(n, p, l1, l2);
 			lList.addLandmark(landmark);
 		} else {
 			throw new CustomException("Landmark already exists");
@@ -358,47 +295,29 @@ public class CreateAndImportData implements DataFormatter {
 	 */
 	public void createCustomer(String lineInFile) throws Exception {
 		if (lineCount > 1) {
-			Customer cust = new Customer();
 			String[] fields = lineInFile.split(",");
 
 			// attempt to validate the fields in the csv file
 			if (fields.length != 4) {
 				throw new Exception(
 						"The fields do not match the required number of fields and/or type. Please confirm that the file is correct");
-			}
-
-			for (int i = 0; i < fields.length; i++) {
-				switch (i) {
-				case 0:
-					cust.setName(fields[0]);
-					break;
-				case 1:
-					cust.setEmail(fields[1]);
-					break;
-				case 2:
-					cust.setPhone(fields[2]);
-					break;
-				case 3:
-					cust.setDOB(fields[3]);
-					break;
+			} else {
+				/**
+				 * check if customer exists in the current list, return a boolean and use the
+				 * boolean to determine whether to add it or not
+				 **/
+				boolean customerExists = false;
+				for (Customer c : cList.getCustomers()) {
+					if (c.getName().equals(fields[0]) && c.getEmail().equals(fields[1])
+							&& c.getPhone().equals(fields[2]) && c.getDOB().equals(LocalDate.parse(fields[3], dateFormatter))) {
+						customerExists = true;
+						break;
+					}
 				}
-			}
-
-			/**
-			 * check if customer exists in the current list, return a boolean and use the
-			 * boolean to determine whether to add it or not
-			 **/
-			boolean customerExists = false;
-
-			for (Customer c : cList.getCustomers()) {
-				if (c.getName().equals(cust.getName()) && c.getEmail().equals(cust.getEmail())
-						&& c.getPhone().equals(cust.getPhone()) && c.getDOB().equals(cust.getDOB())) {
-					customerExists = true;
-					break;
-				}
-			}
-			if (!customerExists) {
-				cList.addCustomer(cust);
+				if (!customerExists) {
+					Customer cust = new Customer(fields[0], fields[1], fields[2], fields[3]);
+					cList.addCustomer(cust);
+				}		
 			}
 		}
 	}
@@ -413,18 +332,17 @@ public class CreateAndImportData implements DataFormatter {
 	 * @throws Exception
 	 */
 	public void createCustomer(String n, String e, String p, String d) throws Exception {
-		Customer customer = new Customer(n, e, p, d);
-
 		// check if customer already exists
 		boolean customerExists = false;
 		for (Customer c : cList.getCustomers()) {
-			if (c.getName().equals(customer.getName()) && c.getEmail().equals(customer.getEmail())
-					&& c.getPhone().equals(customer.getPhone()) && c.getDOB().equals(customer.getDOB())) {
+			if (c.getName().equals(n) && c.getEmail().equals(e)
+					&& c.getPhone().equals(p) && c.getDOB().format(dateFormatter).equals(d)) {
 				customerExists = true;
 				break;
 			}
 		}
 		if (!customerExists) {
+			Customer customer = new Customer(n, e, p, d);
 			cList.addCustomer(customer);
 		} else {
 			throw new CustomException("Customer already exists");
@@ -435,20 +353,4 @@ public class CreateAndImportData implements DataFormatter {
 		return cList;
 	}
 
-	/**
-	 * create a new rental property with the parameters and add to the list
-	 * 
-	 * @param p Property object
-	 * @param c Customer object
-	 * @param r rental date
-	 * @param d due date
-	 */
-	public void createRental(Property p, Customer c, LocalDate r, LocalDate d) {
-		Rental rentalPpty = new Rental(p, c, r, d);
-		rList.addRentals(rentalPpty);
-	}
-
-	public RentalList getAllRentals() {
-		return rList;
-	}
 }

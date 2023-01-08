@@ -47,18 +47,11 @@ public class PropertyCreateController extends DashboardController implements Dat
 	@FXML
 	private TextField latitude;
 
-	private PropertyList pList;
-
 	private final String POSTCODE_VALIDATE = "^[A-Z0-9]{2,4}+ [A-Z0-9]{3}$";
 
-	/**
-	 * reads the existing properties to a list + sets values for combo boxes
-	 */
+	// sets values for combo boxes
 	public void initialize() {
 		try {
-			pList = DataHandler.readPropertyList();
-			Property.setLastPropertyIndex(pList.getProperties().size());
-
 			furnishing.getItems().addAll("Unfurnished", "Semi-Furnished", "Furnished");
 			hasGarden.getItems().addAll("Yes", "No");
 		} catch (Exception e) {
@@ -128,7 +121,7 @@ public class PropertyCreateController extends DashboardController implements Dat
 						LocalDate.now().format(dateFormatter), hasGarden.getValue(), pptySize, noOfBeds, noOfBaths,
 						rentVal, lat, longi);
 
-				DataHandler.writeToFile(da.getAllProperties());
+				FileDataHandler.writeToFile(da.getAllProperties());
 
 				alert.setAlertType(AlertType.INFORMATION);
 				alert.setTitle("Successful");

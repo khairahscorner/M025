@@ -1,5 +1,6 @@
 package assignment;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
@@ -88,6 +89,8 @@ public class PropertiesController extends DashboardController implements DataFor
 	@FXML
 	private Button editBtn;
 	@FXML
+	private Button deleteBtn;
+	@FXML
 	private TextField editType;
 	@FXML
 	private TextField editPostcode;
@@ -110,19 +113,20 @@ public class PropertiesController extends DashboardController implements DataFor
 
 	private LandmarkList lList;
 	private PropertyList pList;
+	private PropertyList currTableList;
 	private Property currPpty;
 	private String selectedPptyAvailability;
 
 	private String sortOption = null;
 	private final String POSTCODE_VALIDATE = "^[A-Z0-9]{2,4}+ [A-Z0-9]{3}$";
+	private final String EXPORT_FILENAME = "propertyList.csv";
 
 	/**
 	 * read specified existing files into lists + adds options to comboBoxes
 	 */
 	public void initialize() {
 		try {
-			pList = DataHandler.readPropertyList();
-			Property.setLastPropertyIndex(pList.getProperties().size());
+			pList = FileDataHandler.readPropertyList();
 
 			pptyAvailability.getItems().addAll("Rented", "Available", "All Properties");
 			editFurnishing.getItems().addAll("Unfurnished", "Semi-Furnished", "Furnished");
@@ -146,7 +150,7 @@ public class PropertiesController extends DashboardController implements DataFor
 			pptyPostcode.getItems().addAll(postcodeMap.keySet());
 
 			// populate the dropdown with landmark names
-			lList = DataHandler.readLandmarkList();
+			lList = FileDataHandler.readLandmarkList();
 
 			for (Landmark l : lList.getLandmarks()) {
 				landmarkOptions.getItems().add(l.getName());
@@ -224,6 +228,9 @@ public class PropertiesController extends DashboardController implements DataFor
 			GridPane.setMargin(rentalStatus, new Insets(5));
 			GridPane.setMargin(viewBtn, new Insets(5));
 		}
+		
+		// save reference to list currently populated (used for exporting)
+		currTableList = pList;
 	}
 
 	/**
@@ -255,7 +262,9 @@ public class PropertiesController extends DashboardController implements DataFor
 		pptyDetailsPane.setVisible(true);
 		mainPptyDetails.setVisible(true);
 
+		deleteBtn.setId(currPptyId);
 		editBtn.setId(currPptyId);
+		
 		Image propertyImage = new Image("file:images/b.jpg");
 		pptyImg.setImage(propertyImage);
 
@@ -321,7 +330,7 @@ public class PropertiesController extends DashboardController implements DataFor
 		} else {
 			sortOption = "DESC";
 		}
-		
+
 		clearTable();
 		populateList(PropertyActions.sortPropertiesByPrice(pList, sortOption));
 	}
@@ -336,7 +345,7 @@ public class PropertiesController extends DashboardController implements DataFor
 		} else {
 			sortOption = "DESC";
 		}
-		
+
 		clearTable();
 		populateList(PropertyActions.sortPropertiesByDate(pList, sortOption));
 	}
@@ -353,7 +362,7 @@ public class PropertiesController extends DashboardController implements DataFor
 		} else {
 			num = Integer.parseInt(option);
 		}
-		
+
 		clearTable();
 		populateList(PropertyActions.filterPropertiesByBedrooms(pList, num));
 
@@ -371,7 +380,7 @@ public class PropertiesController extends DashboardController implements DataFor
 		} else {
 			num = Integer.parseInt(option);
 		}
-		
+
 		clearTable();
 		populateList(PropertyActions.filterPropertiesByBathrooms(pList, num));
 
@@ -396,6 +405,31 @@ public class PropertiesController extends DashboardController implements DataFor
 			pptiesWrapper.getRowConstraints().remove(0);
 		}
 		// ->***** Waligóra(2017) [3] - END
+	}
+	
+	public void confirmDeleteListener(ActionEvent e) throws IOException {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Are you sure?");
+		alert.setContentText("Are you sure you want to delete this property?");
+
+		// show alert, wait for user to close and then refresh
+		Optional<ButtonType> result = alert.showAndWait();
+        
+        if(result.get() == ButtonType.OK) {
+        	pList.removeProperty(currPpty.getPropertyId());
+			FileDataHandler.writeToFile(pList);
+			
+			alert.setAlertType(AlertType.INFORMATION);
+			alert.setTitle("Successful");
+			alert.setContentText("Property has been updated successfully");
+
+			Optional<ButtonType> finalResult = alert.showAndWait();
+			if (finalResult.get() != null) {
+				goToPropertiesListener(e);;
+			}
+        } else {
+        	viewPropertyDetailsListener(currPpty.getPropertyId());
+        }   
 	}
 
 	/**
@@ -481,8 +515,8 @@ public class PropertiesController extends DashboardController implements DataFor
 					"Please enter values within the valid range: 0 - 5 for bedrooms and bathrooms, greater than 0 for size and at least £200 for monthly rent");
 			alert.show();
 		} else {
-			try {	
-				//check updates match any existing property 
+			try {
+				// check updates match any existing property
 				boolean propertyExists = false;
 				for (Property p : pList.getProperties().values()) {
 					if (p.getType().equals(editType.getText()) && p.getPostcode().equals(editPostcode.getText())
@@ -504,8 +538,8 @@ public class PropertiesController extends DashboardController implements DataFor
 					currPpty.setBathrooms(bathrooms);
 					currPpty.setLatitude(latitude);
 					currPpty.setLongitude(longitude);
-					
-					DataHandler.writeToFile(pList);
+
+					FileDataHandler.writeToFile(pList);
 
 					alert.setAlertType(AlertType.INFORMATION);
 					alert.setTitle("Successful");
@@ -520,7 +554,8 @@ public class PropertiesController extends DashboardController implements DataFor
 				} else {
 					alert.setAlertType(AlertType.ERROR);
 					alert.setTitle("Error updating property");
-					alert.setContentText("Cannot update property as another property already exists with these details");
+					alert.setContentText(
+							"Cannot update property as another property already exists with these details");
 					alert.show();
 				}
 
@@ -531,6 +566,25 @@ public class PropertiesController extends DashboardController implements DataFor
 				alert.show();
 			}
 		}
+	}
+
+	public void exportAsCSV() throws IOException {
+		FileWriter fwriter = new FileWriter(EXPORT_FILENAME);
+
+		// headers
+		fwriter.write(
+				"dateListed,bedroom,bathroom,rentPCM,size,postcode,latitude,longitude,furnishedStatus,type,garden\n");
+
+		for (Property p : currTableList.getProperties().values()) {
+			fwriter.write(p.getDateListed().format(dateFormatter) + "," + p.getBedrooms() + "," + p.getBathrooms() + ","
+					+ p.getRentPerMonth() + "," + p.getSize() + "," + p.getPostcode() + "," + p.getLatitude() + ","
+					+ p.getLongitude() + "," + p.getFurnishedStatus() + "," + p.getType() + "," + p.getGarden() + "\n");
+		}
+		fwriter.close();
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Export List");
+		alert.setContentText("All  has been exported successfully");
+		alert.show();
 	}
 
 }

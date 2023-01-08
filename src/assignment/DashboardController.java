@@ -55,17 +55,10 @@ public class DashboardController {
      */
     public void initialize() {	      
 	      try {
-	    	  pList = DataHandler.readPropertyList();
-		      Property.setLastPropertyIndex(pList.getProperties().size());
-		      
-		      cList = DataHandler.readCustomerList();
-		      Customer.setLastIndex(cList.getCustomers().size());
-		      
-		      rList = DataHandler.readRentalList();
-		      Rental.setLastRentalIndex(rList.getRentals().size());
-		      
-		      lList = DataHandler.readLandmarkList();
-		      Landmark.setLastIndex(lList.getLandmarks().size());
+	    	  pList = FileDataHandler.readPropertyList();
+		      cList = FileDataHandler.readCustomerList();
+		      rList = FileDataHandler.readRentalList();
+		      lList = FileDataHandler.readLandmarkList();
 		      		      	      
 		      propertyCount.setText(Integer.toString(pList.getProperties().size()));
 		      customerCount.setText(Integer.toString(cList.getCustomers().size()));
@@ -139,15 +132,15 @@ public class DashboardController {
 				switch(selectedFileTypeToImport) {
 					case "property":
 						da.importAllProperties();
-						DataHandler.writeToFile(da.getAllProperties());
+						FileDataHandler.writeToFile(da.getAllProperties());
 						break;
 					case "customer":
 						da.importAllCustomers();
-						DataHandler.writeToFile(da.getAllCustomers());
+						FileDataHandler.writeToFile(da.getAllCustomers());
 						break;
 					case "landmark":
 						da.importAllLandmarks();
-						DataHandler.writeToFile(da.getAllLandmarks());
+						FileDataHandler.writeToFile(da.getAllLandmarks());
 						break;
 				}
 				

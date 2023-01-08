@@ -34,6 +34,11 @@ public class PropertyList implements Serializable {
 		pptyList.put(p.getPropertyId(), p);
 		pptyKeys.add(p.getPropertyId());
 	}
+	
+	public void removeProperty(String pptyId) {
+		pptyList.remove(pptyId);	
+		pptyKeys.remove(pptyId);
+	}
 
 	@Override
 	public String toString() {

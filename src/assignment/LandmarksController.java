@@ -1,5 +1,6 @@
 package assignment;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -51,6 +52,7 @@ public class LandmarksController extends DashboardController implements DataForm
 	
 	private final String DEFAULT_FORM_HEADING = "Add New Landmark";
 	private final String POSTCODE_VALIDATE = "^[A-Z0-9]{2,4}+ [A-Z0-9]{3}$";
+	private final String EXPORT_FILENAME = "landmarkList.csv";
 
 	
 	/**
@@ -58,7 +60,7 @@ public class LandmarksController extends DashboardController implements DataForm
 	 */
 	public void initialize() {
 		try {
-			lList = DataHandler.readLandmarkList();
+			lList = FileDataHandler.readLandmarkList();
 			Customer.setLastIndex(lList.getLandmarks().size());	
 			populateList();
 			
@@ -158,7 +160,7 @@ public class LandmarksController extends DashboardController implements DataForm
 				CreateAndImportData da = new CreateAndImportData();
 				
 				da.createLandmark(name.getText(), postcode.getText(), Double.parseDouble(latitude.getText()), Double.parseDouble(longitude.getText()));
-				DataHandler.writeToFile(da.getAllLandmarks());
+				FileDataHandler.writeToFile(da.getAllLandmarks());
 				
 				alert.setAlertType(AlertType.INFORMATION);
 	            alert.setTitle("Successful");
@@ -272,7 +274,7 @@ public class LandmarksController extends DashboardController implements DataForm
 					currLandmark.setLatitude(lat);
 					currLandmark.setLongitude(longi);
 					
-					DataHandler.writeToFile(lList);
+					FileDataHandler.writeToFile(lList);
 					
 					alert.setAlertType(AlertType.INFORMATION);
 		            alert.setTitle("Successful");
@@ -299,4 +301,21 @@ public class LandmarksController extends DashboardController implements DataForm
 			}
 		}
 	}
+	
+	public void exportAsCSV() throws IOException {
+		FileWriter fwriter = new FileWriter(EXPORT_FILENAME);
+		
+		//headers
+		fwriter.write("name,postcode,latitude,longitude\n");
+		
+		for(Landmark l: lList.getLandmarks()) {
+			fwriter.write(l.getName() + "," + l.getPostcode() + "," + l.getLatitude() + "," + l.getLongitude() + "\n");
+		}	
+		fwriter.close();
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Export List");
+		alert.setContentText("The current list has been exported successfully");
+		alert.show();
+	}
+	
 }

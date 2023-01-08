@@ -15,7 +15,7 @@ public class AdminCreate {
 
 	public static void initialise() throws FileNotFoundException, IOException {
 		fileNames.load(new FileInputStream("allFiles.properties"));
-		DataHandler.readProperties(fileNames);
+		FileDataHandler.readProperties(fileNames);
 	}
 
 	public static void main(String[] args) {
@@ -23,7 +23,7 @@ public class AdminCreate {
 			initialise();	
 			Admin admin = new Admin("admin", "admin");
 			
-			DataHandler.writeToFile(admin);
+			FileDataHandler.writeToFile(admin);
 			System.out.println("Done");
 		} 
 		catch(Exception e) { 

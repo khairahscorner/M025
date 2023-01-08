@@ -37,7 +37,7 @@ public class AppStart extends Application {
 	 */
 	public static void initialise() throws FileNotFoundException, IOException {
 		properties.load(new FileInputStream("allFiles.properties"));
-		DataHandler.readProperties(properties);		
+		FileDataHandler.readProperties(properties);		
 	}
 	
 	@Override

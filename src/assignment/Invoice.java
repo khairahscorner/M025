@@ -13,4 +13,5 @@ public interface Invoice {
 	 */
 	String generateInvoice();
 	
+	void generateInvoiceAsPDF(String filename);
 }

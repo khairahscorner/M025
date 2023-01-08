@@ -32,7 +32,7 @@ public class AppStartController {
      */
     public void initialize() {
     	try {
-        	adminUser = DataHandler.readAdmins(); 
+        	adminUser = FileDataHandler.readAdmins(); 
         	System.out.println("admin is: \n" + adminUser);
     	}
     	catch(Exception e) {

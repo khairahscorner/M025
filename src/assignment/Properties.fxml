@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -189,10 +190,18 @@
                            <children>
                               <Label fx:id="pptyTitle" alignment="CENTER" layoutY="5.0" prefHeight="36.0" prefWidth="266.0" text="Label" textAlignment="CENTER" wrapText="true" />
                               <TextArea fx:id="pptyDetailsArea" layoutX="2.0" layoutY="81.0" prefHeight="297.0" prefWidth="266.0" style="-fx-font-weight: 600;" stylesheets="@styles.css" text="Details here" wrapText="true" />
-                              <Button fx:id="editBtn" layoutX="93.0" layoutY="44.0" mnemonicParsing="false" onAction="#openEditViewListener" prefHeight="28.0" prefWidth="81.0" text="Edit" textFill="#653737" />
                               <Label fx:id="landmarkTitle" layoutX="12.0" layoutY="373.0" prefHeight="36.0" prefWidth="256.0" text="Explore The Area: " textAlignment="CENTER" wrapText="true" />
                               <ComboBox fx:id="landmarkOptions" layoutX="12.0" layoutY="415.0" onAction="#getDistanceListener" prefHeight="26.0" prefWidth="183.0" promptText="Select landmark..." />
                               <Text fx:id="distance" layoutX="11.0" layoutY="467.0" strokeType="OUTSIDE" strokeWidth="0.0" text="distance shows here" wrappingWidth="253.0975341796875" />
+                              <ButtonBar layoutX="38.0" layoutY="41.0" prefHeight="40.0" prefWidth="191.0">
+                                <buttons>
+                                    <Button fx:id="editBtn" mnemonicParsing="false" onAction="#openEditViewListener" prefHeight="28.0" prefWidth="81.0" text="Edit" textFill="#653737" />
+                                  <Button fx:id="deleteBtn" mnemonicParsing="false" onAction="#confirmDeleteListener" text="Delete" />
+                                </buttons>
+                                 <padding>
+                                    <Insets right="20.0" />
+                                 </padding>
+                              </ButtonBar>
                            </children>
                         </Pane>
                      </children>
@@ -236,6 +245,6 @@
       <Text layoutX="124.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search:" wrappingWidth="85.53905911049947" />
       <Button fx:id="searchBtn" layoutX="393.0" layoutY="56.0" mnemonicParsing="false" onAction="#searchPropertiesListener" prefHeight="32.0" prefWidth="54.0" text="Go" />
       <Button fx:id="addNew" layoutX="709.0" layoutY="57.0" mnemonicParsing="false" onAction="#goToAddPropertyListener" prefHeight="31.0" prefWidth="73.0" text="Add New" />
-      <Button fx:id="exportBtn" layoutX="619.0" layoutY="57.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="73.0" text="Export" />
+      <Button fx:id="exportBtn" layoutX="595.0" layoutY="57.0" mnemonicParsing="false" onAction="#exportAsCSV" prefHeight="30.0" prefWidth="101.0" text="Export as CSV" />
    </children>
 </AnchorPane>

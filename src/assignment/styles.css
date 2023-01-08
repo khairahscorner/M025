@@ -76,12 +76,17 @@
 	-fx-font-size: 14px;
 }
 
-#loginBtn, #importBtn, #addNew,  #generateInvoice, #submitEdit, #updateDetails, #submitBtn, #searchBtn {
+#loginBtn, #importBtn, #addNew,  #generateInvoice, #submitEdit, #updateDetails, #submitBtn, #searchBtn, #downloadBtn {
 	-fx-background-color: #3fa944;
 	-fx-text-fill: white;
 	-fx-border-color: #3fa944;
 }
 
+#deleteBtn {
+	-fx-text-fill: white;
+	-fx-border-color: #d72727;
+	-fx-background-color: #d72727;
+}
 #editPptyDetails {
 	-fx-background-color: white;
 }

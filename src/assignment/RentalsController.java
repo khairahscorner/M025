@@ -48,26 +48,37 @@ public class RentalsController extends DashboardController implements DataFormat
 	private TextArea rentalPptyDetails;
 	@FXML
 	private TextArea rentalCustomerDetails;
+	@FXML
+	private Button downloadBtn;
 
 	private RentalList rList;
 	private PropertyList pList;
 	private CustomerList cList;
-	private Rental currRental;
+	private String currRentalId;
 
 	private HashMap<String, Property> filteredProperties;
 	private HashMap<String, Customer> hashedCustomers;
+	
+	private final String DOWNLOAD_FILENAME = "rentalInvoice.pdf";
+
 
 	/**
 	 * read specified existing files into lists + adds options to comboBoxes
 	 */
 	public void initialize() {
 		try {
-			rList = DataHandler.readRentalList();
+			/**
+			 * rentals are deleted after end of tenancy invoice is generated so to read
+			 * existing rentals, the correct last index has to be gotten from the last
+			 * rental in the file, to avoid creating duplicate ids and overwriting existing data
+			 */
+			rList = FileDataHandler.readRentalList();
+			Rental.setLastRentalIndex(FileDataHandler.getLastRentalIndexFromFile());
 
-			pList = DataHandler.readPropertyList();
+			pList = FileDataHandler.readPropertyList();
 			filteredProperties = new HashMap<String, Property>();
 
-			cList = DataHandler.readCustomerList();
+			cList = FileDataHandler.readCustomerList();
 			hashedCustomers = new HashMap<String, Customer>();
 
 			// get all properties that are not rented i.e rentalStatus is false
@@ -110,14 +121,14 @@ public class RentalsController extends DashboardController implements DataFormat
 	private void populateList() {
 		for (int i = 0; i < rList.getRentals().size(); i++) {
 			String key = rList.getKeys().get(i);
-			currRental = rList.getRentals().get(key);
+			Rental r = rList.getRentals().get(key);
 
-			Property currPpty = currRental.getRentalPpty();
-			Customer currCust = currRental.getRentalCustomer();
+			Property currPpty = r.getRentalPpty();
+			Customer currCust = r.getRentalCustomer();
 
 			Text rentalCode = new Text();
 			Text pptyCode = new Text();
-			rentalCode.setText(currRental.getRentalId());
+			rentalCode.setText(r.getRentalId());
 			pptyCode.setText(currPpty.getPropertyId());
 
 			Text custName = new Text();
@@ -128,8 +139,8 @@ public class RentalsController extends DashboardController implements DataFormat
 			viewBtn.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
-					System.out.println(viewBtn.getId());
 					showRentalPropertyDetails(currPpty, currCust, viewBtn.getId());
+					currRentalId = viewBtn.getId();
 				}
 			});
 
@@ -145,6 +156,8 @@ public class RentalsController extends DashboardController implements DataFormat
 			GridPane.setMargin(custName, new Insets(5));
 			GridPane.setMargin(viewBtn, new Insets(5));
 		}
+		// initially hide invoice download btn
+		downloadBtn.setVisible(false);
 	}
 
 	/**
@@ -176,7 +189,6 @@ public class RentalsController extends DashboardController implements DataFormat
 	 * @throws IOException
 	 */
 	public void rentPropertyListener(ActionEvent e) throws IOException {
-
 		Alert alert = new Alert(AlertType.NONE);
 
 		if (selectedProperty == null || selectedCustomer == null || rentDueDate.getValue() == null) {
@@ -198,17 +210,31 @@ public class RentalsController extends DashboardController implements DataFormat
 //		}
 		else {
 			try {
-				CreateAndImportData da = new CreateAndImportData();
+				Rental rentalPpty = new Rental(selectedProperty, selectedCustomer, LocalDate.now(),
+						rentDueDate.getValue());
+				rList.addRentals(rentalPpty);
 
-				da.createRental(selectedProperty, selectedCustomer, LocalDate.now(), rentDueDate.getValue());
 				selectedProperty.setRentalStatus(true);
 
-				DataHandler.writeToFile(da.getAllRentals());
-				DataHandler.writeToFile(pList);
+				FileDataHandler.writeToFile(rList);
+				FileDataHandler.writeToFile(pList);
+
+				RentalInvoice invoice = new RentalInvoice(rentalPpty);
+
+				// generate invoice as pdf
+				invoice.generateInvoiceAsPDF(DOWNLOAD_FILENAME);
+
+				// send email with invoice as text
+				// new SendEmail().send(selectedCustomer.getEmail(), "rental",
+				// invoice.generateInvoice());
+
+				// send email with invoice as pdf
+				new SendEmail().sendInvoiceAsPDF(selectedCustomer.getEmail(), "rental", DOWNLOAD_FILENAME);
 
 				alert.setAlertType(AlertType.INFORMATION);
 				alert.setTitle("Successful");
-				alert.setContentText("Property has been rented successfully");
+				alert.setContentText("Property has been rented successfully and the invoice has been emailed to "
+						+ selectedCustomer.getEmail());
 
 				// show alert, wait for user to close and then refresh
 				Optional<ButtonType> result = alert.showAndWait();
@@ -238,7 +264,8 @@ public class RentalsController extends DashboardController implements DataFormat
 		Rental r = rList.getRentals().get(key);
 		RentalInvoice newInvoice = new RentalInvoice(r);
 
-		rentalInvoice.setText(newInvoice.generateInvoice() + "\n");
+		rentalInvoice.setText(" ----- Rental Invoice ------ \n");
+		rentalInvoice.appendText(newInvoice.generateInvoice() + "\n");
 
 		rentalPptyDetails.setText("-- Property Details at Rental --\n");
 		rentalPptyDetails.appendText(p.getPropertyDetails() + "\n");
@@ -246,5 +273,20 @@ public class RentalsController extends DashboardController implements DataFormat
 		rentalCustomerDetails.setText("--- Customer Details at Rental ---\n");
 		rentalCustomerDetails.appendText(c.toString());
 
+		downloadBtn.setVisible(true);
+	}
+
+	//can be improved to select where to download on the user system
+	public void downloadToSystemListener() {
+		Rental r = rList.getRentals().get(currRentalId);
+		RentalInvoice invoice = new RentalInvoice(r);
+
+		// generate invoice as pdf and save to downloads **for my laptop
+		invoice.generateInvoiceAsPDF(("/Users/airah/Downloads/" + currRentalId + ".pdf"));
+		
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Invoice Download");
+		alert.setContentText("Invoice successfully downloaded to local machine. Check downloads");
+		alert.show();
 	}
 }
