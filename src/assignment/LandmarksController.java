@@ -56,12 +56,12 @@ public class LandmarksController extends DashboardController implements DataForm
 
 	
 	/**
-	 * reads the existing customers to a list + default hides edit buttons
+	 * reads the existing landmarks to a list + default hides edit buttons
 	 */
 	public void initialize() {
 		try {
 			lList = FileDataHandler.readLandmarkList();
-			Customer.setLastIndex(lList.getLandmarks().size());	
+			Landmark.setLastIndex(lList.getLandmarks().size());	
 			populateList();
 			
 			cancelEdit.setVisible(false);
@@ -82,7 +82,7 @@ public class LandmarksController extends DashboardController implements DataForm
 	 */
 	private void populateList() {
 		gridCount = 1;
-		if(Customer.getLastIndex() < 1) {
+		if(Landmark.getLastIndex() < 1) {
 			emptyList.setVisible(true);
 			emptyListLabel.setVisible(true);
 			allLandmarks.setVisible(false);
@@ -314,7 +314,7 @@ public class LandmarksController extends DashboardController implements DataForm
 		fwriter.close();
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Export List");
-		alert.setContentText("The current list has been exported successfully");
+		alert.setContentText("The current list has been exported to the project folder successfully");
 		alert.show();
 	}
 	

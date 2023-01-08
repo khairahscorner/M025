@@ -7,5 +7,7 @@
 build.fxbuild
 
 *.dat
+*.pdf
+*.csv
 Bin/
 /bin/

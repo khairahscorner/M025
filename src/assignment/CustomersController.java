@@ -331,8 +331,8 @@ public class CustomersController extends DashboardController implements DataForm
 		}	
 		fwriter.close();
 		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Export List");
-		alert.setContentText("The current list has been exported successfully");
+		alert.setTitle("Export List as .csv");
+		alert.setContentText("The list has been exported to the project folder successfully");
 		alert.show();
 	}
 	

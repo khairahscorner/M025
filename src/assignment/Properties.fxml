@@ -245,6 +245,6 @@
       <Text layoutX="124.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search:" wrappingWidth="85.53905911049947" />
       <Button fx:id="searchBtn" layoutX="393.0" layoutY="56.0" mnemonicParsing="false" onAction="#searchPropertiesListener" prefHeight="32.0" prefWidth="54.0" text="Go" />
       <Button fx:id="addNew" layoutX="709.0" layoutY="57.0" mnemonicParsing="false" onAction="#goToAddPropertyListener" prefHeight="31.0" prefWidth="73.0" text="Add New" />
-      <Button fx:id="exportBtn" layoutX="595.0" layoutY="57.0" mnemonicParsing="false" onAction="#exportAsCSV" prefHeight="30.0" prefWidth="101.0" text="Export as CSV" />
+      <Button fx:id="exportBtn" layoutX="567.0" layoutY="57.0" mnemonicParsing="false" onAction="#exportAsCSV" prefHeight="31.0" prefWidth="129.0" text="Export as CSV" />
    </children>
 </AnchorPane>

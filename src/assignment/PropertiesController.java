@@ -151,6 +151,7 @@ public class PropertiesController extends DashboardController implements DataFor
 
 			// populate the dropdown with landmark names
 			lList = FileDataHandler.readLandmarkList();
+			Landmark.setLastIndex(lList.getLandmarks().size());	
 
 			for (Landmark l : lList.getLandmarks()) {
 				landmarkOptions.getItems().add(l.getName());
@@ -582,8 +583,8 @@ public class PropertiesController extends DashboardController implements DataFor
 		}
 		fwriter.close();
 		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Export List");
-		alert.setContentText("All  has been exported successfully");
+		alert.setTitle("Export List as .csv");
+		alert.setContentText("The list has been exported to the project folder successfully");
 		alert.show();
 	}
 

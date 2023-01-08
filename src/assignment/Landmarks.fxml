@@ -19,7 +19,7 @@
       <Pane fx:id="headingWrapper" layoutX="101.0" prefHeight="62.0" prefWidth="777.0">
          <children>
             <Label fx:id="headingLabel" alignment="CENTER" layoutX="201.0" layoutY="16.0" prefHeight="30.0" prefWidth="362.0" text="Landmarks (Places of Interest)" textAlignment="CENTER" />
-            <Button fx:id="exportBtn" layoutX="20.0" layoutY="18.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" text="Export" />
+            <Button fx:id="exportBtn" layoutX="20.0" layoutY="18.0" mnemonicParsing="false" onAction="#exportAsCSV" prefHeight="26.0" prefWidth="124.0" text="Export as CSV" />
          </children>
       </Pane>
       <Pane fx:id="menu" prefHeight="578.0" prefWidth="101.0">
