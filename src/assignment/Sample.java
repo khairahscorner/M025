@@ -2,15 +2,8 @@ package assignment;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
-
-//import com.google.maps.GeoApiContext;
-//import com.google.maps.GeocodingApi;
-//import com.google.maps.errors.ApiException;
-//import com.google.maps.model.GeocodingResult;
-//import com.google.maps.model.ComponentFilter;
 
 
 public class Sample implements DataFormatter {
@@ -22,18 +15,7 @@ public class Sample implements DataFormatter {
 	}
 	
 	public static void main(String[] args) throws ClassNotFoundException, IOException {
-		try {
-			FileWriter fwriter = new FileWriter("sample.txt");
-			String[] asd = {"Airah", "airah@gmail.com", "CSYM025"};
-			for(int i = 0; i < asd.length; i++) {
-				fwriter.write(asd[i] + ",");
-			}
-			fwriter.write("\n");
-			
-			fwriter.close();
-			
-			System.out.println("does it get here?");
-			
+		try {		
 			
 //			initialise();
 		

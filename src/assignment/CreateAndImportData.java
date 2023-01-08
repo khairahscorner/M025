@@ -64,7 +64,7 @@ public class CreateAndImportData implements DataFormatter {
 		File file = new File(filename);
 		fileToImport = new Scanner(file);
 	}
-	
+
 	/**
 	 * reads each line from the file and save to string
 	 * 
@@ -94,7 +94,6 @@ public class CreateAndImportData implements DataFormatter {
 		}
 		fileToImport.close();
 	}
-	
 
 	/**
 	 * create a new property using field values from a line read from the csv file,
@@ -115,10 +114,11 @@ public class CreateAndImportData implements DataFormatter {
 				// remove quotes around the latLong fields (it split in two because of the comma)
 				fields[6] = fields[6].replaceAll("\"", "");
 				fields[7] = fields[7].replaceAll("\"", "");
-				
+
 				/**
-				 * check if the field values exists in the current propertyList, return a boolean and
-				 * use the boolean to determine whether to create new property or not
+				 * check if the field values exists in the current propertyList, return a
+				 * boolean and use the boolean to determine whether to create new property or
+				 * not
 				 **/
 				boolean pptyExists = false;
 				for (Property p : pList.getProperties().values()) {
@@ -218,10 +218,10 @@ public class CreateAndImportData implements DataFormatter {
 				// remove quotes around the latLong fields (it split in two because of the comma)
 				fields[2] = fields[2].replaceAll("\"", "");
 				fields[3] = fields[3].replaceAll("\"", "");
-				
+
 				/**
-				 * check if the field values exist in the current list, return a boolean and use the
-				 * boolean to determine whether to create new landmark or not
+				 * check if the field values exist in the current list, return a boolean and use
+				 * the boolean to determine whether to create new landmark or not
 				 **/
 				boolean landmarkExists = false;
 
@@ -234,7 +234,8 @@ public class CreateAndImportData implements DataFormatter {
 					}
 				}
 				if (!landmarkExists) {
-					Landmark landmark = new Landmark(fields[0], fields[1], Double.parseDouble(fields[2]), Double.parseDouble(fields[3]));
+					Landmark landmark = new Landmark(fields[0], fields[1], Double.parseDouble(fields[2]),
+							Double.parseDouble(fields[3]));
 					lList.addLandmark(landmark);
 				}
 
@@ -279,7 +280,6 @@ public class CreateAndImportData implements DataFormatter {
 	 * @throws Exception
 	 */
 	public void importAllCustomers() throws IOException, Exception {
-		// REFERENCED CODE START
 		while (readNextLine()) {
 			createCustomer(lineInFile);
 		}
@@ -309,7 +309,8 @@ public class CreateAndImportData implements DataFormatter {
 				boolean customerExists = false;
 				for (Customer c : cList.getCustomers()) {
 					if (c.getName().equals(fields[0]) && c.getEmail().equals(fields[1])
-							&& c.getPhone().equals(fields[2]) && c.getDOB().equals(LocalDate.parse(fields[3], dateFormatter))) {
+							&& c.getPhone().equals(fields[2])
+							&& c.getDOB().equals(LocalDate.parse(fields[3], dateFormatter))) {
 						customerExists = true;
 						break;
 					}
@@ -317,7 +318,7 @@ public class CreateAndImportData implements DataFormatter {
 				if (!customerExists) {
 					Customer cust = new Customer(fields[0], fields[1], fields[2], fields[3]);
 					cList.addCustomer(cust);
-				}		
+				}
 			}
 		}
 	}
@@ -335,8 +336,8 @@ public class CreateAndImportData implements DataFormatter {
 		// check if customer already exists
 		boolean customerExists = false;
 		for (Customer c : cList.getCustomers()) {
-			if (c.getName().equals(n) && c.getEmail().equals(e)
-					&& c.getPhone().equals(p) && c.getDOB().format(dateFormatter).equals(d)) {
+			if (c.getName().equals(n) && c.getEmail().equals(e) && c.getPhone().equals(p)
+					&& c.getDOB().format(dateFormatter).equals(d)) {
 				customerExists = true;
 				break;
 			}

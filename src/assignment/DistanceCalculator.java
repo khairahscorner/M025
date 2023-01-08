@@ -1,34 +1,6 @@
-// REFERENCED CODE - START
-
-/*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-/*::                                                                         :*/
-/*::  This routine calculates the distance between two points (given the     :*/
-/*::  latitude/longitude of those points). It is being used to calculate     :*/
-/*::  the distance between two locations using GeoDataSource (TM) products   :*/
-/*::                                                                         :*/
-/*::  Definitions:                                                           :*/
-/*::    Southern latitudes are negative, eastern longitudes are positive     :*/
-/*::                                                                         :*/
-/*::  Function parameters:                                                   :*/
-/*::    lat1, lon1 = Latitude and Longitude of point 1 (in decimal degrees)  :*/
-/*::    lat2, lon2 = Latitude and Longitude of point 2 (in decimal degrees)  :*/
-/*::    unit = the unit you desire for results                               :*/
-/*::           where: 'M' is statute miles (default)                         :*/
-/*::                  'K' is kilometers                                      :*/
-/*::                  'N' is nautical miles                                  :*/
-/*::  Worldwide cities and other features databases with latitude longitude  :*/
-/*::  are available at https://www.geodatasource.com                         :*/
-/*::                                                                         :*/
-/*::  For enquiries, please contact sales@geodatasource.com                  :*/
-/*::                                                                         :*/
-/*::  Official Web site: https://www.geodatasource.com                       :*/
-/*::                                                                         :*/
-/*::           GeoDataSource.com (C) All Rights Reserved 2022                :*/
-/*::                                                                         :*/
-/*::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::*/
-
 package assignment;
 
+//<-***** CSYM025 Code FROM NILE - START
 public class DistanceCalculator {
 
 	public static double getDistance(double lat1, double lon1, double lat2, double lon2, String unit) {
@@ -50,6 +22,6 @@ public class DistanceCalculator {
 		}
 	}
 }
-//REFERENCED CODE - STOP
+//->***** CSYM025 Code FROM NILE - END
 
 

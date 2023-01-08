@@ -37,7 +37,7 @@ public class FileDataHandler {
 	 * @param outputFile file to serailise object to
 	 * @throws IOException
 	 */
-	// referenced code - START
+	//<-***** CSYM025 Code FROM NILE - START
 	public static void doSerialize(Object obj, String outputFile) throws IOException {
 		FileOutputStream fileTowrite = new FileOutputStream(outputFile);
 		ObjectOutputStream objTowrite = new ObjectOutputStream(fileTowrite);
@@ -71,7 +71,7 @@ public class FileDataHandler {
 
 		return obj;
 	}
-	// referenced code - STOP
+	//->***** CSYM025 Code FROM NILE - END
 
 	/**
 	 * overwrites the existing object in the file with new object
