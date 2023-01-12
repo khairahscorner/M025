@@ -28,7 +28,10 @@
             <PasswordField fx:id="passwordField" prefHeight="38.0" prefWidth="183.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="193.0" layoutY="116.0" prefHeight="30.0" prefWidth="214.0" text="Login with your credentials" />
-      <Button fx:id="loginBtn" layoutX="236.0" layoutY="266.0" mnemonicParsing="false" onAction="#loginBtnListener" prefHeight="30.0" prefWidth="129.0" text="Login" />
+      <Label fx:id="titleHeader" alignment="CENTER" contentDisplay="CENTER" layoutX="112.0" layoutY="118.0" prefHeight="30.0" prefWidth="377.0" text="Login with your credentials" />
+      <Button fx:id="startBtn" layoutX="236.0" layoutY="266.0" mnemonicParsing="false" onAction="#startBtnListener" prefHeight="30.0" prefWidth="129.0" text="Login" />
+      <Button fx:id="extraBtn" layoutX="340.0" layoutY="332.0" mnemonicParsing="false" onAction="#switchActions" prefHeight="26.0" prefWidth="129.0" text="Register/Update" />
+      <Label fx:id="extraText" alignment="CENTER_RIGHT" layoutX="28.0" layoutY="337.0" prefHeight="17.0" prefWidth="306.0" text="New Admin/Forgot password?:" textAlignment="RIGHT" />
+      <Label fx:id="extraSignupNote" alignment="CENTER" layoutX="83.0" layoutY="369.0" prefHeight="17.0" prefWidth="436.0" text="Note: Enter your existing username to update your password" textAlignment="RIGHT" visible="false" />
    </children>
 </AnchorPane>

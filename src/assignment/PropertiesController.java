@@ -224,10 +224,10 @@ public class PropertiesController extends DashboardController implements DataFor
 			pptiesWrapper.add(viewBtn, 3, i);
 
 			// add padding to each cell
-			GridPane.setMargin(pptyCode, new Insets(5));
-			GridPane.setMargin(pptyDateListed, new Insets(5));
-			GridPane.setMargin(rentalStatus, new Insets(5));
-			GridPane.setMargin(viewBtn, new Insets(5));
+			GridPane.setMargin(pptyCode, new Insets(10));
+			GridPane.setMargin(pptyDateListed, new Insets(10));
+			GridPane.setMargin(rentalStatus, new Insets(10));
+			GridPane.setMargin(viewBtn, new Insets(10));
 		}
 		
 		// save reference to list currently populated (used for exporting)
@@ -294,11 +294,9 @@ public class PropertiesController extends DashboardController implements DataFor
 
 	public void getDistanceListener() {
 		String selectedLandmarkName = landmarkOptions.getValue();
-		Landmark currLandmark = new Landmark();
 		for (Landmark l : lList.getLandmarks()) {
 			if (l.getName().equals(selectedLandmarkName)) {
-				currLandmark = l;
-				distance.setText(PropertyActions.getDistanceToLandmark(currPpty, currLandmark));
+				distance.setText(PropertyActions.getDistanceToLandmark(currPpty, l));
 				distance.setVisible(true);
 			}
 		}

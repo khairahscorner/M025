@@ -76,7 +76,7 @@
 	-fx-font-size: 14px;
 }
 
-#loginBtn, #importBtn, #addNew,  #generateInvoice, #submitEdit, #updateDetails, #submitBtn, #searchBtn, #downloadBtn {
+#startBtn, #importBtn, #addNew,  #generateInvoice, #submitEdit, #updateDetails, #submitBtn, #searchBtn, #downloadBtn {
 	-fx-background-color: #3fa944;
 	-fx-text-fill: white;
 	-fx-border-color: #3fa944;
@@ -95,7 +95,7 @@
 	-fx-font-size: 12px;
 }
 
-#tableCount, #dashboardNote {
+#tableCount, #dashboardNote, #extraSignupNote {
 	-fx-font-weight: 700;
 	-fx-font-style: italic;
 }

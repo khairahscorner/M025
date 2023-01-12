@@ -180,18 +180,18 @@ public class FileDataHandler {
 		}
 	}
 
-	public static void writeToFile(Admin user) throws IOException {
-		doSerialize(user, usersFileName);
+	public static void writeToFile(AdminList usersList) throws IOException {
+		doSerialize(usersList, usersFileName);
 	}
 
-	public static Admin readAdmins() throws IOException, ClassNotFoundException {
-		Admin user = new Admin();
+	public static AdminList readAdmins() throws IOException, ClassNotFoundException {
+		AdminList usersList = new AdminList();
 		Object obj;
 		obj = doDeserialize(usersFileName);
-		if (obj instanceof Admin) {
-			user = (Admin) obj;
+		if (obj instanceof AdminList) {
+			usersList = (AdminList) obj;
 		}
-		return user;
+		return usersList;
 	}
 
 }
