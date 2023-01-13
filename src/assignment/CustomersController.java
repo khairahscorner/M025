@@ -104,7 +104,7 @@ public class CustomersController extends DashboardController implements DataForm
 				name.setText(cust.getName());
 				email.setText(cust.getEmail());
 				phone.setText(cust.getPhone());
-				dob.setText(cust.getDOB().format(dateFormatter));
+				dob.setText(cust.getDOB());
 
 				Button editBtn = new Button("Edit");
 				editBtn.setId(cust.getCustId());
@@ -215,7 +215,7 @@ public class CustomersController extends DashboardController implements DataForm
 		name.setText(currCustomer.getName());
 		email.setText(currCustomer.getEmail());
 		phone.setText(currCustomer.getPhone());
-		dob.setValue(currCustomer.getDOB());
+		dob.setValue(LocalDate.parse(currCustomer.getDOB(), dateFormatter));
 
 		addNew.setVisible(false);
 		cancelEdit.setVisible(true);
@@ -281,7 +281,7 @@ public class CustomersController extends DashboardController implements DataForm
 				for (Customer c : cList.getCustomers()) {
 					if (c.getName().equals(name.getText()) && c.getEmail().equals(email.getText())
 							&& c.getPhone().equals(phone.getText())
-							&& c.getDOB().format(dateFormatter).equals(dob.getValue().format(dateFormatter))) {
+							&& c.getDOB().equals(dob.getValue().format(dateFormatter))) {
 						customerExists = true;
 						break;
 					}
@@ -327,7 +327,7 @@ public class CustomersController extends DashboardController implements DataForm
 		fwriter.write("name,email,phone,dob\n");
 		
 		for(Customer cust : cList.getCustomers()) {
-			fwriter.write(cust.getName() + "," + cust.getEmail() + "," + cust.getPhone() + "," + cust.getDOB().format(dateFormatter) + "\n");
+			fwriter.write(cust.getName() + "," + cust.getEmail() + "," + cust.getPhone() + "," + cust.getDOB() + "\n");
 		}	
 		fwriter.close();
 		Alert alert = new Alert(AlertType.INFORMATION);

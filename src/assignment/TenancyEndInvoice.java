@@ -65,12 +65,16 @@ public class TenancyEndInvoice implements Invoice, DataFormatter {
 		str += "Deposit: £" + rentalPpty.getDeposit() + "\n";
 		str += "Damage Deductions: £" + deductions + "\n";
 		if (deductions > rentalPpty.getDeposit()) {
-			str += "Outstanding Amount Owed by Customer: £" + (deductions - rentalPpty.getDeposit()) + "\n";
+			str += "Outstanding Amount Owed by Customer: £" + getRemainingAmount() + "\n";
 		} else {
-			str += "Deposit Amount to Return: £" + (rentalPpty.getDeposit() - deductions) + "\n";
+			str += "Deposit Amount to Return: £" + getRemainingAmount() + "\n";
 		}
 
 		return str;
+	}
+	
+	public double getRemainingAmount() {
+		return Math.abs(deductions - rentalDetails.getRentalPpty().getDeposit());
 	}
 
 	/**

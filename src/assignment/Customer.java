@@ -72,8 +72,8 @@ public class Customer implements Serializable, DataFormatter {
 	}
 
 
-	public LocalDate getDOB() {
-		return dob;
+	public String getDOB() {
+		return dob.format(dateFormatter);
 	}
 
 	public void setDOB(String d) {

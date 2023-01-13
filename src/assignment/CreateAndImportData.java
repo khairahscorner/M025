@@ -310,7 +310,7 @@ public class CreateAndImportData implements DataFormatter {
 				for (Customer c : cList.getCustomers()) {
 					if (c.getName().equals(fields[0]) && c.getEmail().equals(fields[1])
 							&& c.getPhone().equals(fields[2])
-							&& c.getDOB().equals(LocalDate.parse(fields[3], dateFormatter))) {
+							&& c.getDOB().equals(fields[3])) {
 						customerExists = true;
 						break;
 					}
@@ -337,7 +337,7 @@ public class CreateAndImportData implements DataFormatter {
 		boolean customerExists = false;
 		for (Customer c : cList.getCustomers()) {
 			if (c.getName().equals(n) && c.getEmail().equals(e) && c.getPhone().equals(p)
-					&& c.getDOB().format(dateFormatter).equals(d)) {
+					&& c.getDOB().equals(d)) {
 				customerExists = true;
 				break;
 			}

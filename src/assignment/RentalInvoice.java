@@ -21,6 +21,7 @@ import com.itextpdf.text.pdf.PdfWriter;
  */
 public class RentalInvoice implements Invoice, DataFormatter {
 	private double totalRent;
+	private double noOfMonths;
 	private Rental rentalDetails;
 
 	/**
@@ -33,8 +34,8 @@ public class RentalInvoice implements Invoice, DataFormatter {
 		rentalDetails = r;
 
 		Property rentalPpty = r.getRentalPpty();
-
-		setTotalRent(r.getRentDate(), r.getDueDate(), rentalPpty.getRentPerMonth());
+		setNoOfMonths(r.getRentDate(), r.getDueDate());
+		setTotalRent(rentalPpty.getRentPerMonth());
 	}
 
 	/**
@@ -51,10 +52,63 @@ public class RentalInvoice implements Invoice, DataFormatter {
 		str += "Amount Paid for Rent: £" + totalRent + "\n";
 		str += "Deposit: £" + rentalPpty.getDeposit() + "\n";
 		str += "Agent Fee: £" + rentalPpty.getAgentFee() + "\n";
-		str += "Total Amount Paid for Rent: £" + (totalRent + rentalPpty.getDeposit()) + "\n";
+		str += "Total Amount Paid: £" + getTotalAmountPaid() + "\n";
 
 		return str;
 	}
+
+	/**
+	 * calculate total rent for the calculated months
+	 * 
+	 * @param startDate    rentDate of property
+	 * @param endDate      dueDate of property
+	 * @param rentPerMonth amount per month
+	 */
+	private void setTotalRent(double rentPerMonth) {
+		double rentDue = noOfMonths * rentPerMonth;
+		totalRent = Double.parseDouble(dpFormatter.format(rentDue));
+	}
+	
+	/**
+	 * return total rent in the invoice
+	 * 
+	 * @return value of type double
+	 */
+	public double getTotalRent() {
+		return totalRent;
+	}
+
+	/**
+	 * calculate total number of months to rent property
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 */
+	public void setNoOfMonths(LocalDate startDate, LocalDate endDate) {
+		// convert the days to months and round up the months - 28 days per month;
+		double noOfDays = ChronoUnit.DAYS.between(startDate, endDate);
+		System.out.println(noOfDays);
+		System.out.println(Math.round(noOfDays / 28));
+		noOfMonths = Math.round(noOfDays / 28);
+	}
+	
+	/**
+	 * return the number of months the property is rented for
+	 * 
+	 * @return double
+	 */
+	public double getNoOfMonths() {
+		return noOfMonths;
+	}
+	
+	/**
+	 * calculate total amount paid for the rental
+	 * @return	double
+	 */
+	public double getTotalAmountPaid() {
+		return totalRent + rentalDetails.getRentalPpty().getDeposit() + rentalDetails.getRentalPpty().getAgentFee();
+	}
+	
 
 	// <-***** CSYM025 Code FROM NILE - START
 	public void generateInvoiceAsPDF(String filename) {
@@ -87,20 +141,5 @@ public class RentalInvoice implements Invoice, DataFormatter {
 		}
 	}
 	// ->***** CSYM025 Code FROM NILE - END
-
-	/**
-	 * calculate total rent for the calculated months
-	 * 
-	 * @param startDate    rentDate of property
-	 * @param endDate      dueDate of property
-	 * @param rentPerMonth amount per month
-	 */
-	private void setTotalRent(LocalDate startDate, LocalDate endDate, double rentPerMonth) {
-		// convert the days to months and round up the months - 28 days per month;
-		double noOfDays = ChronoUnit.DAYS.between(startDate, endDate);
-		double rentMonths = Math.round(noOfDays / 28);
-		double rentDue = rentMonths * rentPerMonth;
-		totalRent = Double.parseDouble(dpFormatter.format(rentDue));
-	}
 
 }

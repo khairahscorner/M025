@@ -22,11 +22,11 @@ public class Rental implements Serializable, DataFormatter {
 	/*
 	 * constructor to create a new Rental object
 	 */
-	public Rental(Property p, Customer c, LocalDate r, LocalDate d) {
+	public Rental(Property p, Customer c, String r, String d) {
 		ppty = p;
 		cust = c;
-		rentDate = r;
-		dueDate = d;
+		rentDate = LocalDate.parse(r, dateFormatter);
+		dueDate = LocalDate.parse(d, dateFormatter);
 		rentalId = "CSYM025R" + lastRentalIndex;
 		lastRentalIndex++;		
 	}

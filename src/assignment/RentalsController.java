@@ -58,9 +58,8 @@ public class RentalsController extends DashboardController implements DataFormat
 
 	private HashMap<String, Property> filteredProperties;
 	private HashMap<String, Customer> hashedCustomers;
-	
-	private final String DOWNLOAD_FILENAME = "rentalInvoice.pdf";
 
+	private final String DOWNLOAD_FILENAME = "rentalInvoice.pdf";
 
 	/**
 	 * read specified existing files into lists + adds options to comboBoxes
@@ -70,7 +69,8 @@ public class RentalsController extends DashboardController implements DataFormat
 			/**
 			 * rentals are deleted after end of tenancy invoice is generated so to read
 			 * existing rentals, the correct last index has to be gotten from the last
-			 * rental in the file, to avoid creating duplicate ids and overwriting existing data
+			 * rental in the file, to avoid creating duplicate ids and overwriting existing
+			 * data
 			 */
 			rList = FileDataHandler.readRentalList();
 			Rental.setLastRentalIndex(FileDataHandler.getLastRentalIndexFromFile());
@@ -156,8 +156,6 @@ public class RentalsController extends DashboardController implements DataFormat
 			GridPane.setMargin(custName, new Insets(5));
 			GridPane.setMargin(viewBtn, new Insets(5));
 		}
-		// initially hide invoice download btn
-		downloadBtn.setVisible(false);
 	}
 
 	/**
@@ -210,8 +208,8 @@ public class RentalsController extends DashboardController implements DataFormat
 //		}
 		else {
 			try {
-				Rental rentalPpty = new Rental(selectedProperty, selectedCustomer, LocalDate.now(),
-						rentDueDate.getValue());
+				Rental rentalPpty = new Rental(selectedProperty, selectedCustomer,
+						LocalDate.now().format(dateFormatter), rentDueDate.getValue().format(dateFormatter));
 				rList.addRentals(rentalPpty);
 
 				selectedProperty.setRentalStatus(true);
@@ -276,14 +274,14 @@ public class RentalsController extends DashboardController implements DataFormat
 		downloadBtn.setVisible(true);
 	}
 
-	//can be improved to select where to download on the user system
+	// can be improved to select where to download on the user system
 	public void downloadToSystemListener() {
 		Rental r = rList.getRentals().get(currRentalId);
 		RentalInvoice invoice = new RentalInvoice(r);
 
 		// generate invoice as pdf and save to downloads **for my laptop
 		invoice.generateInvoiceAsPDF(("/Users/airah/Downloads/" + currRentalId + ".pdf"));
-		
+
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setTitle("Invoice Download");
 		alert.setContentText("Invoice successfully downloaded to local machine. Check downloads");
