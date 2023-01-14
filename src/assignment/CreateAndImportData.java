@@ -2,7 +2,6 @@ package assignment;
 
 import java.io.*;
 import java.util.Scanner;
-import java.time.LocalDate;
 
 /**
  * this class is used to create new objects from parameters or field values from
