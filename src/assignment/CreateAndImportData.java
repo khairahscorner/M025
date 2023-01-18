@@ -20,7 +20,7 @@ public class CreateAndImportData implements DataFormatter {
 	private int lineCount = 0;
 
 	/**
-	 * reads all data from the existing files
+	 * reads all data from the existing files and set appropriate last index
 	 * 
 	 * @throws ClassNotFoundException
 	 * @throws IOException

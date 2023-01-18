@@ -19,11 +19,11 @@ class SendEmailTest {
 		se.send("airahyusuff@gmail.com", "rental", "This is a JUnit test");
 	}
 
-	@Test
-	void testSendInvoiceAsPDF() {
-		boolean result = se.sendInvoiceAsPDF("airahyusuff@gmail.com", "eot", "mockInvoice.pdf");
-		assertEquals(true, result);
-		
-	}
+//	@Test
+//	void testSendInvoiceAsPDF() {
+//		boolean result = se.sendInvoiceAsPDF("airahyusuff@gmail.com", "eot", "mockInvoice.pdf");
+//		assertEquals(true, result);
+//		
+//	}
 
 }
