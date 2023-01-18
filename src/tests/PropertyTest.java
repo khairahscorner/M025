@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import assignment.DataFormatter;
 import assignment.Property;
 
-class propertyTest implements DataFormatter {
+class PropertyTest implements DataFormatter {
 	Property ppty;
 	
 	@BeforeEach
