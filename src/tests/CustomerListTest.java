@@ -34,6 +34,7 @@ class CustomerListTest {
 		Customer c0 = new Customer();
 		cList.addCustomer(c0);
 		assertEquals(1, cList.getCustomers().size());
+		assertTrue(cList.getCustomers().contains(c0));
 	}
 
 	@Test
