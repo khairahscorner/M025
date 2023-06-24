@@ -3,9 +3,6 @@
 # CSYM025 Project Assigment
 JavaFX Application for a Rental property management system
 
-## Demo link
-https://video.northampton.ac.uk/media/CSYM025+-+Project+Explanation/1_mm9t272z
-
 
 ## What's Needed
 - Java
