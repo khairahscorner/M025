@@ -12,6 +12,12 @@ JavaFX Application for a Rental property management system
 - import jar files to build path (javafx, itextpdf, javaxmail, activation)
 
 
+## System Features
+- <img width="414" alt="Screenshot 2024-03-06 at 1 53 01 pm" src="https://github.com/khairahscorner/M025/assets/38109438/236d1ae6-877a-4250-a159-665d76965c59">
+
+- <img width="414" alt="Screenshot 2024-03-06 at 1 53 10 pm" src="https://github.com/khairahscorner/M025/assets/38109438/cca8e5cb-8a19-477f-a4fd-021686d810fb">
+
+
 ## Repo Structure
 It contains the following files:
 1. Java files - main classes for the program
